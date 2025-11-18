@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full min-h-screen bg-gray-50 text-gray-900 text-base sm:text-lg;
+  }
+
+  body {
+    @apply antialiased overflow-x-hidden;
+  }
+}
