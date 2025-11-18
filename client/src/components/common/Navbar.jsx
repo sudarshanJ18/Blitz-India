@@ -13,6 +13,7 @@ const THEME_COLORS = {
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [atTop, setAtTop] = useState(true);
   const [hoveredService, setHoveredService] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,15 +28,22 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const isScrolled = window.scrollY > 20;
+      setScrolled(isScrolled);
+      setAtTop(window.scrollY < 10);
     };
     
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
     return () => {
       document.body.style.overflow = '';
     };
@@ -87,10 +95,35 @@ const Navbar = () => {
     }
   };
 
-  const handleNavClick = () => {
-    setMobileMenuOpen(false);
-    setMobileServiceAccordion(false);
-    setMobileCategoryOpen(null);
+  const handleNavClick = (e) => {
+    // For menu toggle button
+    if (e && e.currentTarget && e.currentTarget.getAttribute('type') === 'button') {
+      setMobileMenuOpen(!mobileMenuOpen);
+      return;
+    }
+    
+    // For navigation links
+    if (e && e.preventDefault) {
+      e.preventDefault();
+      const targetId = e.currentTarget.getAttribute('href');
+      if (targetId) {
+        setMobileMenuOpen(false);
+        setMobileServiceAccordion(false);
+        setMobileCategoryOpen(null);
+        
+        // Small delay to allow menu to close before navigation
+        setTimeout(() => {
+          if (targetId.startsWith('#')) {
+            const element = document.querySelector(targetId);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          } else if (targetId.startsWith('/')) {
+            window.location.href = targetId;
+          }
+        }, 200);
+      }
+    }
   };
 
   // Build menu items with nested services for mobile menu
@@ -315,24 +348,35 @@ const Navbar = () => {
       {/* Mobile Navigation Menu - Fixed button visibility */}
       <div
         className={`lg:hidden fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
-          scrolled || mobileMenuOpen ? 'bg-white shadow-md' : 'bg-white shadow-sm'
+          scrolled ? 'bg-white shadow-md' : 'bg-transparent'
         }`}
         role="navigation"
+        style={{
+          backdropFilter: scrolled ? 'blur(10px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(10px)' : 'none',
+          backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.98)' : 'transparent',
+          transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease'
+        }}
       >
         <div className="flex items-center justify-between h-20 px-4">
-          <Link to="/" className="flex items-center" onClick={handleNavClick}>
+          <Link to="/" className={`flex items-center transition-opacity duration-300 ${atTop ? 'opacity-0' : 'opacity-100'}`} onClick={handleNavClick}>
             <img
               src={assets.logo}
               alt="Blitz India Engineering"
-              className="h-14 w-auto transition-transform duration-300 hover:scale-105"
+              className="h-14 w-auto transition-all duration-300 hover:scale-105"
               draggable={false}
             />
           </Link>
 
           <button
             type="button"
-            className="relative w-12 h-12 flex items-center justify-center rounded-xl border-2 border-orange-500 bg-white shadow-lg transition-all duration-300 focus:outline-none hover:bg-orange-50 hover:shadow-xl active:scale-95"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`relative w-12 h-12 flex items-center justify-center rounded-xl border-2 ${
+              atTop ? 'border-orange-500 bg-white hover:bg-orange-50' : 'border-orange-500 bg-white shadow-lg hover:bg-orange-50 hover:shadow-xl'
+            } transition-all duration-300 focus:outline-none active:scale-95`}
+            style={{
+              boxShadow: atTop ? '0 2px 10px rgba(0,0,0,0.1)' : 'none'
+            }}
+            onClick={handleNavClick}
             aria-label="Toggle navigation menu"
           >
             <span
@@ -359,13 +403,22 @@ const Navbar = () => {
         className={`lg:hidden fixed inset-0 z-40 transition-all duration-500 ${
           mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
+        style={{
+          position: 'fixed',
+          top: '80px',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch'
+        }}
       >
         <div
-          className={`absolute inset-0 bg-white/98 backdrop-blur-lg transition-transform duration-500 ${
+          className={`w-full h-full bg-white transition-transform duration-500 ${
             mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
           }`}
         >
-          <div className="pt-28 pb-12 px-6 h-full overflow-y-auto custom-scrollbar">
+          <div className="pt-6 pb-12 px-6 h-full overflow-y-auto">
             <div className="space-y-6">
               {menuItems.map(item => {
                 if (item.label !== 'Services') {
