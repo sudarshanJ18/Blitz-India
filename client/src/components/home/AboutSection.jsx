@@ -163,10 +163,15 @@ const AboutSection = () => {
               baseScale={0.95}
             >
               <div className="space-y-6">
-                <h2 className="text-3xl lg:text-4xl font-bold text-black-900 white:text-white leading-tight font-serif tracking-tight">
-                Engineering Excellence 
-                  <span className="text-black-600 block mt-2">Global Excellence</span>
-                </h2>
+                <h2 className="font-serif font-bold leading-tight tracking-tight text-black dark:text-black 
+               text-3xl sm:text-4xl lg:text-5xl">
+
+  Engineering Excellence
+  <span className="block mt-2">
+    Global Presence
+  </span>
+</h2>
+
                 
                 <div className="space-y-5">
                   <p className="text-base sm:text-lg font-medium text-black-600 white:text-gray-300 leading-relaxed tracking-wide">

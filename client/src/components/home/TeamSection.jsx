@@ -36,14 +36,14 @@ const TeamSection = () => {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div className="mb-6">
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-left">
             Meet Our Team
           </h2>
         </div>
 
         {/* Animated Testimonials Layout */}
-        <div className="relative h-[600px] mb-12">
+        <div className="relative h-[600px] mb-6 mt-0">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
