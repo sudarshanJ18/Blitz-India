@@ -28,7 +28,7 @@ const CTASection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-white via-gray-50 to-orange-50/30 relative overflow-hidden">
+    <section className="py-12 bg-gradient-to-br from-white via-gray-50 to-orange-50/30 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl"></div>
@@ -36,23 +36,23 @@ const CTASection = () => {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 max-w-7xl mx-auto w-full">
           {/* Main CTA Card */}
           <WobbleCard
-            containerClassName="col-span-1 lg:col-span-2 h-full min-h-[500px] lg:min-h-[400px]"
+            containerClassName="col-span-1 lg:col-span-2 h-full min-h-[400px] lg:min-h-[350px]"
           >
             <div className="max-w-md">
               <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-bold tracking-[-0.015em] text-gray-900">
                 Ready to Accelerate Your Product Development?
               </h2>
-              <p className="mt-4 text-left text-base/6 text-gray-600">
+              <p className="mt-3 text-left text-base/6 text-gray-600">
                 Let's discuss how our engineering expertise can help bring your ideas to life faster and more efficiently.
               </p>
               
-              <div className="mt-6 flex flex-col sm:flex-row gap-4">
+              <div className="mt-5 flex flex-col sm:flex-row gap-3">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-orange-600/30"
+                  className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-orange-600/30"
                 >
                   Start Your Project
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,26 +61,24 @@ const CTASection = () => {
                 </Link>
                 <Link
                   to="/services"
-                  className="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 text-base font-medium rounded-xl text-gray-700 hover:bg-gray-800 hover:text-white hover:border-gray-800 transition-all duration-200 transform hover:scale-105 shadow-sm"
+                  className="inline-flex items-center justify-center px-5 py-2.5 border-2 border-gray-300 text-base font-medium rounded-xl text-gray-700 hover:bg-gray-800 hover:text-white hover:border-gray-800 transition-all duration-200 transform hover:scale-105 shadow-sm"
                 >
                   Explore Services
                 </Link>
               </div>
-
-              
             </div>
           </WobbleCard>
 
           {/* Contact Info Card */}
           <WobbleCard 
-            containerClassName="col-span-1 min-h-[400px]"
+            containerClassName="col-span-1 min-h-[350px]"
           >
             <div className="max-w-xs">
-              <h2 className="text-left text-balance text-base md:text-xl lg:text-2xl font-bold tracking-[-0.015em] text-gray-900 mb-6">
+              <h2 className="text-left text-balance text-base md:text-xl lg:text-2xl font-bold tracking-[-0.015em] text-gray-900 mb-5">
                 Get In Touch
               </h2>
               
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,8 +99,14 @@ const CTASection = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 text-sm">Email</h3>
-                    <p className="text-gray-600 text-sm">info@blitzindiaengineering.com</p>
-                  </div>
+                    <a
+                      href="mailto:info@blitzindiaengineering.com"
+                      className="text-gray-600 text-sm hover:underline"
+                    >
+                      info@blitzindiaengineering.com
+                    </a>
+</div>
+
                 </div>
 
                 <div className="flex items-start gap-3">
@@ -119,7 +123,7 @@ const CTASection = () => {
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-gray-200">
+              <div className="mt-5 pt-3 border-t border-gray-200">
                 <p className="text-orange-600 text-sm font-medium">Available 24/7 for your queries</p>
               </div>
             </div>
@@ -127,10 +131,10 @@ const CTASection = () => {
 
           {/* Testimonials Card */}
           <WobbleCard
-            containerClassName="col-span-1 lg:col-span-3 min-h-[500px] lg:min-h-[400px]"
+            containerClassName="col-span-1 lg:col-span-3 min-h-[400px] lg:min-h-[350px]"
           >
             <div className="max-w-6xl w-full">
-              <div className="max-w-xl sm:text-center md:mx-auto mb-8">
+              <div className="max-w-xl sm:text-center md:mx-auto mb-6">
                 <h3 className="text-gray-900 text-3xl font-bold sm:text-4xl">
                   Hear from our customers
                 </h3>
@@ -139,11 +143,11 @@ const CTASection = () => {
                 </p> */}
               </div>
               
-              <div className="mt-8">
-                <ul className="grid items-center gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-6">
+                <ul className="grid items-center gap-5 sm:grid-cols-2 lg:grid-cols-3">
                   {testimonials.map((item, idx) => (
                     <li key={idx} className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                      <div className="p-4">
+                      <div className="p-3">
                         <svg
                           className="w-9 h-9 text-orange-500"
                           viewBox="0 0 35 35"
@@ -162,7 +166,7 @@ const CTASection = () => {
                             "{item.quote}"
                           </p>
                         </blockquote>
-                        <div className="flex items-center gap-x-4 p-4 mt-6 bg-orange-50 rounded-b-xl border-t border-orange-100">
+                        <div className="flex items-center gap-x-4 p-4 mt-5 bg-orange-50 rounded-b-xl border-t border-orange-100">
                           <img
                             src={item.avatar}
                             className="w-12 h-12 rounded-full border-2 border-orange-400"

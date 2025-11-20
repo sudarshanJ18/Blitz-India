@@ -1,0 +1,24 @@
+      {/* CTA section with white background and gray border */}
+      <div className="bg-white border border-gray-200 p-3 sm:p-4 md:p-8 lg:p-10 rounded-lg sm:rounded-xl md:rounded-2xl shadow-sm">
+        <div className="max-w-3xl mx-auto text-center">
+          <h3 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 leading-tight">
+            Ready to Get Started?
+          </h3>
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 md:mb-8 leading-relaxed px-2 sm:px-0">
+            Contact us today to discuss your {category.title} requirements and get a customized solution tailored to your specific needs.
+          </p>
+          <ScrollLink to={`/services/${category.id}`}>
+            <HoverBorderGradient
+              containerClassName="rounded-full"
+              as="button"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center space-x-2 px-6 py-3 text-sm font-medium hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg"
+              duration={0.8}
+            >
+              <span>Explore {category.title}</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </HoverBorderGradient>
+          </ScrollLink>
+        </div>
+      </div>

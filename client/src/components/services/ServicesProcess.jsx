@@ -72,17 +72,17 @@ const ServicesProcess = () => {
   ];
 
   return (
-    <section className="relative z-20 py-10 lg:py-40 bg-white">
+    <section className="relative z-20 py-8 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="px-8">
-          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-left">
+        <div className="px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-left">
             Service Process
           </h2>
           
         </div>
 
         <div className="relative">
-          <div className="grid grid-cols-1 lg:grid-cols-6 mt-12 xl:border rounded-md border-gray-200 bg-white">
+          <div className="grid grid-cols-1 lg:grid-cols-6 mt-8 xl:border rounded-md border-gray-200 bg-white">
             {features.map((feature) => (
               <FeatureCard key={feature.title} className={feature.className}>
                 <FeatureTitle>{feature.title}</FeatureTitle>
@@ -94,8 +94,8 @@ const ServicesProcess = () => {
         </div>
 
         {/* Bottom features section */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8">
-          <div className="text-center p-6 rounded-lg bg-white border border-gray-200 hover:shadow-xl hover:border-orange-200 hover:scale-105 transition-all duration-300 cursor-pointer group">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 px-4 sm:px-6 lg:px-8">
+          <div className="text-center p-5 rounded-lg bg-white border border-gray-200 hover:shadow-xl hover:border-orange-200 hover:scale-105 transition-all duration-300 cursor-pointer group">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500 transition-colors duration-300">
               <svg className="w-6 h-6 text-orange-600 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -109,7 +109,7 @@ const ServicesProcess = () => {
             <p className="text-lg text-gray-600 group-hover:text-gray-700 transition-colors duration-300">Every project undergoes multiple quality checks to ensure accuracy and reliability.</p>
           </div>
 
-          <div className="text-center p-6 rounded-lg bg-white border border-gray-200 hover:shadow-xl hover:border-gray-300 hover:scale-105 transition-all duration-300 cursor-pointer group">
+          <div className="text-center p-5 rounded-lg bg-white border border-gray-200 hover:shadow-xl hover:border-gray-300 hover:scale-105 transition-all duration-300 cursor-pointer group">
             <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-gray-600 transition-colors duration-300">
               <svg className="w-6 h-6 text-gray-600 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -123,7 +123,7 @@ const ServicesProcess = () => {
             <p className="text-lg text-gray-600 group-hover:text-gray-700 transition-colors duration-300">We adhere to strict timelines and provide regular updates throughout the project.</p>
           </div>
 
-          <div className="text-center p-6 rounded-lg bg-white border border-gray-200 hover:shadow-xl hover:border-orange-200 hover:scale-105 transition-all duration-300 cursor-pointer group">
+          <div className="text-center p-5 rounded-lg bg-white border border-gray-200 hover:shadow-xl hover:border-orange-200 hover:scale-105 transition-all duration-300 cursor-pointer group">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500 transition-colors duration-300">
               <svg className="w-6 h-6 text-orange-600 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />

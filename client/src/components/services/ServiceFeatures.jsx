@@ -171,7 +171,7 @@ const ServiceFeatures = ({ service }) => {
                       </svg>
                     </div>
                   </div>
-                  <span className="ml-3 text-gray-600">ISO 9001 certified processes</span>
+                  <span className="ml-3 text-gray-600">Accelerated product development</span>
                 </li>
                 <li className="flex items-start">
                   <div className="flex-shrink-0 mt-1">

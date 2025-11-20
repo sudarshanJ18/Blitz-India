@@ -78,14 +78,14 @@ const CompanyStory = () => {
               <span className="text-4xl md:text-5xl font-black text-orange-600 flex-shrink-0">2014</span>
               <p className="text-base sm:text-lg text-gray-500 font-medium pt-1 md:pt-2">Company founded in Pune, India</p>
             </div>
-            <div className="flex gap-3 md:gap-4">
-              <span className="text-4xl md:text-5xl font-black text-orange-600 flex-shrink-0">2017</span>
-              <p className="text-base sm:text-lg text-gray-500 font-medium pt-1 md:pt-2">Expanded into aerospace and medical sectors</p>
-            </div>
-            <div className="flex gap-3 md:gap-4">
-              <span className="text-4xl md:text-5xl font-black text-orange-600 flex-shrink-0">2020</span>
-              <p className="text-base sm:text-lg text-gray-500 font-medium pt-1 md:pt-2">Achieved ISO 9001:2015 certification</p>
-            </div>
+            {/* <div className="flex gap-3 md:gap-4"> */}
+              {/* <span className="text-4xl md:text-5xl font-black text-orange-600 flex-shrink-0">2017</span> */}
+              {/* <p className="text-base sm:text-lg text-gray-500 font-medium pt-1 md:pt-2">Expanded into aerospace and medical sectors</p> */}
+            {/* </div> */}
+            {/* <div className="flex gap-3 md:gap-4"> */}
+              {/* <span className="text-4xl md:text-5xl font-black text-orange-600 flex-shrink-0">2020</span> */}
+              {/* <p className="text-base sm:text-lg text-gray-500 font-medium pt-1 md:pt-2">Achieved ISO 9001:2015 certification</p> */}
+            {/* </div> */}
             <div className="flex gap-3 md:gap-4">
               <span className="text-4xl md:text-5xl font-black text-orange-600 flex-shrink-0">2023</span>
               <p className="text-base sm:text-lg text-gray-500 font-medium pt-1 md:pt-2">Expanded to serve clients in 15+ countries</p>

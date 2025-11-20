@@ -160,14 +160,14 @@ const Navbar = () => {
         }`}
         role="navigation"
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="flex items-center justify-between h-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center group">
               <img
                 src={assets.logo}
                 alt="Blitz India Engineering"
-                className="h-24 w-auto transition-transform duration-300 group-hover:scale-105"
+                className="h-16 w-auto transition-transform duration-300 group-hover:scale-105"
                 draggable={false}
               />
             </Link>
@@ -358,12 +358,12 @@ const Navbar = () => {
           transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease'
         }}
       >
-        <div className="flex items-center justify-between h-20 px-4">
+        <div className="flex items-center justify-between h-16 px-4">
           <Link to="/" className={`flex items-center transition-opacity duration-300 ${atTop ? 'opacity-0' : 'opacity-100'}`} onClick={handleNavClick}>
             <img
               src={assets.logo}
               alt="Blitz India Engineering"
-              className="h-14 w-auto transition-all duration-300 hover:scale-105"
+              className="h-12 w-auto transition-all duration-300 hover:scale-105"
               draggable={false}
             />
           </Link>
@@ -405,7 +405,7 @@ const Navbar = () => {
         }`}
         style={{
           position: 'fixed',
-          top: '80px',
+          top: '64px',
           bottom: 0,
           left: 0,
           right: 0,
@@ -418,8 +418,8 @@ const Navbar = () => {
             mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
           }`}
         >
-          <div className="pt-6 pb-12 px-6 h-full overflow-y-auto">
-            <div className="space-y-6">
+          <div className="pt-4 pb-8 px-4 h-full overflow-y-auto">
+            <div className="space-y-4">
               {menuItems.map(item => {
                 if (item.label !== 'Services') {
                   return (

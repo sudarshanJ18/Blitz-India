@@ -9,7 +9,7 @@ import CTASection from '../../components/home/CTASection.jsx';
 
 const Home = () => {
   return (
-    <div className="min-h-screen">
+    <div className="relative overflow-x-hidden">
       <Hero />
       <Highlights />
       <ServicesSection />

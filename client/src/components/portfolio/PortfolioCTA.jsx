@@ -10,11 +10,15 @@ const PortfolioCTA = () => {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-2  sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 
+               bg-gradient-to-r from-orange-600 to-orange-700 
+               bg-clip-text text-transparent 
+               px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4">
             Ready to Add Your Project to Our Portfolio?
           </h2>
+
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8 leading-relaxed">
             Join our growing list of satisfied clients and let's create something extraordinary together. 
             Your success story could be the next one we showcase.

@@ -13,3 +13,104 @@
     @apply antialiased overflow-x-hidden;
   }
 }
+
+/* Remove excessive padding and margins */
+* {
+  /* Remove default margins and padding that might cause extra spacing */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ensure no extra spacing around main content */
+#root {
+  /* Remove any default padding that might cause extra spacing */
+  padding: 0;
+}
+
+/* Fix for common components that might have extra spacing */
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+/* Remove extra spacing from lists */
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove extra spacing from common elements */
+div, section, article, header, footer, nav, main {
+  /* Only apply when needed to avoid overriding intentional spacing */
+}
+
+/* Custom spacing utilities to replace excessive padding */
+.space-y-reduced > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.space-x-reduced > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+/* Consistent padding utilities for components */
+.py-consistent {
+  @apply py-2 sm:py-3 md:py-4 lg:py-5;
+}
+
+.px-consistent {
+  @apply px-3 sm:px-4 md:px-6 lg:px-8;
+}
+
+.p-consistent {
+  @apply p-2 sm:p-3 md:p-4 lg:p-5;
+}
+
+.my-consistent {
+  @apply my-2 sm:my-3 md:my-4 lg:my-5;
+}
+
+.mx-consistent {
+  @apply mx-3 sm:mx-4 md:mx-6 lg:mx-8;
+}
+
+.m-consistent {
+  @apply m-2 sm:m-3 md:m-4 lg:m-5;
+}
+
+.gap-consistent {
+  @apply gap-2 sm:gap-3 md:gap-4 lg:gap-5;
+}
+
+/* Reduced spacing utilities */
+.py-reduced {
+  @apply py-1 sm:py-2 md:py-3;
+}
+
+.px-reduced {
+  @apply px-2 sm:px-3 md:px-4;
+}
+
+.p-reduced {
+  @apply p-1 sm:p-2 md:p-3;
+}
+
+.my-reduced {
+  @apply my-1 sm:my-2 md:my-3;
+}
+
+.mx-reduced {
+  @apply mx-2 sm:mx-3 md:mx-4;
+}
+
+.m-reduced {
+  @apply m-1 sm:m-2 md:m-3;
+}
+
+.gap-reduced {
+  @apply gap-1 sm:gap-2 md:gap-3;
+}

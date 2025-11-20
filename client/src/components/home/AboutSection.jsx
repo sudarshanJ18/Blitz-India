@@ -112,9 +112,9 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-white-50 white:bg-neutral-900">
+    <section className="py-12 bg-white-50 white:bg-neutral-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           
           {/* Image Grid Section */}
           <ScrollReveal
@@ -154,7 +154,7 @@ const AboutSection = () => {
           </ScrollReveal>
 
           {/* Content Section */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <ScrollReveal
               baseOpacity={0}
               enableBlur={true}
@@ -162,20 +162,18 @@ const AboutSection = () => {
               blurStrength={15}
               baseScale={0.95}
             >
-              <div className="space-y-8">
-                <h2 className="text-4xl lg:text-5xl font-bold text-black-900 white:text-white leading-tight font-serif tracking-tight">
+              <div className="space-y-6">
+                <h2 className="text-3xl lg:text-4xl font-bold text-black-900 white:text-white leading-tight font-serif tracking-tight">
                 Engineering Excellence 
                   <span className="text-black-600 block mt-2">Global Excellence</span>
                 </h2>
                 
-                <div className="space-y-6">
+                <div className="space-y-5">
                   <p className="text-base sm:text-lg font-medium text-black-600 white:text-gray-300 leading-relaxed tracking-wide">
                     Accelerating innovation with cutting-edge engineering solutions, 
                     rigorous quality standards, and seamless global delivery from India's 
                     premier technical hub.
                   </p>
-
-                  
                 </div>
               </div>
             </ScrollReveal>
