@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # Enable version updates for npm (server)
+  - package-ecosystem: "npm"
+    directory: "/server"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "server"
+    reviewers:
+      - "yourusername"  # Replace with your GitHub username
+    
+  # Enable version updates for npm (client)
+  - package-ecosystem: "npm"
+    directory: "/client"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "client"
+    reviewers:
+      - "yourusername"  # Replace with your GitHub username

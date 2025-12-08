@@ -8,8 +8,9 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen">
       <PortfolioHero />
-      <PortfolioGallery />
       <PortfolioStats />
+      <PortfolioGallery />
+
       <PortfolioCTA />
     </div>
   );

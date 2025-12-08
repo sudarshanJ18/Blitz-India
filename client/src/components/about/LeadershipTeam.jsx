@@ -9,7 +9,7 @@ const LeadershipTeam = () => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Bold Title */}
         <div className="mb-12 md:mb-16">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-800 uppercase leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 uppercase leading-tight">
             MEET OUR
             <br />
             <span className="text-orange-600">LEADERSHIP</span>
@@ -41,7 +41,7 @@ const LeadershipTeam = () => {
                 {/* High contrast overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10">
-                  <h3 className="text-2xl md:text-3xl font-black text-white uppercase">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white uppercase">
                     {member.name}
                   </h3>
                   <p className="text-orange-600 font-bold text-base md:text-lg">
@@ -52,7 +52,7 @@ const LeadershipTeam = () => {
                   </p>
                 </div>
               </div>
-              
+
               <div>
                 {/* <p className="text-sm md:text-base text-gray-500 mb-3 md:mb-4 leading-relaxed">
                   {member.bio}

@@ -1,149 +1,153 @@
 import React, { useEffect, useState } from 'react';
-
-const defaultSettings = {
-  brandName: 'Blitz India Engineering',
-  tagline: 'Engineering Excellence Delivered',
-  theme: 'light',
-  primaryColor: '#EA580C', // orange-600
-  contactEmail: 'info@blitzindiaengineering.com',
-  contactPhone: '+91-9158575785',
-};
-
-const loadSettings = () => {
-  try {
-    const raw = localStorage.getItem('admin.settings');
-    return raw ? JSON.parse(raw) : defaultSettings;
-  } catch (e) {
-    return defaultSettings;
-  }
-};
-
-const saveSettings = (settings) => {
-  localStorage.setItem('admin.settings', JSON.stringify(settings));
-};
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import MFASetup from './MFASetup';
+import MechanicalLoader from '../common/MechanicalLoader';
 
 const AdminSettings = () => {
-  const [settings, setSettings] = useState(defaultSettings);
-  const [saved, setSaved] = useState(false);
+  const [settings, setSettings] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    setSettings(loadSettings());
+    fetchSettings();
   }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/admin/settings`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      setSettings(response.data.data);
+    } catch (error) {
+      console.error('Failed to fetch settings:', error);
+      toast.error('Failed to load settings');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSettings((s) => ({ ...s, [name]: value }));
-    setSaved(false);
+
+    // Handle nested fields (e.g., address.city)
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.');
+      setSettings((s) => ({
+        ...s,
+        [parent]: {
+          ...s[parent],
+          [child]: value
+        }
+      }));
+    } else {
+      setSettings((s) => ({ ...s, [name]: value }));
+    }
   };
 
-  const handleThemeToggle = (theme) => {
-    setSettings((s) => ({ ...s, theme }));
-    setSaved(false);
+  const handleSocialChange = (platform, value) => {
+    setSettings((s) => ({
+      ...s,
+      socialLinks: {
+        ...s.socialLinks,
+        [platform]: value
+      }
+    }));
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    saveSettings(settings);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    setSaving(true);
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/admin/settings`,
+        settings,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setSettings(response.data.data);
+      toast.success('Settings updated successfully!');
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+      toast.error(error.response?.data?.message || 'Failed to save settings');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return <MechanicalLoader text="Loading Settings..." size="small" />;
+  }
+
+  if (!settings) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-600">Failed to load settings.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 bg-clip-text text-transparent mb-2">
-          Settings
+          Site Settings
         </h1>
-        <p className="text-gray-600 text-lg">Manage your site settings and preferences</p>
+        <p className="text-gray-600 text-lg">Manage your site-wide settings and preferences</p>
       </div>
 
-      {saved && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl shadow-sm">
-          <div className="flex items-center">
-            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            Settings saved successfully.
-          </div>
-        </div>
-      )}
-
       <form onSubmit={handleSave} className="space-y-8">
-        {/* Branding */}
+        {/* Company Information */}
         <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Branding</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Company Information</h2>
             <div className="w-12 h-1 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Brand Name</label>
-              <input 
-                name="brandName" 
-                value={settings.brandName} 
-                onChange={handleChange} 
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Company Name</label>
+              <input
+                name="companyName"
+                value={settings.companyName || ''}
+                onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="Blitz India Engineering"
               />
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Tagline</label>
-              <input 
-                name="tagline" 
-                value={settings.tagline} 
-                onChange={handleChange} 
+              <input
+                name="tagline"
+                value={settings.tagline || ''}
+                onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="Engineering Excellence"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+              <textarea
+                name="description"
+                value={settings.description || ''}
+                onChange={handleChange}
+                rows={3}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="Company description"
               />
             </div>
           </div>
         </section>
 
-        {/* Theme */}
-        <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Theme</h2>
-            <div className="w-12 h-1 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full"></div>
-          </div>
-          <div className="flex items-center gap-4">
-            <button 
-              type="button" 
-              onClick={() => handleThemeToggle('light')} 
-              className={`px-6 py-3 rounded-xl border-2 font-semibold transition-all ${
-                settings.theme === 'light' 
-                  ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white border-orange-600 shadow-lg' 
-                  : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
-              }`}
-            >
-              Light
-            </button>
-            <button 
-              type="button" 
-              onClick={() => handleThemeToggle('dark')} 
-              className={`px-6 py-3 rounded-xl border-2 font-semibold transition-all ${
-                settings.theme === 'dark' 
-                  ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white border-orange-600 shadow-lg' 
-                  : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
-              }`}
-            >
-              Dark
-            </button>
-            <div className="ml-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Primary Color</label>
-              <div className="flex items-center gap-3">
-                <input 
-                  type="color" 
-                  name="primaryColor" 
-                  value={settings.primaryColor} 
-                  onChange={handleChange} 
-                  className="w-16 h-12 p-1 border-2 border-gray-300 rounded-xl cursor-pointer"
-                />
-                <span className="text-sm text-gray-600 font-mono">{settings.primaryColor}</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Info */}
+        {/* Contact Information */}
         <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Contact Information</h2>
@@ -152,33 +156,143 @@ const AdminSettings = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-              <input 
-                name="contactEmail" 
+              <input
+                name="email"
                 type="email"
-                value={settings.contactEmail} 
-                onChange={handleChange} 
+                value={settings.email || ''}
+                onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="info@example.com"
               />
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
-              <input 
-                name="contactPhone" 
+              <input
+                name="phone"
                 type="tel"
-                value={settings.contactPhone} 
-                onChange={handleChange} 
+                value={settings.phone || ''}
+                onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="+91-XXXXXXXXXX"
               />
             </div>
           </div>
         </section>
 
-        <div className="flex justify-end">
-          <button 
-            type="submit" 
-            className="px-8 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+        {/* Address */}
+        <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Address</h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Street</label>
+              <input
+                name="address.street"
+                value={settings.address?.street || ''}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="Street Address"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">City</label>
+              <input
+                name="address.city"
+                value={settings.address?.city || ''}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="City"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">State</label>
+              <input
+                name="address.state"
+                value={settings.address?.state || ''}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="State"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Country</label>
+              <input
+                name="address.country"
+                value={settings.address?.country || ''}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="Country"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Zip Code</label>
+              <input
+                name="address.zipCode"
+                value={settings.address?.zipCode || ''}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                placeholder="Zip Code"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Social Links */}
+        <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Social Media Links</h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {['facebook', 'twitter', 'linkedin', 'instagram', 'youtube'].map((platform) => (
+              <div key={platform}>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 capitalize">
+                  {platform}
+                </label>
+                <input
+                  value={settings.socialLinks?.[platform] || ''}
+                  onChange={(e) => handleSocialChange(platform, e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                  placeholder={`https://${platform}.com/yourpage`}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Security */}
+        <section>
+          <MFASetup />
+        </section>
+
+        {/* Save Button */}
+        <div className="flex justify-end gap-4">
+          <button
+            type="button"
+            onClick={fetchSettings}
+            disabled={saving}
+            className="px-8 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all duration-200 disabled:opacity-50"
           >
-            Save Settings
+            Reset
+          </button>
+          <button
+            type="submit"
+            disabled={saving}
+            className="px-8 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {saving ? (
+              <>
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Saving...
+              </>
+            ) : (
+              'Save Settings'
+            )}
           </button>
         </div>
       </form>

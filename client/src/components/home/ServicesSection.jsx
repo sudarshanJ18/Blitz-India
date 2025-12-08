@@ -14,7 +14,7 @@ export function ServicesSection() {
       serviceImg.analysis,
       serviceImg.manufacturing
     ];
-    
+
     return {
       title: category.title,
       src: images[index] || category.services[0]?.image,
@@ -38,12 +38,12 @@ export function ServicesSection() {
             Our Services
           </h2>
         </div>
-        
+
         {/* Carousel Section */}
         <div className="w-full">
           <Carousel items={cards} />
         </div>
-        
+
         {/* CTA Button */}
         <div className="text-center mt-4 md:mt-6 lg:mt-8 px-4">
           <Link to="/services">
@@ -77,7 +77,7 @@ const ServiceContent = ({ category, image }) => {
           <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed">
             {category.description} . Highest quality standards and technical expertise to ensure your project's success.
           </p>
-          
+
           {/* Services showcase image */}
           <div className="w-full overflow-hidden rounded-md sm:rounded-lg border border-gray-200">
             <img
@@ -93,22 +93,23 @@ const ServiceContent = ({ category, image }) => {
       <div className="bg-white border border-gray-200 p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl shadow-sm">
         <div className="max-w-6xl mx-auto">
           <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3 sm:mb-4 text-center border-b border-gray-200 pb-2 sm:pb-3">
-            Available Services 
+            Available Services
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             {category.services.slice(0, 6).map((service, index) => (
-              <div 
-                key={service.id} 
-                className="flex items-start p-2 sm:p-3 bg-white border border-gray-200 rounded-md sm:rounded-lg hover:border-orange-300 hover:shadow-md transition-all duration-300"
+              <Link
+                key={service.id}
+                to={`/services/${category.id}/${service.subId}`}
+                className="flex items-start p-2 sm:p-3 bg-white border border-gray-200 rounded-md sm:rounded-lg hover:border-orange-300 hover:shadow-md transition-all duration-300 cursor-pointer group"
               >
-                <div className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mr-2 sm:mr-3 shadow-sm">
+                <div className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mr-2 sm:mr-3 shadow-sm group-hover:scale-110 transition-transform duration-200">
                   <span className="text-white text-[9px] sm:text-xs font-bold">
                     {category.id}.{service.subId}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-baseline mb-1">
-                    <h4 className="font-semibold text-gray-900 text-sm sm:text-base break-words leading-tight">
+                    <h4 className="font-semibold text-gray-900 text-sm sm:text-base break-words leading-tight group-hover:text-orange-600 transition-colors duration-200">
                       {service.title}
                     </h4>
                   </div>
@@ -118,10 +119,10 @@ const ServiceContent = ({ category, image }) => {
                     </p>
                   )}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
-          
+
           {category.services.length > 6 && (
             <div className="text-center mt-3 sm:mt-4 pt-3 border-t border-gray-200">
               <span className="text-orange-600 text-sm sm:text-base font-semibold">

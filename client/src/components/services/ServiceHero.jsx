@@ -1,7 +1,7 @@
 import React, { cloneElement, isValidElement } from 'react';
 import { Link } from 'react-router-dom';
-
-const gradientBg = 'bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700';
+import Threads from '../ui/Threads';
+import MechanicalDecorations from '../ui/MechanicalDecorations';
 
 export const CheckIcon = ({ className = 'w-5 h-5 mr-2' }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 20 20">
@@ -21,7 +21,6 @@ export const HeroLayout = ({
   badges = [],
   actions = [],
   align = 'center',
-  backgroundClass = gradientBg,
 }) => {
   const isCenter = align === 'center';
   const textAlignClass = isCenter ? 'text-center' : 'text-left';
@@ -29,30 +28,48 @@ export const HeroLayout = ({
   const contentWidthClass = isCenter ? 'max-w-4xl mx-auto' : 'max-w-3xl';
 
   return (
-    <section className={`py-16 ${backgroundClass} text-white`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden min-h-[60vh] flex items-center">
+      {/* Threads animated background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <Threads
+          color={[0.55, 0.57, 0.60]} // Steel gray color for mechanical engineering theme
+          amplitude={0.8}
+          distance={0}
+          enableMouseInteraction={true}
+        />
+      </div>
+
+      {/* Mechanical decorative shapes */}
+      <MechanicalDecorations />
+
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.02] via-transparent to-gray-600/[0.02]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-100/60 via-transparent to-white/40 pointer-events-none" />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {topSlot && <div className="mb-8">{typeof topSlot === 'function' ? topSlot() : topSlot}</div>}
 
         <div className={`${contentWidthClass} ${textAlignClass}`}>
           {subtitle && (
-            <p className="text-sm uppercase tracking-[0.3em] text-blue-200 mb-4">
+            <p className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-4 font-medium">
               {subtitle}
             </p>
           )}
 
-          <h1 className="text-4xl lg:text-5xl font-bold mb-6">{title}</h1>
+          <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900">{title}</h1>
 
           {description && (
-            <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+            <p className="text-xl text-gray-700 mb-8 leading-relaxed">
               {description}
             </p>
           )}
 
           {badges.length > 0 && (
-            <div className={`flex flex-wrap ${justifyClass} gap-4 text-blue-200 mb-8`}>
+            <div className={`flex flex-wrap ${justifyClass} gap-4 text-gray-600 mb-8`}>
               {badges.map(({ icon: Icon, label }, index) => (
                 <span key={index} className="flex items-center">
-                  {Icon && <Icon className="w-5 h-5 mr-2 text-blue-100" />}
+                  {Icon && <Icon className="w-5 h-5 mr-2 text-orange-600" />}
                   {label}
                 </span>
               ))}
@@ -71,7 +88,7 @@ export const HeroLayout = ({
                   </span>
                 );
               })}
-          </div>
+            </div>
           )}
         </div>
       </div>
@@ -95,13 +112,13 @@ const ServiceHero = ({ service }) => {
       to: '/contact',
       label: 'Get Quote',
       className:
-        'inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-900 bg-white hover:bg-gray-50 transition-colors duration-200',
+        'inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-orange-600/30',
     },
     {
       to: '/portfolio',
       label: 'View Related Projects',
       className:
-        'inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-md text-white hover:bg-blue-800 transition-colors duration-200',
+        'inline-flex items-center justify-center px-8 py-3 border-2 border-gray-800 text-base font-medium rounded-md text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-200',
     },
   ].map(({ to, label, className }) => (
     <Link key={to} to={to} className={className}>
@@ -113,7 +130,7 @@ const ServiceHero = ({ service }) => {
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <Link
         to={service.categoryId ? `/services/${service.categoryId}` : '/services'}
-        className="inline-flex items-center text-blue-200 hover:text-white transition-colors duration-200"
+        className="inline-flex items-center text-gray-600 hover:text-orange-600 transition-colors duration-200"
       >
         <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
           <path
@@ -125,9 +142,9 @@ const ServiceHero = ({ service }) => {
         Back to {service.categoryId ? service.category : 'Services'}
       </Link>
 
-      <div className="text-sm text-blue-200">
+      <div className="text-sm text-gray-600">
         {service.categoryId && service.subId && (
-          <span className="mr-2 font-semibold text-blue-100">
+          <span className="mr-2 font-semibold text-gray-800">
             {service.categoryId}.{service.subId}
           </span>
         )}

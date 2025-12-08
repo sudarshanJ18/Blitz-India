@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import contactService from '../../services/contact.service';
+import { Link } from 'react-router-dom';
+import { Mail } from 'lucide-react';
 
-const iconClass = "w-8 h-8";
+const iconClass = "w-7 h-7";
 
 const dashboardIcons = {
   projects: (
@@ -25,23 +28,22 @@ const dashboardIcons = {
   ),
 };
 
-const StatCard = ({ icon, title, value, change, gradient }) => (
-  <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 group hover:border-orange-200">
-    <div className="flex items-center justify-between mb-4">
-      <div className={`p-4 rounded-xl ${gradient} group-hover:scale-110 transition-transform duration-300`}>
-        <div className="text-white">
+const StatCard = ({ icon, title, value, change, bgColor, iconColor }) => (
+  <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100 group">
+    <div className="flex items-start justify-between mb-4">
+      <div className={`p-3 rounded-lg ${bgColor} group-hover:scale-105 transition-transform duration-300`}>
+        <div className={iconColor}>
           {icon}
         </div>
       </div>
-      <div className={`text-sm font-semibold px-3 py-1 rounded-full ${
-        change.includes('+') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-      }`}>
+      <div className={`text-xs font-semibold px-2.5 py-1 rounded-full ${change.includes('+') ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+        }`}>
         {change}
       </div>
     </div>
     <div>
-      <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-      <p className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
+      <p className="text-sm font-medium text-slate-500 mb-1">{title}</p>
+      <p className="text-3xl font-bold text-slate-800">
         {value}
       </p>
     </div>
@@ -49,54 +51,83 @@ const StatCard = ({ icon, title, value, change, gradient }) => (
 );
 
 const Dashboard = () => {
-  const stats = [
-    { 
-      icon: dashboardIcons.projects,
-      title: 'Active Projects', 
-      value: '12', 
-      change: '+2 this month',
-      gradient: 'bg-gradient-to-br from-orange-500 to-orange-600'
-    },
-    { 
-      icon: dashboardIcons.clients,
-      title: 'New Clients', 
-      value: '4', 
-      change: '+1 this month',
-      gradient: 'bg-gradient-to-br from-blue-500 to-blue-600'
-    },
-    { 
-      icon: dashboardIcons.revenue,
-      title: 'Monthly Revenue', 
-      value: '$25,650', 
-      change: '+8% vs last month',
-      gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-600'
-    },
-    { 
-      icon: dashboardIcons.inquiries,
-      title: 'Pending Inquiries', 
-      value: '7', 
-      change: '-3 from yesterday',
-      gradient: 'bg-gradient-to-br from-purple-500 to-purple-600'
-    },
-  ];
+  const [recentMessages, setRecentMessages] = useState([]);
+  const [loadingMessages, setLoadingMessages] = useState(true);
 
-  const recentActivities = [
-    { user: 'John Doe', action: 'submitted a new project proposal', time: '2 hours ago', type: 'project' },
-    { user: 'Jane Smith', action: 'updated the status of Project Alpha', time: '5 hours ago', type: 'update' },
-    { user: 'Admin', action: 'approved a new client registration', time: '1 day ago', type: 'approval' },
-    { user: 'Mike Johnson', action: 'sent a new inquiry about 3D modeling', time: '2 days ago', type: 'inquiry' },
+  useEffect(() => {
+    fetchRecentMessages();
+  }, []);
+
+  const fetchRecentMessages = async () => {
+    try {
+      setLoadingMessages(true);
+      const response = await contactService.getAllSubmissions(1, 5, ''); // Get latest 5 messages
+      setRecentMessages(response.data || []);
+    } catch (error) {
+      console.error('Error fetching recent messages:', error);
+    } finally {
+      setLoadingMessages(false);
+    }
+  };
+
+  const getTimeAgo = (dateString) => {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diffMs = now - past;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 60) return `${diffMins} min${diffMins !== 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+    return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+  };
+
+  const stats = [
+    {
+      icon: dashboardIcons.projects,
+      title: 'Active Projects',
+      value: '12',
+      change: '+2 this month',
+      bgColor: 'bg-orange-50',
+      iconColor: 'text-orange-600'
+    },
+    {
+      icon: dashboardIcons.clients,
+      title: 'New Clients',
+      value: '4',
+      change: '+1 this month',
+      bgColor: 'bg-blue-50',
+      iconColor: 'text-blue-600'
+    },
+    {
+      icon: dashboardIcons.revenue,
+      title: 'Monthly Revenue',
+      value: '$25,650',
+      change: '+8% vs last month',
+      bgColor: 'bg-emerald-50',
+      iconColor: 'text-emerald-600'
+    },
+    {
+      icon: dashboardIcons.inquiries,
+      title: 'Pending Inquiries',
+      value: recentMessages.filter(m => m.status === 'new').length.toString(),
+      change: '-3 from yesterday',
+      bgColor: 'bg-purple-50',
+      iconColor: 'text-purple-600'
+    },
   ];
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 bg-clip-text text-transparent mb-2">
-          Admin Dashboard
+        <h1 className="text-4xl font-bold text-slate-800 mb-2">
+          Dashboard Overview
         </h1>
-        <p className="text-gray-600 text-lg">Welcome back! Here's what's happening with your projects.</p>
+        <p className="text-slate-600 text-lg">Welcome back! Here's what's happening with your projects.</p>
       </div>
-      
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
@@ -105,47 +136,72 @@ const Dashboard = () => {
       </div>
 
       {/* Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Recent Activities */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Contact Messages */}
+        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Recent Activities</h2>
-            <div className="w-12 h-1 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full"></div>
+            <h2 className="text-2xl font-bold text-slate-800">Recent Messages</h2>
+            <Link to="/admin/contact" className="text-sm text-orange-600 hover:text-orange-700 font-medium">
+              View All →
+            </Link>
           </div>
-          <ul className="space-y-4">
-            {recentActivities.map((activity, index) => (
-              <li key={index} className="flex items-start space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group">
-                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-2 ${
-                  activity.type === 'project' ? 'bg-orange-500' :
-                  activity.type === 'update' ? 'bg-blue-500' :
-                  activity.type === 'approval' ? 'bg-green-500' : 'bg-purple-500'
-                } group-hover:scale-150 transition-transform`}></div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-gray-800 font-medium">
-                    <span className="font-semibold text-gray-900">{activity.user}</span> {activity.action}.
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">{activity.time}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+
+          {loadingMessages ? (
+            <div className="flex justify-center items-center h-40">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
+            </div>
+          ) : recentMessages.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-40 text-center">
+              <Mail className="w-12 h-12 text-gray-300 mb-2" />
+              <p className="text-slate-500 text-sm">No messages yet</p>
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {recentMessages.map((message) => (
+                <li key={message._id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center text-orange-700 font-bold text-sm">
+                    {message.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="text-slate-900 font-semibold text-sm truncate">
+                        {message.name}
+                      </p>
+                      <span className={`ml-2 px-2 py-0.5 text-xs rounded-full ${message.status === 'new' ? 'bg-blue-100 text-blue-700' :
+                          message.status === 'read' ? 'bg-gray-100 text-gray-700' :
+                            'bg-green-100 text-green-700'
+                        }`}>
+                        {message.status}
+                      </span>
+                    </div>
+                    <p className="text-slate-600 text-sm truncate mt-0.5">
+                      {message.serviceCategory}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      {getTimeAgo(message.submittedAt)}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Project Status Overview */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Project Status Overview</h2>
-            <div className="w-12 h-1 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full"></div>
+            <h2 className="text-2xl font-bold text-slate-800">Quick Stats</h2>
+            <div className="w-12 h-1 bg-orange-600 rounded-full"></div>
           </div>
-          <div className="flex items-center justify-center h-64 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-dashed border-gray-300">
+          <div className="flex items-center justify-center h-64 bg-gradient-to-br from-gray-50 to-slate-50 rounded-lg border border-gray-200">
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <p className="text-gray-500 font-medium">Chart visualization</p>
-              <p className="text-sm text-gray-400 mt-1">Will be displayed here</p>
+              <p className="text-slate-600 font-medium">Chart Visualization</p>
+              <p className="text-sm text-slate-400 mt-1">Coming soon</p>
             </div>
           </div>
         </div>

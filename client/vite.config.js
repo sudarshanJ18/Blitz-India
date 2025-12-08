@@ -18,8 +18,36 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          vendor: ['@fortawesome/react-fontawesome', 'framer-motion', 'gsap'],
+          // Core React libraries
+          react: ['react', 'react-dom'],
+          // React Router
+          'react-router': ['react-router-dom'],
+          // UI Animation libraries
+          animations: ['framer-motion', 'gsap'],
+          // Icon libraries
+          icons: [
+            '@fortawesome/react-fontawesome',
+            '@fortawesome/fontawesome-svg-core',
+            '@fortawesome/free-solid-svg-icons',
+            '@fortawesome/free-brands-svg-icons',
+            '@tabler/icons-react',
+            'lucide-react'
+          ],
+          // Editor libraries (for admin)
+          editor: [
+            '@tiptap/react',
+            '@tiptap/starter-kit',
+            '@tiptap/extension-color',
+            '@tiptap/extension-image',
+            '@tiptap/extension-link',
+            '@tiptap/extension-text-align',
+            '@tiptap/extension-text-style',
+            '@tiptap/extension-underline'
+          ],
+          // 3D and canvas libraries
+          graphics: ['three', 'cobe'],
+          // Utility libraries
+          utils: ['axios', 'clsx', 'tailwind-merge']
         },
       },
     },

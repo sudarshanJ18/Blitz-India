@@ -20,7 +20,7 @@ const Navbar = () => {
   const [mobileServiceAccordion, setMobileServiceAccordion] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState(null);
   const location = useLocation();
-  
+
   // Refs for dropdown elements
   const servicesDropdownRef = useRef(null);
   const categoryTimeoutRef = useRef(null);
@@ -32,7 +32,7 @@ const Navbar = () => {
       setScrolled(isScrolled);
       setAtTop(window.scrollY < 10);
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -43,7 +43,7 @@ const Navbar = () => {
     } else {
       document.body.style.overflow = '';
     }
-    
+
     return () => {
       document.body.style.overflow = '';
     };
@@ -101,7 +101,7 @@ const Navbar = () => {
       setMobileMenuOpen(!mobileMenuOpen);
       return;
     }
-    
+
     // For navigation links
     if (e && e.preventDefault) {
       e.preventDefault();
@@ -110,7 +110,7 @@ const Navbar = () => {
         setMobileMenuOpen(false);
         setMobileServiceAccordion(false);
         setMobileCategoryOpen(null);
-        
+
         // Small delay to allow menu to close before navigation
         setTimeout(() => {
           if (targetId.startsWith('#')) {
@@ -129,10 +129,10 @@ const Navbar = () => {
   // Build menu items with nested services for mobile menu
   const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/', number: '01' },
-    { 
-      label: 'Services', 
-      ariaLabel: 'View our services', 
-      link: '/services', 
+    {
+      label: 'Services',
+      ariaLabel: 'View our services',
+      link: '/services',
       number: '02',
       subItems: serviceCategories.map(category => ({
         label: `${category.id}. ${category.title}`,
@@ -152,22 +152,21 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navigation Bar */}
-      <nav 
-        className={`hidden lg:block fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-in-out ${
-          scrolled 
-            ? 'bg-white shadow-2xl' 
-            : 'bg-transparent'
-        }`}
+      <nav
+        className={`hidden lg:block fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-in-out ${scrolled
+          ? 'bg-white shadow-2xl'
+          : 'bg-transparent'
+          }`}
         role="navigation"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-24">
             {/* Logo */}
             <Link to="/" className="flex items-center group">
               <img
                 src={assets.logo}
                 alt="Blitz India Engineering"
-                className="h-16 w-auto transition-transform duration-300 group-hover:scale-105"
+                className="h-24 w-auto transition-transform duration-300 group-hover:scale-105"
                 draggable={false}
               />
             </Link>
@@ -176,16 +175,14 @@ const Navbar = () => {
             <div className="flex items-center space-x-10">
               <Link
                 to="/"
-                className={`text-base font-bold tracking-wide transition-all duration-300 relative group ${
-                  location.pathname === '/' 
-                    ? 'text-orange-600' 
-                    : 'text-gray-800 hover:text-orange-600'
-                }`}
+                className={`text-lg font-bold tracking-wide transition-all duration-300 relative group ${location.pathname === '/'
+                  ? 'text-orange-600'
+                  : 'text-gray-800 hover:text-orange-600'
+                  }`}
               >
                 Home
-                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
-                  location.pathname === '/' ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
-                }`}></span>
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${location.pathname === '/' ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
+                  }`}></span>
               </Link>
 
               {/* Services Dropdown */}
@@ -197,24 +194,22 @@ const Navbar = () => {
               >
                 <Link
                   to="/services"
-                  className={`text-base font-bold tracking-wide transition-all duration-300 flex items-center relative group ${
-                    location.pathname.startsWith('/services')
-                      ? 'text-orange-600' 
-                      : 'text-gray-800 hover:text-orange-600'
-                  }`}
+                  className={`text-lg font-bold tracking-wide transition-all duration-300 flex items-center relative group ${location.pathname.startsWith('/services')
+                    ? 'text-orange-600'
+                    : 'text-gray-800 hover:text-orange-600'
+                    }`}
                 >
                   Services
-                  <svg 
-                    className={`ml-2 w-5 h-5 transition-transform duration-300 ${hoveredService ? 'rotate-180' : ''}`}
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className={`ml-2 w-6 h-6 transition-transform duration-300 ${hoveredService ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                   </svg>
-                  <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
-                    location.pathname.startsWith('/services') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
-                  }`}></span>
+                  <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${location.pathname.startsWith('/services') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
+                    }`}></span>
                 </Link>
 
                 {/* Categories Dropdown */}
@@ -238,10 +233,10 @@ const Navbar = () => {
                             <span className="text-orange-600 mr-3 font-bold text-lg">{category.id}.</span>
                             <span className="transition-transform duration-300 group-hover:translate-x-1">{category.title}</span>
                           </div>
-                          <svg 
+                          <svg
                             className="w-5 h-5 text-gray-400 group-hover:text-orange-600 transition-all duration-300 group-hover:translate-x-1"
-                            fill="none" 
-                            stroke="currentColor" 
+                            fill="none"
+                            stroke="currentColor"
                             viewBox="0 0 24 24"
                           >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -250,7 +245,7 @@ const Navbar = () => {
 
                         {/* Sub-categories Dropdown */}
                         {hoveredCategory === category.id && (
-                          <div 
+                          <div
                             className="absolute left-full top-0 ml-2 w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-[60] animate-dropdown max-h-[600px] overflow-y-auto custom-scrollbar"
                             onMouseEnter={handleSubcategoryMouseEnter}
                             onMouseLeave={handleCategoryMouseLeave}
@@ -287,58 +282,50 @@ const Navbar = () => {
 
               <Link
                 to="/portfolio"
-                className={`text-base font-bold tracking-wide transition-all duration-300 relative group ${
-                  location.pathname.startsWith('/portfolio')
-                    ? 'text-orange-600' 
-                    : 'text-gray-800 hover:text-orange-600'
-                }`}
+                className={`text-lg font-bold tracking-wide transition-all duration-300 relative group ${location.pathname.startsWith('/portfolio')
+                  ? 'text-orange-600'
+                  : 'text-gray-800 hover:text-orange-600'
+                  }`}
               >
                 Portfolio
-                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
-                  location.pathname.startsWith('/portfolio') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
-                }`}></span>
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${location.pathname.startsWith('/portfolio') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
+                  }`}></span>
               </Link>
 
               <Link
                 to="/about"
-                className={`text-base font-bold tracking-wide transition-all duration-300 relative group ${
-                  location.pathname.startsWith('/about')
-                    ? 'text-orange-600' 
-                    : 'text-gray-800 hover:text-orange-600'
-                }`}
+                className={`text-lg font-bold tracking-wide transition-all duration-300 relative group ${location.pathname.startsWith('/about')
+                  ? 'text-orange-600'
+                  : 'text-gray-800 hover:text-orange-600'
+                  }`}
               >
                 About Us
-                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
-                  location.pathname.startsWith('/about') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
-                }`}></span>
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${location.pathname.startsWith('/about') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
+                  }`}></span>
               </Link>
 
               <Link
                 to="/contact"
-                className={`text-base font-bold tracking-wide transition-all duration-300 relative group ${
-                  location.pathname.startsWith('/contact')
-                    ? 'text-orange-600' 
-                    : 'text-gray-800 hover:text-orange-600'
-                }`}
+                className={`text-lg font-bold tracking-wide transition-all duration-300 relative group ${location.pathname.startsWith('/contact')
+                  ? 'text-orange-600'
+                  : 'text-gray-800 hover:text-orange-600'
+                  }`}
               >
                 Contact
-                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
-                  location.pathname.startsWith('/contact') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
-                }`}></span>
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${location.pathname.startsWith('/contact') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
+                  }`}></span>
               </Link>
 
               <Link
                 to="/blogs"
-                className={`text-base font-bold tracking-wide transition-all duration-300 relative group ${
-                  location.pathname.startsWith('/blogs')
-                    ? 'text-orange-600' 
-                    : 'text-gray-800 hover:text-orange-600'
-                }`}
+                className={`text-lg font-bold tracking-wide transition-all duration-300 relative group ${location.pathname.startsWith('/blogs')
+                  ? 'text-orange-600'
+                  : 'text-gray-800 hover:text-orange-600'
+                  }`}
               >
                 Blog
-                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
-                  location.pathname.startsWith('/blogs') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
-                }`}></span>
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${location.pathname.startsWith('/blogs') ? 'scale-x-100 bg-orange-600' : 'scale-x-0 group-hover:scale-x-100 bg-orange-600'
+                  }`}></span>
               </Link>
             </div>
           </div>
@@ -347,9 +334,8 @@ const Navbar = () => {
 
       {/* Mobile Navigation Menu - Fixed button visibility */}
       <div
-        className={`lg:hidden fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
-          scrolled ? 'bg-white shadow-md' : 'bg-transparent'
-        }`}
+        className={`lg:hidden fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'
+          }`}
         role="navigation"
         style={{
           backdropFilter: scrolled ? 'blur(10px)' : 'none',
@@ -370,9 +356,8 @@ const Navbar = () => {
 
           <button
             type="button"
-            className={`relative w-12 h-12 flex items-center justify-center rounded-xl border-2 ${
-              atTop ? 'border-orange-500 bg-white hover:bg-orange-50' : 'border-orange-500 bg-white shadow-lg hover:bg-orange-50 hover:shadow-xl'
-            } transition-all duration-300 focus:outline-none active:scale-95`}
+            className={`relative w-12 h-12 flex items-center justify-center rounded-xl border-2 ${atTop ? 'border-orange-500 bg-white hover:bg-orange-50' : 'border-orange-500 bg-white shadow-lg hover:bg-orange-50 hover:shadow-xl'
+              } transition-all duration-300 focus:outline-none active:scale-95`}
             style={{
               boxShadow: atTop ? '0 2px 10px rgba(0,0,0,0.1)' : 'none'
             }}
@@ -380,19 +365,16 @@ const Navbar = () => {
             aria-label="Toggle navigation menu"
           >
             <span
-              className={`absolute block h-0.5 w-6 bg-orange-600 transition-all duration-300 ${
-                mobileMenuOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'
-              }`}
+              className={`absolute block h-0.5 w-6 bg-orange-600 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'
+                }`}
             />
             <span
-              className={`absolute block h-0.5 w-6 bg-orange-600 transition-all duration-300 ${
-                mobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
-              }`}
+              className={`absolute block h-0.5 w-6 bg-orange-600 transition-all duration-300 ${mobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                }`}
             />
             <span
-              className={`absolute block h-0.5 w-6 bg-orange-600 transition-all duration-300 ${
-                mobileMenuOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'
-              }`}
+              className={`absolute block h-0.5 w-6 bg-orange-600 transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'
+                }`}
             />
           </button>
         </div>
@@ -400,9 +382,8 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`lg:hidden fixed inset-0 z-40 transition-all duration-500 ${
-          mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`lg:hidden fixed inset-0 z-40 transition-all duration-500 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
         style={{
           position: 'fixed',
           top: '64px',
@@ -414,9 +395,8 @@ const Navbar = () => {
         }}
       >
         <div
-          className={`w-full h-full bg-white transition-transform duration-500 ${
-            mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
-          }`}
+          className={`w-full h-full bg-white transition-transform duration-500 ${mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+            }`}
         >
           <div className="pt-4 pb-8 px-4 h-full overflow-y-auto">
             <div className="space-y-4">
@@ -426,11 +406,10 @@ const Navbar = () => {
                     <Link
                       key={item.label}
                       to={item.link}
-                      className={`flex items-center justify-between text-2xl font-semibold tracking-wide transition-all duration-300 ${
-                        location.pathname === item.link
-                          ? 'text-orange-600'
-                          : 'text-gray-800 hover:text-orange-600'
-                      }`}
+                      className={`flex items-center justify-between text-2xl font-semibold tracking-wide transition-all duration-300 ${location.pathname === item.link
+                        ? 'text-orange-600'
+                        : 'text-gray-800 hover:text-orange-600'
+                        }`}
                       onClick={handleNavClick}
                     >
                       <span>{item.label}</span>
@@ -445,11 +424,10 @@ const Navbar = () => {
                     <div className="flex items-center justify-between">
                       <Link
                         to={item.link}
-                        className={`flex-1 text-2xl font-semibold tracking-wide transition-all duration-300 ${
-                          location.pathname.startsWith('/services')
-                            ? 'text-orange-600'
-                            : 'text-gray-800 hover:text-orange-600'
-                        }`}
+                        className={`flex-1 text-2xl font-semibold tracking-wide transition-all duration-300 ${location.pathname.startsWith('/services')
+                          ? 'text-orange-600'
+                          : 'text-gray-800 hover:text-orange-600'
+                          }`}
                         onClick={handleNavClick}
                       >
                         <span>{item.label}</span>
@@ -463,9 +441,8 @@ const Navbar = () => {
                         aria-label="Toggle services menu"
                       >
                         <svg
-                          className={`w-5 h-5 transition-transform duration-300 ${
-                            mobileServiceAccordion ? 'rotate-180' : ''
-                          }`}
+                          className={`w-5 h-5 transition-transform duration-300 ${mobileServiceAccordion ? 'rotate-180' : ''
+                            }`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -476,9 +453,8 @@ const Navbar = () => {
                     </div>
 
                     <div
-                      className={`grid transition-all duration-500 overflow-hidden ${
-                        mobileServiceAccordion ? 'max-h-[1000px] mt-2' : 'max-h-0'
-                      }`}
+                      className={`grid transition-all duration-500 overflow-hidden ${mobileServiceAccordion ? 'max-h-[1000px] mt-2' : 'max-h-0'
+                        }`}
                     >
                       {serviceCategories.map(category => (
                         <div
@@ -497,11 +473,10 @@ const Navbar = () => {
                               <span>{category.title}</span>
                             </div>
                             <svg
-                              className={`w-5 h-5 transition-transform duration-300 ${
-                                mobileCategoryOpen === category.id
-                                  ? 'rotate-90 text-orange-600'
-                                  : 'text-gray-400'
-                              }`}
+                              className={`w-5 h-5 transition-transform duration-300 ${mobileCategoryOpen === category.id
+                                ? 'rotate-90 text-orange-600'
+                                : 'text-gray-400'
+                                }`}
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -511,11 +486,10 @@ const Navbar = () => {
                           </button>
 
                           <div
-                            className={`grid transition-all duration-500 overflow-hidden ${
-                              mobileCategoryOpen === category.id
-                                ? 'max-h-[800px] border-t border-gray-50'
-                                : 'max-h-0'
-                            }`}
+                            className={`grid transition-all duration-500 overflow-hidden ${mobileCategoryOpen === category.id
+                              ? 'max-h-[800px] border-t border-gray-50'
+                              : 'max-h-0'
+                              }`}
                           >
                             <Link
                               to={`/services/${category.id}`}

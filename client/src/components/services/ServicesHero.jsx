@@ -1,26 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Circle } from "lucide-react";
-import { serviceCategories } from "../../assets/assets.js";
 import { CheckIcon } from "./ServiceHero.jsx";
+import axios from 'axios';
 import {
   HeroSection,
   fadeUpVariants,
   heroBadgeClass,
   heroContainerClass,
   heroHeadingClass,
-  heroParagraphClass,
   heroPrimaryButtonClass,
   heroSecondaryButtonClass,
 } from "../common/HeroSection";
 
 const ServicesHero = () => {
-  const totalCategories = serviceCategories.length;
-  const totalServices = serviceCategories.reduce(
-    (sum, category) => sum + category.services.length,
-    0
-  );
+  const [totalCategories, setTotalCategories] = useState(4);
+  const [totalServices, setTotalServices] = useState(16);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [categoriesRes, servicesRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_API_URL}/api/services/categories`),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/services`)
+        ]);
+
+        const categories = categoriesRes.data.data || [];
+        const services = servicesRes.data.data || [];
+
+        setTotalCategories(categories.length);
+        setTotalServices(services.length);
+      } catch (error) {
+        console.error('Failed to fetch service stats:', error);
+        // Keep default values on error
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const badges = [
     { icon: CheckIcon, label: `${totalServices}+ Specialized Engagements` },
@@ -55,10 +72,6 @@ const ServicesHero = () => {
           animate="visible"
           className={`${heroBadgeClass} mb-8`}
         >
-          {/* <Circle className="h-2 w-2 fill-orange-500/80" />
-          <span className="text-sm text-gray-600 tracking-wide font-medium">
-            Our Services
-          </span> */}
         </motion.div>
 
         <motion.div
@@ -85,9 +98,6 @@ const ServicesHero = () => {
           animate="visible"
           className="mb-10"
         >
-          {/* <p className={`${heroParagraphClass} max-w-2xl mx-auto`}>
-            Design • QA • Analysis handled by a single India-based partner.
-          </p> */}
         </motion.div>
 
         {/* Stats Badges */}

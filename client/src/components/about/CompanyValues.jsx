@@ -52,7 +52,7 @@ const CompanyValues = () => {
       description: "We are committed to continuous learning and development, staying at the forefront of engineering technologies and practices.",
       icon: (
         <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v11.494m-9-5.747h18" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
         </svg>
       )
     }
@@ -63,7 +63,7 @@ const CompanyValues = () => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Bold Title */}
         <div className="mb-12 md:mb-16">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-800 uppercase leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 uppercase leading-tight">
             OUR CORE
             <br />
             <span className="text-orange-600">VALUES</span>
@@ -72,7 +72,7 @@ const CompanyValues = () => {
 
         <div className="mb-10 md:mb-12">
           <p className="text-base md:text-lg text-gray-500 max-w-4xl leading-relaxed">
-            The principles that guide our decisions, actions, and culture. These values are the foundation of our 
+            The principles that guide our decisions, actions, and culture. These values are the foundation of our
             commitment to our clients, our team, and our community.
           </p>
         </div>
@@ -87,7 +87,7 @@ const CompanyValues = () => {
               <div className="mb-4 md:mb-6">
                 {value.icon}
               </div>
-              <h3 className="text-2xl md:text-3xl font-black text-gray-800 mb-3 md:mb-4 uppercase group-hover:text-orange-600 transition-colors duration-300">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-3 md:mb-4 uppercase group-hover:text-orange-600 transition-colors duration-300">
                 {value.title}
               </h3>
               <p className="text-base sm:text-lg font-medium text-gray-500 leading-relaxed">

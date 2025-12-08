@@ -12,13 +12,55 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+  animate
+} from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
 export const CarouselContext = createContext({
-  onCardClose: () => {},
+  onCardClose: () => { },
   currentIndex: 0,
 });
+
+// Hook for scroll overflow mask effect
+const useScrollOverflowMask = (scrollXProgress) => {
+  const left = `0%`;
+  const right = `100%`;
+  const leftInset = `15%`;
+  const rightInset = `85%`;
+  const transparent = `rgba(0, 0, 0, 0)`;
+  const opaque = `rgba(0, 0, 0, 1)`;
+
+  const maskImage = useMotionValue(
+    `linear-gradient(90deg, ${opaque}, ${opaque} ${left}, ${opaque} ${rightInset}, ${transparent})`
+  );
+
+  useMotionValueEvent(scrollXProgress, "change", (value) => {
+    if (value === 0) {
+      animate(
+        maskImage,
+        `linear-gradient(90deg, ${opaque}, ${opaque} ${left}, ${opaque} ${rightInset}, ${transparent})`
+      );
+    } else if (value >= 0.99) {
+      animate(
+        maskImage,
+        `linear-gradient(90deg, ${transparent}, ${opaque} ${leftInset}, ${opaque} ${right}, ${opaque})`
+      );
+    } else {
+      animate(
+        maskImage,
+        `linear-gradient(90deg, ${transparent}, ${opaque} ${leftInset}, ${opaque} ${rightInset}, ${transparent})`
+      );
+    }
+  });
+
+  return maskImage;
+};
 
 export const Carousel = ({ items, initialScroll = 0 }) => {
   const carouselRef = React.useRef(null);
@@ -26,6 +68,10 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
   const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Scroll tracking for mask effect
+  const { scrollXProgress } = useScroll({ container: carouselRef });
+  const maskImage = useScrollOverflowMask(scrollXProgress);
 
   // Check mobile on mount and resize
   useEffect(() => {
@@ -69,7 +115,7 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
 
   const handleCardClose = (index) => {
     if (carouselRef.current) {
-      const cardWidth = isMobile ? 230 : 384; 
+      const cardWidth = isMobile ? 230 : 384;
       const gap = isMobile ? 4 : 8;
       const scrollPosition = (cardWidth + gap) * (index + 1);
       carouselRef.current.scrollTo({
@@ -85,51 +131,56 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
       value={{ onCardClose: handleCardClose, currentIndex }}
     >
       <div className="relative w-full px-4 md:px-0">
-        <div
-          className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-6 md:py-10 lg:py-20 [scrollbar-width:none]"
-          ref={carouselRef}
-          onScroll={checkScrollability}
-        >
-          <div
-            className={cn(
-              "flex flex-row justify-start gap-3 md:gap-4 pl-2 md:pl-4",
-              "mx-auto w-full max-w-7xl"
-            )}
-          >
-            {items.map((item, index) => (
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.5,
-                    delay: 0.2 * index,
-                    ease: "easeOut",
-                    once: true,
-                  },
-                }}
-                key={"card" + index}
-                className="rounded-2xl md:rounded-3xl last:pr-[5%] md:last:pr-[33%]"
-              >
-                {item}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        <div className="flex justify-center md:justify-end gap-2 mt-4 md:mt-0 md:mr-10">
+        <div className="relative">
+          {/* Left Arrow */}
           <button
-            className="relative z-40 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 shadow-md"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-40 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 shadow-md hover:bg-gray-200 transition-colors"
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
             <IconArrowNarrowLeft className="h-4 w-4 md:h-6 md:w-6 text-gray-500" />
           </button>
+
+          {/* Carousel Content */}
+          <motion.div
+            className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-4 md:py-6 lg:py-5 [scrollbar-width:none]"
+            ref={carouselRef}
+            onScroll={checkScrollability}
+          >
+            <div
+              className={cn(
+                "flex flex-row justify-center items-center gap-2 px-4",
+                "mx-auto w-full max-w-7xl"
+              )}
+            >
+              {items.map((item, index) => (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.5,
+                      delay: 0.2 * index,
+                      ease: "easeOut",
+                      once: true,
+                    },
+                  }}
+                  key={"card" + index}
+                  className="rounded-2xl md:rounded-3xl"
+                >
+                  {item}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Arrow */}
           <button
-            className="relative z-40 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 shadow-md"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-40 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 shadow-md hover:bg-gray-200 transition-colors"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
@@ -145,6 +196,7 @@ export const Card = ({ card, index, layout = false }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
   const { onCardClose, currentIndex } = useContext(CarouselContext);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -219,22 +271,26 @@ export const Card = ({ card, index, layout = false }) => {
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="relative z-10 flex h-64 w-44 flex-col items-start justify-start overflow-hidden rounded-2xl bg-gray-100 shadow-lg md:h-80 md:w-56 lg:h-[40rem] lg:w-96"
-        whileHover={{ scale: 1.02 }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={cn(
+          "relative z-10 flex flex-col items-start justify-start overflow-hidden rounded-xl md:rounded-2xl bg-gray-100 shadow-lg transition-all duration-300 ease-in-out",
+          "h-48 sm:h-64 md:h-80 lg:h-96",
+          isHovered ? "w-48 sm:w-60 md:w-80 lg:w-96" : "w-20 sm:w-28 md:w-40 lg:w-48"
+        )}
         whileTap={{ scale: 0.98 }}
-        transition={{ duration: 0.3 }}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
-        <div className="relative z-40 p-4 md:p-6 lg:p-8">
+        <div className="relative z-40 p-2 sm:p-3 md:p-6 lg:p-8 whitespace-nowrap overflow-hidden">
           <motion.p
             layoutId={layout ? `category-${card.category}` : undefined}
-            className="text-left font-sans text-xs font-medium text-white md:text-sm lg:text-base"
+            className="text-left font-sans text-[8px] sm:text-xs md:text-sm lg:text-base font-medium text-white"
           >
             {card.category}
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="mt-1 max-w-xs text-left font-sans text-base font-semibold [text-wrap:balance] text-white md:mt-2 md:text-xl lg:text-3xl"
+            className="mt-0.5 sm:mt-1 md:mt-2 max-w-xs text-left font-sans text-xs sm:text-sm md:text-base lg:text-xl xl:text-3xl font-semibold [text-wrap:balance] text-white leading-tight"
           >
             {card.title}
           </motion.p>

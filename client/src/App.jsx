@@ -1,7 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/common/Navbar.jsx';
 import Footer from './components/common/Footer.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { SettingsProvider } from './contexts/SettingsContext';
 import Home from './pages/Home/Home.jsx';
 import Services from './pages/Services/Services.jsx';
 import Portfolio from './pages/Portfolio/Portfolio.jsx';
@@ -15,6 +19,7 @@ import ProjectDetail from './pages/Portfolio/ProjectDetail.jsx';
 import PrivacyPolicy from './pages/Legal/PrivacyPolicy.jsx';
 import TermsOfService from './pages/Legal/TermsOfService.jsx';
 import BlogDetail from './pages/Blogs/BlogDetail.jsx';
+import NotFound from './pages/NotFound/NotFound.jsx';
 import './App.css';
 
 function AppContent() {
@@ -43,6 +48,7 @@ function AppContent() {
           <Route path="/admin/*" element={<Admin />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {!isAdminRoute && <Footer />}
@@ -52,9 +58,25 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <HelmetProvider>
+      <SettingsProvider>
+        <Router>
+          <AppContent />
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </Router>
+      </SettingsProvider>
+    </HelmetProvider>
   );
 }
 

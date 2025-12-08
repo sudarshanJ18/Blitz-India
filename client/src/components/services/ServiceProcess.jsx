@@ -7,7 +7,7 @@ const ServiceProcess = () => {
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Process</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">Our Process</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             We follow a systematic approach to ensure quality and timely delivery of your projects.
           </p>
@@ -21,8 +21,8 @@ const ServiceProcess = () => {
                   <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                     {String(id).padStart(2, '0')}
                   </div>
-<h3 className="text-2xl font-semibold text-gray-900 mb-4">{detail.title}</h3>
-<p className="text-xl sm:text-2xl font-medium text-gray-600 leading-relaxed">{detail.description}</p>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4">{detail.title}</h3>
+                  <p className="text-xl sm:text-2xl font-medium text-gray-600 leading-relaxed">{detail.description}</p>
                 </div>
               </div>
 

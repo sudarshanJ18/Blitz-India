@@ -1,114 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
-
-const ElegantShape = ({
-  className,
-  delay = 0,
-  width = 400,
-  height = 100,
-  rotate = 0,
-  gradient = "from-gray-400/[0.08]",
-}) => (
-  <motion.div
-    initial={{
-      opacity: 0,
-      y: -150,
-      rotate: rotate - 15,
-    }}
-    animate={{
-      opacity: 1,
-      y: 0,
-      rotate,
-    }}
-    transition={{
-      duration: 2.4,
-      delay,
-      ease: [0.23, 0.86, 0.39, 0.96],
-      opacity: { duration: 1.2 },
-    }}
-    className={`absolute ${className}`}
-  >
-    <motion.div
-      animate={{
-        y: [0, 15, 0],
-      }}
-      transition={{
-        duration: 12,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      }}
-      style={{
-        width,
-        height,
-      }}
-      className="relative"
-    >
-      <div
-        className={`
-          absolute inset-0 rounded-full
-          bg-gradient-to-r to-transparent ${gradient}
-          backdrop-blur-[2px] border-2 border-gray-500/20
-          shadow-[0_8px_32px_0_rgba(0,0,0,0.08)]
-          after:absolute after:inset-0 after:rounded-full
-          after:bg-[radial-gradient(circle_at_50%_50%,rgba(120,120,120,0.15),transparent_70%)]
-        `}
-      />
-    </motion.div>
-  </motion.div>
-);
-
-const HERO_SHAPES = [
-  {
-    delay: 0.3,
-    width: 640,
-    height: 160,
-    rotate: 12,
-    gradient: "from-orange-500/[0.15]",
-    className: "left-[-12%] md:left-[-6%] top-[12%] md:top-[18%]",
-  },
-  {
-    delay: 0.45,
-    width: 520,
-    height: 130,
-    rotate: -14,
-    gradient: "from-gray-600/[0.14]",
-    className: "right-[-8%] md:right-[2%] top-[68%] md:top-[72%]",
-  },
-  {
-    delay: 0.4,
-    width: 320,
-    height: 90,
-    rotate: -8,
-    gradient: "from-orange-400/[0.12]",
-    className: "left-[4%] md:left-[10%] bottom-[6%] md:bottom-[12%]",
-  },
-  {
-    delay: 0.55,
-    width: 220,
-    height: 70,
-    rotate: 18,
-    gradient: "from-gray-500/[0.12]",
-    className: "right-[16%] md:right-[22%] top-[10%] md:top-[16%]",
-  },
-  {
-    delay: 0.65,
-    width: 160,
-    height: 50,
-    rotate: -24,
-    gradient: "from-orange-300/[0.12]",
-    className: "left-[18%] md:left-[26%] top-[6%] md:top-[12%]",
-  },
-];
+import Threads from "../ui/Threads";
+import MechanicalDecorations from "../ui/MechanicalDecorations";
 
 const HeroBackdrop = () => (
   <>
-    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.04] via-transparent to-gray-600/[0.04] blur-3xl" />
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {HERO_SHAPES.map((shape, index) => (
-        <ElegantShape key={index} {...shape} />
-      ))}
+    {/* Threads animated background */}
+    <div className="absolute inset-0 overflow-hidden">
+      <Threads
+        color={[0.95, 0.45, 0.15]} // Orange color for mechanical engineering theme
+        amplitude={1.2}
+        distance={0}
+        enableMouseInteraction={true}
+      />
     </div>
-    <div className="absolute inset-0 bg-gradient-to-t from-gray-100/80 via-transparent to-white/50 pointer-events-none" />
+
+    {/* Mechanical decorative shapes */}
+    {/* <MechanicalDecorations /> */}
+
+    {/* Subtle gradient overlays for depth */}
+    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.02] via-transparent to-gray-600/[0.02]" />
+    <div className="absolute inset-0 bg-gradient-to-t from-gray-100/60 via-transparent to-white/40 pointer-events-none" />
   </>
 );
 
@@ -159,4 +71,3 @@ export {
   heroPrimaryButtonClass,
   heroSecondaryButtonClass,
 };
-

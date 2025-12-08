@@ -7,10 +7,10 @@ const ContactMap = () => {
     <section className="py-16 bg-gradient-to-br from-white via-gray-50 to-orange-50/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-left">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 text-left">
             Find Us in <span className="text-orange-600">Pune, India</span>
           </h2>
-          
+
         </div>
 
         <div className="relative bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
@@ -32,7 +32,7 @@ const ContactMap = () => {
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.265588856342!2d73.856743!3d18.5204303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1690000000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
-                style={{ 
+                style={{
                   border: 0,
                   filter: isLoaded ? 'saturate(1.1) contrast(1.1)' : 'none',
                   transition: 'filter 0.5s ease-in-out'
@@ -52,7 +52,7 @@ const ContactMap = () => {
                 <div className="absolute inset-0">
                   <div className="w-8 h-8 bg-orange-500 rounded-full animate-ping opacity-20"></div>
                 </div>
-                
+
                 {/* Main Marker */}
                 <div className="relative bg-white rounded-full p-2 shadow-2xl border border-orange-300 transform hover:scale-110 transition-transform duration-300 cursor-pointer group">
                   <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
@@ -60,7 +60,7 @@ const ContactMap = () => {
                       <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  
+
                   {/* Tooltip */}
                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
                     <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap mb-2">
@@ -126,7 +126,7 @@ const ContactMap = () => {
             </div>
           </div>
 
-          
+
         </div>
       </div>
     </section>

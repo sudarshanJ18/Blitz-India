@@ -1,4 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+// Animated Counter Component
+const CounterAnimation = ({ end, duration = 2000, suffix = '' }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (countRef.current) {
+      observer.observe(countRef.current);
+    }
+
+    return () => {
+      if (countRef.current) {
+        observer.unobserve(countRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let startTime;
+    let animationFrame;
+
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = Math.floor(easeOutQuart * end);
+
+      setCount(currentCount);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [isVisible, end, duration]);
+
+  return (
+    <span ref={countRef}>
+      {count}{suffix}
+    </span>
+  );
+};
 
 const Hero = () => {
   return (
@@ -6,18 +70,18 @@ const Hero = () => {
       {/* Animated background elements */}
       <div className="absolute inset-0">
         {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
-        
+        {/* <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div> */}
+
         {/* Gradient orbs */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24 w-full">
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12 lg:py-14 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
           {/* Content */}
-          <div className="space-y-6 sm:space-y-8 z-10">
+          <div className="space-y-3 sm:space-y-4 z-10">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full backdrop-blur-sm animate-fade-in shadow-sm">
               <span className="relative flex h-2 w-2">
@@ -27,18 +91,18 @@ const Hero = () => {
               <span className="text-base sm:text-lg text-orange-600 font-medium">Trusted by 50+ Global Companies</span>
             </div>
 
-            <div className="space-y-4 sm:space-y-6">
+            <div className="space-y-3 sm:space-y-4">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-in-up">
                 <span className="block bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 bg-clip-text text-transparent animate-gradient">Accelerate Your</span>
                 <span className="block bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 bg-clip-text text-transparent animate-gradient">
-                  PRODUCT Development
+                  Product Development
                 </span>
               </h1>
               {/* <p className="text-base sm:text-lg text-gray-600 max-w-xl animate-fade-in-up delay-100">
                 Design • QA • Analysis for reliable launches.
               </p> */}
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in-up delay-200">
               <a
                 href="/services"
@@ -63,15 +127,21 @@ const Hero = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8 lg:pt-12 animate-fade-in-up delay-300">
               <div className="group text-center p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-200 shadow-sm hover:bg-white hover:border-orange-500/50 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">500+</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
+                  <CounterAnimation end={500} duration={2500} suffix="+" />
+                </div>
                 <div className="text-base sm:text-lg font-medium text-gray-600 mt-1">Projects Completed</div>
               </div>
               <div className="group text-center p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-200 shadow-sm hover:bg-white hover:border-orange-500/50 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">50+</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
+                  <CounterAnimation end={50} duration={2000} suffix="+" />
+                </div>
                 <div className="text-base sm:text-lg font-medium text-gray-600 mt-1">Global Clients</div>
               </div>
               <div className="group text-center p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-200 shadow-sm hover:bg-white hover:border-orange-500/50 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">10+</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
+                  <CounterAnimation end={10} duration={1800} suffix="+" />
+                </div>
                 <div className="text-base sm:text-lg font-medium text-gray-600 mt-1">Years Experience</div>
               </div>
             </div>
@@ -83,8 +153,8 @@ const Hero = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl border border-gray-200 h-64 sm:h-80 md:h-96 lg:h-[32rem] flex items-center justify-center group hover:border-orange-500/50 hover:shadow-2xl transition-all duration-500">
               {/* Inner glow effect */}
               <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              <div className="relative text-center space-y-4 sm:space-y-6 p-6 sm:p-8 z-10">
+
+              <div className="relative text-center space-y-3 sm:space-y-4 p-6 sm:p-8 z-10">
                 <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold">
                   <span className="bg-gradient-to-r from-orange-600 via-orange-700 to-gray-700 bg-clip-text text-transparent animate-gradient">
                     Blitz India
@@ -92,11 +162,11 @@ const Hero = () => {
                 </div>
                 <div className="space-y-2">
                   <p className="text-xl sm:text-2xl md:text-5xl text-gray-500 font-bold animate-fade-in-up delay-600">
-                    ENGINEERING 
+                    Engineering
                   </p>
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
                     <div className="w-28 h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent"></div>
-                      <span>Since 2015</span>
+                    <span>Since 2015</span>
                     <div className="w-28 h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent"></div>
 
                   </div>
@@ -107,12 +177,12 @@ const Hero = () => {
               <div className="absolute top-0 left-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl"></div>
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
             </div>
-            
-            
+
+
           </div>
         </div>
       </div>
-      
+
       {/* Scroll indicator */}
       <div className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
         <div className="flex flex-col items-center gap-2 text-gray-500 hover:text-orange-600 transition-colors cursor-pointer">

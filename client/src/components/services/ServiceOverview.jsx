@@ -1,7 +1,96 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { motion } from 'framer-motion';
 
-const ServiceOverview = ({ service }) => {
+// Animated Counter Component with performance optimizations
+const CountUp = memo(({ end, duration = 2000, suffix = "", isPercentage = false }) => {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  // Check if user prefers reduced motion
+  const prefersReducedMotion = useRef(
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    // If user prefers reduced motion, show final number immediately
+    if (prefersReducedMotion.current) {
+      setCount(end);
+      return;
+    }
+
+    let startTime;
+    let animationFrame;
+
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(easeOutQuart * end));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [isVisible, end, duration]);
+
+  return (
+    <span ref={ref} style={{ willChange: 'contents' }}>
+      {count}{suffix}
+    </span>
+  );
+});
+
+CountUp.displayName = 'CountUp';
+
+const ServiceOverview = memo(({ service }) => {
+  // Extract numeric values from service stats
+  const extractNumber = (value) => {
+    if (!value) return 0;
+    const match = value.toString().match(/\d+/);
+    return match ? parseInt(match[0]) : 0;
+  };
+
+  const projectsCompleted = extractNumber(service.projectsCompleted || "500");
+  const satisfactionRate = extractNumber(service.satisfactionRate || "98");
+  const teamExpertise = extractNumber(service.teamSize || "15");
+
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,7 +101,7 @@ const ServiceOverview = ({ service }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-6">
               Service Overview
             </h2>
             <div className="prose text-gray-500 mb-8 text-2xl leading-relaxed">
@@ -20,7 +109,7 @@ const ServiceOverview = ({ service }) => {
                 {service.detailedDescription || service.description}
               </p>
             </div>
-            
+
             {/* Key Benefits */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -50,53 +139,53 @@ const ServiceOverview = ({ service }) => {
                     <span className="ml-3 text-gray-600">{benefit}</span>
                   </div>
                 )) || (
-                  <>
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
+                    <>
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
                         </div>
+                        <span className="ml-3 text-gray-600">Cost-effective solutions</span>
                       </div>
-                      <span className="ml-3 text-gray-600">Cost-effective solutions</span>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
                         </div>
+                        <span className="ml-3 text-gray-600">Quick turnaround time</span>
                       </div>
-                      <span className="ml-3 text-gray-600">Quick turnaround time</span>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
                         </div>
+                        <span className="ml-3 text-gray-600">High-quality deliverables</span>
                       </div>
-                      <span className="ml-3 text-gray-600">High-quality deliverables</span>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
                         </div>
+                        <span className="ml-3 text-gray-600">Expert consultation</span>
                       </div>
-                      <span className="ml-3 text-gray-600">Expert consultation</span>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
               </div>
             </motion.div>
           </motion.div>
-          
+
           {/* Service Stats */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -124,11 +213,15 @@ const ServiceOverview = ({ service }) => {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Projects Completed</span>
-                  <span className="text-2xl font-bold text-blue-600">{service.projectsCompleted || "500+"}</span>
+                  <span className="text-2xl font-bold text-blue-600">
+                    <CountUp end={projectsCompleted} suffix="+" duration={2500} />
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Client Satisfaction</span>
-                  <span className="text-2xl font-bold text-green-600">{service.satisfactionRate || "98%"}</span>
+                  <span className="text-2xl font-bold text-green-600">
+                    <CountUp end={satisfactionRate} suffix="%" duration={2500} />
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Average Timeline</span>
@@ -136,11 +229,13 @@ const ServiceOverview = ({ service }) => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Team Expertise</span>
-                  <span className="text-2xl font-bold text-orange-600">{service.teamSize || "15+ years"}</span>
+                  <span className="text-2xl font-bold text-orange-600">
+                    <CountUp end={teamExpertise} suffix="+ years" duration={2500} />
+                  </span>
                 </div>
               </div>
             </motion.div>
-            
+
             {/* Industry Applications */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -164,15 +259,15 @@ const ServiceOverview = ({ service }) => {
                     {industry}
                   </span>
                 )) || (
-                  <>
-                    <span className="bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1 rounded-full">Automotive</span>
-                    <span className="bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1 rounded-full">Aerospace</span>
-                    <span className="bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1 rounded-full">Manufacturing</span>
-                    <span className="bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1 rounded-full">Energy</span>
-                    <span className="bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1 rounded-full">Healthcare</span>
-                    <span className="bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1 rounded-full">Construction</span>
-                  </>
-                )}
+                    <>
+                      <span className="bg-orange-100 text-orange-800 text-s font-medium px-3 py-1 rounded-full">Automotive</span>
+                      <span className="bg-orange-100 text-orange-800 text-s font-medium px-3 py-1 rounded-full">Aerospace</span>
+                      <span className="bg-orange-100 text-orange-800 text-s font-medium px-3 py-1 rounded-full">Manufacturing</span>
+                      <span className="bg-orange-100 text-orange-800 text-s font-medium px-3 py-1 rounded-full">Energy</span>
+                      <span className="bg-orange-100 text-orange-800 text-s font-medium px-3 py-1 rounded-full">Healthcare</span>
+                      <span className="bg-orange-100 text-orange-800 text-s font-medium px-3 py-1 rounded-full">Construction</span>
+                    </>
+                  )}
               </div>
             </motion.div>
           </motion.div>
@@ -180,6 +275,8 @@ const ServiceOverview = ({ service }) => {
       </div>
     </section>
   );
-};
+});
+
+ServiceOverview.displayName = 'ServiceOverview';
 
 export default ServiceOverview;

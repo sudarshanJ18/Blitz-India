@@ -151,7 +151,7 @@ const PortfolioStats = () => {
   const getCardPosition = (index) => {
     const total = stats.length;
     const diff = (index - currentIndex + total) % total;
-    
+
     if (diff === 0) {
       return { transform: 'translateX(0) translateZ(0) rotateY(0deg) scale(1.15)', zIndex: 50, opacity: 1 };
     } else if (diff === 1 || diff === -total + 1) {
@@ -172,7 +172,7 @@ const PortfolioStats = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">
             Portfolio <span className="text-orange-600">Impact</span>
           </h2>
           {/* <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -217,7 +217,7 @@ const PortfolioStats = () => {
 
           {/* Navigation Controls */}
           <div className="nav-controls">
-            <button 
+            <button
               className="nav-btn"
               onClick={() => {
                 setCurrentIndex((prev) => (prev - 1 + stats.length) % stats.length);
@@ -229,7 +229,7 @@ const PortfolioStats = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <button 
+            <button
               className="nav-btn"
               onClick={() => {
                 setCurrentIndex((prev) => (prev + 1) % stats.length);

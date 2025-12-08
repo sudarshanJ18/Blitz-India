@@ -82,7 +82,7 @@ const ContactInfo = () => {
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-8">Contact Information</h2>
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 mb-8">Contact Information</h2>
 
       <div className="space-y-8">
         {contactDetails.map((item, index) => (
@@ -117,9 +117,9 @@ const ContactInfo = () => {
         <h3 className="text-xl font-semibold text-gray-800 mb-6">Follow Us</h3>
         <div className="flex space-x-5">
           {socialLinks.map((link, index) => (
-            <a 
-              key={index} 
-              href={link.href} 
+            <a
+              key={index}
+              href={link.href}
               aria-label={link.name}
               className="text-gray-500 hover:text-gray-700 transition-colors duration-200 p-2 rounded-lg hover:bg-gray-50"
             >

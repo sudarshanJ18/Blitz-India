@@ -63,7 +63,7 @@ const Highlights = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-br from-white via-gray-50 to-gray-100 relative overflow-hidden">
+    <section className="py-6 md:py-8 bg-gradient-to-br from-white via-gray-50 to-gray-100 relative overflow-hidden">
       {/* Grid background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_10%,transparent_110%)] opacity-40" />
 
@@ -73,16 +73,19 @@ const Highlights = () => {
 
       {/* Heading in container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-left mb-10">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-500 leading-tight">
-            Why <span className="text-orange-600">Blitz India Engineering</span> ?
+        <div className="text-left mb-6 md:mb-8">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-500 leading-tight mb-3 md:mb-4">
+            Why <span className="text-orange-600">Us</span>?
           </h2>
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 max-w-3xl font-medium">
+            Excellence, innovation, and commitment in every project we deliver.
+          </p>
         </div>
       </div>
 
       {/* FULL-WIDTH scrolling area (edge to edge) */}
-      <div className="relative mt-4">
-        <div className="h-[520px] w-screen relative left-1/2 -translate-x-1/2 overflow-hidden pb-8">
+      <div className="relative mt-6 md:mt-8">
+        <div className="h-[420px] sm:h-[460px] w-screen relative left-1/2 -translate-x-1/2 overflow-hidden pb-6">
           {/* fade at screen edges */}
           <div className="absolute inset-y-0 left-0 w-12 sm:w-16 bg-gradient-to-r from-white via-white to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-12 sm:w-16 bg-gradient-to-l from-white via-white to-transparent z-10 pointer-events-none" />
@@ -92,12 +95,12 @@ const Highlights = () => {
             {highlights.map((highlight, index) => (
               <div
                 key={index}
-                className="w-80 sm:w-96 flex-shrink-0 bg-white/90 backdrop-blur-lg border border-gray-300/50 rounded-3xl p-6 sm:p-8 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:border-orange-500/70 group shadow-lg"
+                className="w-64 sm:w-72 flex-shrink-0 bg-white/90 backdrop-blur-lg border border-gray-300/50 rounded-2xl p-5 sm:p-6 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:border-orange-500/70 group shadow-lg"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-orange-500/15 text-orange-600 rounded-2xl mb-4 sm:mb-6 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-orange-500/15 text-orange-600 rounded-xl mb-3 sm:mb-4 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
                   {highlight.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 group-hover:text-orange-600 transition-colors duration-500">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-500">
                   {highlight.title}
                 </h3>
               </div>
@@ -106,12 +109,12 @@ const Highlights = () => {
             {highlights.map((highlight, index) => (
               <div
                 key={index + highlights.length}
-                className="w-80 sm:w-96 flex-shrink-0 bg-white/90 backdrop-blur-lg border border-gray-300/50 rounded-3xl p-6 sm:p-8 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:border-orange-500/70 group shadow-lg"
+                className="w-64 sm:w-72 flex-shrink-0 bg-white/90 backdrop-blur-lg border border-gray-300/50 rounded-2xl p-5 sm:p-6 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:border-orange-500/70 group shadow-lg"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-orange-500/15 text-orange-600 rounded-2xl mb-4 sm:mb-6 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-orange-500/15 text-orange-600 rounded-xl mb-3 sm:mb-4 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
                   {highlight.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 group-hover:text-orange-600 transition-colors duration-500">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-500">
                   {highlight.title}
                 </h3>
               </div>
@@ -119,19 +122,19 @@ const Highlights = () => {
           </div>
 
           {/* Second Row */}
-          <div className="flex space-x-8 absolute top-40 left-0 animate-infinite-scroll-reverse mt-12 hover:pause-animation">
+          <div className="flex space-x-8 absolute top-36 left-0 animate-infinite-scroll-reverse mt-8 hover:pause-animation">
             {highlights
               .slice()
               .reverse()
               .map((highlight, index) => (
                 <div
                   key={index}
-                  className="w-80 sm:w-96 flex-shrink-0 bg-white/80 backdrop-blur-lg border border-gray-300/50 rounded-3xl p-6 sm:p-8 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:border-gray-500/70 group shadow-lg"
+                  className="w-64 sm:w-72 flex-shrink-0 bg-white/80 backdrop-blur-lg border border-gray-300/50 rounded-2xl p-5 sm:p-6 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:border-gray-500/70 group shadow-lg"
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gray-500/15 text-gray-600 rounded-2xl mb-4 sm:mb-6 group-hover:bg-gray-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
+                  <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gray-500/15 text-gray-600 rounded-xl mb-3 sm:mb-4 group-hover:bg-gray-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
                     {highlight.icon}
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 group-hover:text-gray-600 transition-colors duration-500">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-gray-600 transition-colors duration-500">
                     {highlight.title}
                   </h3>
                 </div>
@@ -143,12 +146,12 @@ const Highlights = () => {
               .map((highlight, index) => (
                 <div
                   key={index + highlights.length}
-                  className="w-80 sm:w-96 flex-shrink-0 bg-white/80 backdrop-blur-lg border border-gray-300/50 rounded-3xl p-6 sm:p-8 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:border-gray-500/70 group shadow-lg"
+                  className="w-64 sm:w-72 flex-shrink-0 bg-white/80 backdrop-blur-lg border border-gray-300/50 rounded-2xl p-5 sm:p-6 hover:bg-white hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:border-gray-500/70 group shadow-lg"
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gray-500/15 text-gray-600 rounded-2xl mb-4 sm:mb-6 group-hover:bg-gray-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
+                  <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gray-500/15 text-gray-600 rounded-xl mb-3 sm:mb-4 group-hover:bg-gray-600 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
                     {highlight.icon}
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 group-hover:text-gray-600 transition-colors duration-500">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-gray-600 transition-colors duration-500">
                     {highlight.title}
                   </h3>
                 </div>

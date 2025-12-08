@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { assets } from '../../assets/assets.js';
 
 const AdminLayout = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear authentication token
+    localStorage.removeItem('adminToken');
+    // Redirect to login page
+    navigate('/admin/login');
+  };
 
   const iconClass = "w-5 h-5";
 
@@ -26,6 +34,16 @@ const AdminLayout = ({ children }) => {
     blogs: (
       <svg className={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg>
+    ),
+    testimonials: (
+      <svg className={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+      </svg>
+    ),
+    contact: (
+      <svg className={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
     settings: (
@@ -56,48 +74,49 @@ const AdminLayout = ({ children }) => {
     { icon: icons.projects, text: 'Projects', path: '/admin/projects' },
     { icon: icons.services, text: 'Services', path: '/admin/services' },
     { icon: icons.blogs, text: 'Blogs', path: '/admin/blogs' },
+    { icon: icons.contact, text: 'Messages', path: '/admin/contact' },
+    { icon: icons.testimonials, text: 'Testimonials', path: '/admin/testimonials' },
     { icon: icons.settings, text: 'Settings', path: '/admin/settings' },
   ];
 
   const Sidebar = () => (
-    <aside className={`bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white w-64 min-h-screen p-6 fixed lg:relative lg:translate-x-0 transform transition-transform duration-300 ease-in-out shadow-2xl ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}>
+    <aside className={`bg-white text-slate-700 w-72 min-h-screen fixed lg:relative lg:translate-x-0 transform transition-transform duration-300 ease-in-out shadow-lg border-r border-gray-100 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}>
       {/* Logo Section */}
-      <div className="flex justify-between items-center mb-8 pb-6 border-b border-gray-700">
+      <div className="flex justify-between items-center px-6 py-6 border-b border-gray-100">
         <Link to="/" className="flex items-center space-x-3 group">
           <img
             src={assets.logo}
             alt="Blitz India Engineering"
-            className="h-10 w-auto group-hover:opacity-80 transition-opacity"
+            className="h-10 w-auto transition-opacity group-hover:opacity-80"
             draggable={false}
           />
           <div>
-            <h1 className="text-lg font-bold text-white">Admin Panel</h1>
-            <p className="text-xs text-gray-400">Control Center</p>
+            <h1 className="text-xl font-bold text-slate-800">Admin</h1>
+            <p className="text-xs text-slate-500">Control Panel</p>
           </div>
         </Link>
-        <button 
-          onClick={() => setSidebarOpen(false)} 
-          className="lg:hidden text-gray-400 hover:text-white transition-colors"
+        <button
+          onClick={() => setSidebarOpen(false)}
+          className="lg:hidden text-slate-500 hover:text-orange-600 transition-colors"
         >
           {icons.close}
         </button>
       </div>
 
       {/* Navigation */}
-      <nav className="space-y-2">
+      <nav className="px-4 py-6 space-y-1">
         {navItems.map((item, index) => (
-          <NavLink 
+          <NavLink
             key={index}
             to={item.path}
-            className={({ isActive }) => 
-              `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
-                isActive 
-                  ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white shadow-lg shadow-orange-500/50' 
-                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+            className={({ isActive }) =>
+              `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
+                ? 'bg-gradient-to-r from-orange-50 to-orange-100 text-orange-600 font-semibold border-l-4 border-orange-600'
+                : 'text-slate-600 hover:bg-gray-50 hover:text-orange-600 border-l-4 border-transparent'
               }`
             }
           >
-            <span className="text-gray-400 group-hover:text-orange-400 transition-colors">
+            <span className="transition-colors">
               {item.icon}
             </span>
             <span className="font-medium">{item.text}</span>
@@ -105,39 +124,48 @@ const AdminLayout = ({ children }) => {
         ))}
       </nav>
 
-      {/* Logout Button */}
-      <div className="absolute bottom-6 left-6 right-6">
-        <Link 
-          to="/"
-          className="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-300 hover:bg-red-600 hover:text-white transition-all duration-200 group"
+      {/* Bottom Section */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100 bg-white space-y-2">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition-all duration-200 group shadow-md hover:shadow-lg"
         >
-          <span className="text-gray-400 group-hover:text-white transition-colors">
+          <span className="transition-colors">
             {icons.logout}
           </span>
-          <span className="font-medium">Back to Site</span>
+          <span className="font-medium">Logout</span>
+        </button>
+        <Link
+          to="/"
+          className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-gray-50 hover:text-orange-600 transition-all duration-200 group"
+        >
+          <svg className={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span className="font-medium text-sm">Back to Website</span>
         </Link>
       </div>
     </aside>
   );
 
   return (
-    <div className="flex bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
+    <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />
-      
+
       {/* Overlay for mobile */}
       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden backdrop-blur-sm"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       <div className="flex-1 flex flex-col">
         {/* Mobile Header */}
-        <header className="bg-white shadow-md p-4 flex justify-between items-center lg:hidden sticky top-0 z-20">
-          <button 
-            onClick={() => setSidebarOpen(true)} 
-            className="text-gray-700 hover:text-orange-600 transition-colors"
+        <header className="bg-white shadow-sm px-6 py-4 flex justify-between items-center lg:hidden sticky top-0 z-20 border-b border-gray-100">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="text-slate-700 hover:text-orange-600 transition-colors"
           >
             {icons.menu}
           </button>
@@ -149,11 +177,11 @@ const AdminLayout = ({ children }) => {
               draggable={false}
             />
           </Link>
-          <h2 className="text-lg font-bold text-gray-900">Admin</h2>
+          <h2 className="text-lg font-bold text-slate-800">Admin</h2>
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 md:p-8 lg:p-12">
+        <main className="flex-1 p-6 md:p-8 lg:p-10">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

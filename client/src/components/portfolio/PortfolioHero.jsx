@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import { motion } from "framer-motion";
 import { Circle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -13,7 +13,91 @@ import {
   heroSecondaryButtonClass,
 } from "../common/HeroSection";
 
+// Animated Counter Component with performance optimizations
+const CountUp = memo(({ end, duration = 2000, suffix = "" }) => {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  // Check if user prefers reduced motion
+  const prefersReducedMotion = useRef(
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px' // Trigger slightly before element is visible
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    // If user prefers reduced motion, show final number immediately
+    if (prefersReducedMotion.current) {
+      setCount(end);
+      return;
+    }
+
+    let startTime;
+    let animationFrame;
+
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(easeOutQuart * end));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [isVisible, end, duration]);
+
+  return (
+    <span ref={ref} className="font-black" style={{ willChange: 'contents' }}>
+      {count}{suffix}
+    </span>
+  );
+});
+
+CountUp.displayName = 'CountUp';
+
 const PortfolioHero = () => {
+  const stats = [
+    { number: 200, suffix: "+", label: "Launch-ready programs" },
+    { number: 15, suffix: "+", label: "Industries served" },
+    { number: 50, suffix: "+", label: "OEM & Tier-1 partners" },
+  ];
+
   return (
     <HeroSection>
       <div className={`${heroContainerClass} text-center`}>
@@ -24,7 +108,7 @@ const PortfolioHero = () => {
           animate="visible"
           className={`${heroBadgeClass} mb-8`}
         >
-         
+
         </motion.div>
 
         <motion.div
@@ -50,28 +134,31 @@ const PortfolioHero = () => {
           initial="hidden"
           animate="visible"
         >
-          
+
         </motion.div>
 
-        {/* Additional info badges */}
+        {/* Additional info badges with animated counters */}
         <motion.div
           custom={3}
           variants={fadeUpVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-wrap justify-center gap-4 mb-8"
+          className="flex flex-wrap justify-center gap-6 mb-10"
         >
-          {[
-            "200+ Launch-ready programs",
-            "15+ industries served",
-            "50+ OEM & Tier-1 partners",
-          ].map((text) => (
+          {stats.map((stat) => (
             <div
-              key={text}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-gray-300 backdrop-blur-sm shadow-sm"
+              key={stat.label}
+              className="group flex flex-col items-center gap-2 px-8 py-5 rounded-2xl bg-gradient-to-br from-white via-orange-50/30 to-white border-2 border-orange-200/50 backdrop-blur-sm shadow-lg hover:shadow-xl hover:border-orange-300 transition-all duration-300 hover:-translate-y-1 min-w-[200px]"
             >
-              <Circle className="h-2 w-2 fill-orange-500/80" />
-              <span className="text-sm text-gray-700 font-medium">{text}</span>
+              <div className="flex items-center gap-2">
+                <Circle className="h-2.5 w-2.5 fill-orange-500 text-orange-500 animate-pulse" />
+                <span className="text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">
+                  <CountUp end={stat.number} suffix={stat.suffix} duration={2500} />
+                </span>
+              </div>
+              <span className="text-sm md:text-base text-gray-700 font-semibold text-center leading-tight">
+                {stat.label}
+              </span>
             </div>
           ))}
         </motion.div>
@@ -93,7 +180,7 @@ const PortfolioHero = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Link>
-          
+
         </motion.div>
       </div>
     </HeroSection>

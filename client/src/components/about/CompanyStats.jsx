@@ -39,7 +39,7 @@ const CompanyStats = () => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Bold Title */}
         <div className="mb-12 md:mb-16">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold uppercase leading-tight">
             ACHIEVEMENTS
             <br />
             IN <span className="text-orange-600">NUMBERS</span>
@@ -48,7 +48,7 @@ const CompanyStats = () => {
 
         <div className="mb-10 md:mb-12">
           <p className="text-base md:text-lg text-gray-300 max-w-4xl leading-relaxed">
-            We are proud of the impact we've made. Our growth and success are a testament to our commitment to 
+            We are proud of the impact we've made. Our growth and success are a testament to our commitment to
             excellence and the trust our clients place in us.
           </p>
         </div>
@@ -63,7 +63,7 @@ const CompanyStats = () => {
               <div className="text-5xl sm:text-6xl md:text-7xl font-black text-orange-600 mb-2 md:mb-3 group-hover:text-white transition-colors duration-300">
                 {stat.value}
               </div>
-              <h3 className="text-xl md:text-2xl font-bold mb-2 uppercase">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 uppercase">
                 {stat.label}
               </h3>
               <p className="text-base sm:text-lg font-medium text-gray-400 leading-relaxed">

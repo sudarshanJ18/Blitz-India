@@ -1,9 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getFeaturedPosts } from '../../data/blogPosts.js';
+import blogsService from '../../services/blogs.service';
 
 const FeaturedPost = ({ limit = 3 }) => {
-  const posts = getFeaturedPosts(limit);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeaturedBlogs = async () => {
+      try {
+        setLoading(true);
+        const allBlogs = await blogsService.getAllBlogs();
+        // Filter for featured blogs and limit the results
+        const featured = allBlogs.filter(blog => blog.featured).slice(0, limit);
+        setPosts(featured);
+      } catch (error) {
+        console.error('Error fetching featured blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedBlogs();
+  }, [limit]);
+
+  if (loading) {
+    return (
+      <section className="bg-white py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (!posts.length) {
     return null;
@@ -24,42 +55,39 @@ const FeaturedPost = ({ limit = 3 }) => {
 
         <div className="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-12 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((post) => (
-            <article key={post.id} className="flex max-w-xl flex-col items-start justify-between" aria-labelledby={`featured-${post.id}`}> 
+            <article key={post._id} className="flex max-w-xl flex-col items-start justify-between" aria-labelledby={`featured-${post._id}`}>
               <div className="flex items-center gap-x-4 text-base sm:text-lg font-medium text-gray-500">
-                <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                <time dateTime={post.publishedDate}>{new Date(post.publishedDate).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
                 <Link
                   to={`/blog/${post.slug}`}
                   className="relative z-10 rounded-full bg-orange-50 px-3 py-1.5 font-medium text-orange-600 hover:bg-orange-100 transition-colors duration-200"
                 >
-                  {post.category.name}
+                  {post.category || 'Engineering'}
                 </Link>
               </div>
 
               <div className="group relative grow">
-                <h3 id={`featured-${post.id}`} className="mt-3 text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-200">
+                <h3 id={`featured-${post._id}`} className="mt-3 text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-200">
                   <Link to={`/blog/${post.slug}`}>
                     <span className="absolute inset-0" aria-hidden="true" />
                     {post.title}
                   </Link>
                 </h3>
-                <p className="mt-5 line-clamp-3 text-base sm:text-lg font-medium text-gray-600">{post.excerpt}</p>
+                <p className="mt-5 line-clamp-3 text-base sm:text-lg font-medium text-gray-600">{post.summary}</p>
               </div>
 
               <div className="relative mt-8 flex items-center gap-x-4">
-                <img
-                  alt={`${post.author.name} avatar`}
-                  src={post.author.avatarUrl}
-                  className="size-10 rounded-full bg-gray-200 object-cover"
-                  loading="lazy"
-                />
+                <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">
+                  {(post.author || 'B')[0].toUpperCase()}
+                </div>
                 <div className="text-sm">
                   <p className="font-bold text-gray-900">
                     <Link to={`/blog/${post.slug}`}>
                       <span className="absolute inset-0" aria-hidden="true" />
-                      {post.author.name}
+                      {post.author || 'Blitz India Engineering'}
                     </Link>
                   </p>
-                  <p className="text-gray-500">{post.author.role}</p>
+                  <p className="text-gray-500">{post.authorRole || 'Engineering Team'}</p>
                 </div>
               </div>
             </article>

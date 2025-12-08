@@ -5,7 +5,7 @@ import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
 import {
   IconClipboardCopy,
   IconFileBroken,
-  IconSignature,
+  IconHeartHandshake,
   IconTableColumn,
 } from "@tabler/icons-react";
 import { values } from "../../assets/assets";
@@ -89,7 +89,7 @@ const ValuesSection = () => {
           </div>
         </div>
       ),
-      icon: <IconSignature className="h-6 w-6 text-orange-600" />,
+      icon: <IconHeartHandshake className="h-6 w-6 text-orange-600" />,
     },
 
     {
@@ -139,7 +139,7 @@ const ValuesSection = () => {
   );
 
   return (
-    <section className="py-16 bg-gradient-to-br from-white via-gray-50 to-orange-50/30 relative overflow-hidden">
+    <section className="py-6 bg-gradient-to-br from-white via-gray-50 to-orange-50/30 relative overflow-hidden">
       {/* Soft background blobs */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl"></div>
@@ -148,7 +148,7 @@ const ValuesSection = () => {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
-        <div className="mb-12">
+        <div className="mb-4">
           <p className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold">
             Core Values
           </p>

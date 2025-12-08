@@ -1,28 +1,53 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { blogPosts } from '../../data/blogPosts.js';
+import blogsService from '../../services/blogs.service';
 
 const DEFAULT_VISIBLE_COUNT = 6;
 
 const PostList = () => {
   const [filter, setFilter] = useState('all');
   const [visibleCount, setVisibleCount] = useState(DEFAULT_VISIBLE_COUNT);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const data = await blogsService.getAllBlogs();
+        setBlogs(data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
+        setError('Failed to load blog posts. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   const categories = useMemo(() => {
     const unique = new Map();
     unique.set('all', 'All');
-    blogPosts.forEach((post) => {
-      if (!unique.has(post.category.slug)) {
-        unique.set(post.category.slug, post.category.name);
+    blogs.forEach((post) => {
+      const categorySlug = post.category?.toLowerCase().replace(/\s+/g, '-') || 'uncategorized';
+      if (!unique.has(categorySlug)) {
+        unique.set(categorySlug, post.category || 'Uncategorized');
       }
     });
     return Array.from(unique.entries());
-  }, []);
+  }, [blogs]);
 
   const filteredPosts = useMemo(() => {
-    if (filter === 'all') return blogPosts;
-    return blogPosts.filter((post) => post.category.slug === filter);
-  }, [filter]);
+    if (filter === 'all') return blogs;
+    return blogs.filter((post) => {
+      const categorySlug = post.category?.toLowerCase().replace(/\s+/g, '-') || 'uncategorized';
+      return categorySlug === filter;
+    });
+  }, [filter, blogs]);
 
   const visiblePosts = filteredPosts.slice(0, visibleCount);
   const hasMore = visibleCount < filteredPosts.length;
@@ -31,6 +56,31 @@ const PostList = () => {
 
   const formatDate = (isoDate) =>
     new Date(isoDate).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  if (loading) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+            <p className="mt-4 text-gray-600">Loading articles...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">{error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 bg-white" aria-labelledby="blog-posts-heading">
@@ -57,11 +107,10 @@ const PostList = () => {
                   }}
                   role="tab"
                   aria-selected={filter === slug}
-                  className={`px-4 py-2 text-sm font-bold rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-                    filter === slug
-                      ? 'bg-orange-600 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
-                  }`}
+                  className={`px-4 py-2 text-sm font-bold rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${filter === slug
+                    ? 'bg-orange-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
+                    }`}
                 >
                   {name}
                 </button>
@@ -71,10 +120,10 @@ const PostList = () => {
 
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
             {visiblePosts.map((post) => (
-              <article key={post.id} className="flex flex-col items-start justify-between" aria-labelledby={`post-${post.id}`}>
+              <article key={post._id} className="flex flex-col items-start justify-between" aria-labelledby={`post-${post._id}`}>
                 <div className="relative w-full">
                   <img
-                    src={post.imageUrl}
+                    src={post.image?.startsWith('/uploads') ? `http://localhost:5000${post.image}` : (post.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1200&q=80')}
                     alt={post.title}
                     className="aspect-video w-full rounded-2xl bg-gray-200 object-cover"
                     loading="lazy"
@@ -83,40 +132,37 @@ const PostList = () => {
                 </div>
                 <div className="max-w-xl">
                   <div className="mt-6 flex items-center gap-x-4 text-base sm:text-lg font-medium text-gray-500">
-                    <time dateTime={post.date}>{formatDate(post.date)}</time>
+                    <time dateTime={post.publishedDate}>{formatDate(post.publishedDate)}</time>
                     <span aria-hidden="true">·</span>
-                    <span>{post.readTime}</span>
+                    <span>{post.readTime || '5 min read'}</span>
                     <Link
                       to={`/blog/${post.slug}`}
                       className="relative z-10 rounded-full bg-orange-50 px-3 py-1.5 font-medium text-orange-600 hover:bg-orange-100 transition-colors duration-200"
                     >
-                      {post.category.name}
+                      {post.category || 'Engineering'}
                     </Link>
                   </div>
                   <div className="group relative">
-                    <h3 id={`post-${post.id}`} className="mt-3 text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-200">
+                    <h3 id={`post-${post._id}`} className="mt-3 text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-200">
                       <Link to={`/blog/${post.slug}`}>
                         <span className="absolute inset-0" aria-hidden="true" />
                         {post.title}
                       </Link>
                     </h3>
-                    <p className="mt-5 line-clamp-3 text-base sm:text-lg font-medium text-gray-600">{post.excerpt}</p>
+                    <p className="mt-5 line-clamp-3 text-base sm:text-lg font-medium text-gray-600">{post.summary}</p>
                   </div>
                   <div className="relative mt-6 flex items-center gap-x-4">
-                    <img
-                      src={post.author.avatarUrl}
-                      alt={`${post.author.name} avatar`}
-                      className="h-10 w-10 rounded-full bg-gray-200 object-cover"
-                      loading="lazy"
-                    />
+                    <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">
+                      {(post.author || 'B')[0].toUpperCase()}
+                    </div>
                     <div className="text-sm">
                       <p className="font-bold text-gray-900">
                         <Link to={`/blog/${post.slug}`}>
                           <span className="absolute inset-0" aria-hidden="true" />
-                          {post.author.name}
+                          {post.author || 'Blitz India Engineering'}
                         </Link>
                       </p>
-                      <p className="text-gray-500">{post.author.role}</p>
+                      <p className="text-gray-500">{post.authorRole || 'Engineering Team'}</p>
                     </div>
                   </div>
                 </div>
@@ -124,7 +170,7 @@ const PostList = () => {
             ))}
           </div>
 
-          {!visiblePosts.length && (
+          {!visiblePosts.length && !loading && (
             <div className="text-center py-12">
               <p className="text-gray-600 text-lg">No articles found in this category just yet. Please check back soon.</p>
             </div>

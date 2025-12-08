@@ -3,28 +3,28 @@ import { Link } from 'react-router-dom';
 
 const AboutCTA = () => {
   return (
-    <section className="min-h-screen flex items-center py-16 md:py-20 lg:py-24 bg-gray-800 "> 
+    <section className="min-h-screen flex items-center py-16 md:py-20 lg:py-24 bg-gray-800 ">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main CTA Box */}
         <div className="bg-gray-800 text-white p-8 md:p-12 lg:p-20 relative overflow-hidden">
           {/* Decorative Elements */}
           {/* <div className="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-orange-600 opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 md:w-64 md:h-64 bg-orange-600 opacity-10 rounded-full translate-y-1/2 -translate-x-1/2"></div> */}
-          
+
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-tight mb-6 md:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold uppercase leading-tight mb-6 md:mb-8">
               PARTNER WITH US
               <br />
               TO BRING YOUR
               <br />
               <span className="text-orange-600">VISION TO LIFE</span>
             </h2>
-            
+
             <p className="text-base md:text-xl text-gray-300 max-w-3xl mb-8 md:mb-12 leading-relaxed">
-              Ready to leverage our expertise for your next project? Contact us today for a free consultation 
+              Ready to leverage our expertise for your next project? Contact us today for a free consultation
               and discover how Blitz India Engineering can be your trusted partner in innovation.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-12 md:mb-16">
               <Link
                 to="/contact"

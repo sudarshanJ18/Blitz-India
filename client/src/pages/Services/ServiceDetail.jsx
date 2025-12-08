@@ -1,20 +1,57 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-import { serviceCategories } from '../../assets/assets.js';
-import { HeroHighlight, Highlight } from '../../components/ui/hero-highlight.jsx';
+import axios from 'axios';
 import ServiceOverview from '../../components/services/ServiceOverview.jsx';
 import ServiceFeatures from '../../components/services/ServiceFeatures.jsx';
-import ServiceProcess from '../../components/services/ServiceProcess.jsx';
 import ServicesCTA from '../../components/services/ServicesCTA.jsx';
 
 const ServiceDetail = () => {
   const { categoryId, serviceId } = useParams();
-  const category = serviceCategories.find(cat => cat.id === Number(categoryId));
-  const service = category?.services.find(s => s.subId === Number(serviceId));
-  
+  const [service, setService] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categoriesRes, servicesRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_API_URL}/api/services/categories`),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/services`)
+        ]);
+
+        const categories = categoriesRes.data.data || [];
+        const services = servicesRes.data.data || [];
+
+        const foundCategory = categories.find(cat => cat.categoryId === Number(categoryId));
+        const foundService = services.find(s =>
+          s.categoryId === Number(categoryId) && s.subId === Number(serviceId)
+        );
+
+        setCategory(foundCategory);
+        setService(foundService);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch service:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [categoryId, serviceId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <div className="text-2xl font-bold text-gray-800 mb-4">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
   if (!service || !category) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -32,7 +69,7 @@ const ServiceDetail = () => {
   const serviceWithCategory = {
     ...service,
     category: category.title,
-    categoryId: category.id,
+    categoryId: category.categoryId,
   };
 
   return (
@@ -41,15 +78,21 @@ const ServiceDetail = () => {
       <section className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 min-h-[60vh] sm:min-h-[70vh] lg:min-h-[80vh] flex items-center">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img
-            src={service.image}
-            alt={service.title}
-            className="w-full h-full object-cover"
-          />
-          {/* Left Side Fade Overlay - White gradient from left to transparent on right */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
-          {/* Additional bottom gradient for better text visibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
+          {service.image && (
+            <>
+              <img
+                src={service.image.startsWith('http') ? service.image : `${import.meta.env.VITE_API_URL}${service.image}`}
+                alt={service.title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              {/* Left Side Fade Overlay - White gradient from left to transparent on right */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+              {/* Additional bottom gradient for better text visibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
+            </>
+          )}
         </div>
 
         {/* Content */}
@@ -72,8 +115,6 @@ const ServiceDetail = () => {
             </Link>
           </motion.div>
 
-        
-
           {/* Main Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -83,8 +124,6 @@ const ServiceDetail = () => {
           >
             {service.title}
           </motion.h1>
-
-         
 
           {/* Timeline if available */}
           {service.timeline && (
@@ -107,7 +146,6 @@ const ServiceDetail = () => {
       <div className="bg-white">
         <ServiceOverview service={serviceWithCategory} />
         <ServiceFeatures service={serviceWithCategory} />
-       
         <ServicesCTA />
       </div>
     </div>

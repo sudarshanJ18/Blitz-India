@@ -5,6 +5,7 @@ import ServicesSection from '../../components/home/ServicesSection.jsx';
 import TeamSection from '../../components/home/TeamSection.jsx';
 import AboutSection from '../../components/home/AboutSection.jsx';
 import ValuesSection from '../../components/home/ValuesSection.jsx';
+import TestimonialsSection from '../../components/home/TestimonialsSection.jsx';
 import CTASection from '../../components/home/CTASection.jsx';
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
       <TeamSection />
       <AboutSection />
       <ValuesSection />
+      <TestimonialsSection />
       <CTASection />
     </div>
   );
