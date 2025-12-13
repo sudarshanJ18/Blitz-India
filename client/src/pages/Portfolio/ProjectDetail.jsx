@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { projects } from "@/assets/assets.js";
+import { projects } from "../../assets/assets.js";
 
 function ProjectDetail() {
   const { projectId } = useParams();
@@ -17,9 +17,9 @@ function ProjectDetail() {
   }
 
   return (
-    <div style={{ padding: "2rem", maxWidth: 900, margin: "0 auto" }}>
-      <h1>{project.title}</h1>
-      <p style={{ color: "#555" }}>{project.shortDescription}</p>
+    <div className="w-full max-w-4xl mx-auto px-4 py-8">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-4">{project.title}</h1>
+      <p className="text-lg text-gray-600 mb-6">{project.shortDescription}</p>
       <img
         src={project.image}
         alt={project.title}

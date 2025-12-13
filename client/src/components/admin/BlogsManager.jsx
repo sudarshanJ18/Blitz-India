@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import { Underline } from '@tiptap/extension-underline';
-import { Link } from '@tiptap/extension-link';
-import { Image } from '@tiptap/extension-image';
-import { TextAlign } from '@tiptap/extension-text-align';
-import { TextStyle } from '@tiptap/extension-text-style';
-import { Color } from '@tiptap/extension-color';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import blogsService from '../../services/blogs.service';
 import ImageUpload from './ImageUpload';
-import {
-  Bold, Italic, Underline as UnderlineIcon, List, ListOrdered,
-  Link as LinkIcon, Image as ImageIcon, Code, Quote,
-  Undo, Redo, AlignLeft, AlignCenter, AlignRight, AlignJustify
-} from 'lucide-react';
+import Loader from '../common/Loader';
 
 const initialForm = {
   title: '',
@@ -27,189 +17,31 @@ const initialForm = {
   featured: false,
 };
 
-const MenuBar = ({ editor }) => {
-  if (!editor) return null;
-
-  const addLink = () => {
-    const url = window.prompt('Enter URL:');
-    if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-  };
-
-  const addImage = () => {
-    const url = window.prompt('Enter image URL:');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
-  return (
-    <div className="border-b border-gray-300 p-2 flex flex-wrap gap-1 bg-gray-50">
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('bold') ? 'bg-gray-300' : ''}`}
-        title="Bold"
-      >
-        <Bold className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('italic') ? 'bg-gray-300' : ''}`}
-        title="Italic"
-      >
-        <Italic className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('underline') ? 'bg-gray-300' : ''}`}
-        title="Underline"
-      >
-        <UnderlineIcon className="w-4 h-4" />
-      </button>
-
-      <div className="w-px h-6 bg-gray-300 mx-1" />
-
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={`p-2 rounded hover:bg-gray-200 text-sm font-semibold ${editor.isActive('heading', { level: 1 }) ? 'bg-gray-300' : ''}`}
-        title="Heading 1"
-      >
-        H1
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={`p-2 rounded hover:bg-gray-200 text-sm font-semibold ${editor.isActive('heading', { level: 2 }) ? 'bg-gray-300' : ''}`}
-        title="Heading 2"
-      >
-        H2
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={`p-2 rounded hover:bg-gray-200 text-sm font-semibold ${editor.isActive('heading', { level: 3 }) ? 'bg-gray-300' : ''}`}
-        title="Heading 3"
-      >
-        H3
-      </button>
-
-      <div className="w-px h-6 bg-gray-300 mx-1" />
-
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('bulletList') ? 'bg-gray-300' : ''}`}
-        title="Bullet List"
-      >
-        <List className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('orderedList') ? 'bg-gray-300' : ''}`}
-        title="Numbered List"
-      >
-        <ListOrdered className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('blockquote') ? 'bg-gray-300' : ''}`}
-        title="Quote"
-      >
-        <Quote className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('codeBlock') ? 'bg-gray-300' : ''}`}
-        title="Code Block"
-      >
-        <Code className="w-4 h-4" />
-      </button>
-
-      <div className="w-px h-6 bg-gray-300 mx-1" />
-
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('left').run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive({ textAlign: 'left' }) ? 'bg-gray-300' : ''}`}
-        title="Align Left"
-      >
-        <AlignLeft className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('center').run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive({ textAlign: 'center' }) ? 'bg-gray-300' : ''}`}
-        title="Align Center"
-      >
-        <AlignCenter className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('right').run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive({ textAlign: 'right' }) ? 'bg-gray-300' : ''}`}
-        title="Align Right"
-      >
-        <AlignRight className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive({ textAlign: 'justify' }) ? 'bg-gray-300' : ''}`}
-        title="Justify"
-      >
-        <AlignJustify className="w-4 h-4" />
-      </button>
-
-      <div className="w-px h-6 bg-gray-300 mx-1" />
-
-      <button
-        type="button"
-        onClick={addLink}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('link') ? 'bg-gray-300' : ''}`}
-        title="Add Link"
-      >
-        <LinkIcon className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={addImage}
-        className="p-2 rounded hover:bg-gray-200"
-        title="Add Image"
-      >
-        <ImageIcon className="w-4 h-4" />
-      </button>
-
-      <div className="w-px h-6 bg-gray-300 mx-1" />
-
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().undo().run()}
-        disabled={!editor.can().undo()}
-        className="p-2 rounded hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        title="Undo"
-      >
-        <Undo className="w-4 h-4" />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().redo().run()}
-        disabled={!editor.can().redo()}
-        className="p-2 rounded hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        title="Redo"
-      >
-        <Redo className="w-4 h-4" />
-      </button>
-    </div>
-  );
+// Quill toolbar configuration
+const editorModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    [{ align: [] }],
+    ['link', 'image'],
+    [{ color: [] }, { background: [] }],
+    ['blockquote', 'code-block'],
+    ['clean'],
+  ],
 };
+
+const editorFormats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list',
+  'indent',
+  'link', 'image',
+  'align',
+  'color', 'background',
+  'blockquote', 'code-block',
+];
 
 const BlogsManager = () => {
   const [blogs, setBlogs] = useState([]);
@@ -218,35 +50,9 @@ const BlogsManager = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link.configure({
-        openOnClick: false,
-      }),
-      Image,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      TextStyle,
-      Color,
-    ],
-    content: form.content,
-    onUpdate: ({ editor }) => {
-      setForm((f) => ({ ...f, content: editor.getHTML() }));
-    },
-  });
-
   useEffect(() => {
     fetchBlogs();
   }, []);
-
-  useEffect(() => {
-    if (editor && form.content !== editor.getHTML()) {
-      editor.commands.setContent(form.content);
-    }
-  }, [form.content, editor]);
 
   const fetchBlogs = async () => {
     try {
@@ -267,6 +73,10 @@ const BlogsManager = () => {
       ...f,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+
+  const handleContentChange = (content) => {
+    setForm((f) => ({ ...f, content }));
   };
 
   const handleSubmit = async (e) => {
@@ -294,9 +104,6 @@ const BlogsManager = () => {
 
       setForm(initialForm);
       setIsEditing(null);
-      if (editor) {
-        editor.commands.setContent('');
-      }
       fetchBlogs();
     } catch (error) {
       console.error('Error saving blog:', error);
@@ -339,9 +146,6 @@ const BlogsManager = () => {
   const cancelEdit = () => {
     setForm(initialForm);
     setIsEditing(null);
-    if (editor) {
-      editor.commands.setContent('');
-    }
   };
 
   const togglePublished = async (blog) => {
@@ -357,7 +161,7 @@ const BlogsManager = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        <Loader size={60} color="#ea580c" />
       </div>
     );
   }
@@ -462,13 +266,15 @@ const BlogsManager = () => {
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Content *</label>
-            <div className="border border-gray-300 rounded-xl overflow-hidden">
-              <MenuBar editor={editor} />
-              <EditorContent
-                editor={editor}
-                className="prose max-w-none p-4 min-h-[400px] focus:outline-none"
-              />
-            </div>
+            <ReactQuill
+              theme="snow"
+              value={form.content}
+              onChange={handleContentChange}
+              modules={editorModules}
+              formats={editorFormats}
+              className="bg-white rounded-xl"
+              style={{ height: '400px', marginBottom: '50px' }}
+            />
             <p className="text-xs text-gray-500 mt-2">
               💡 Tip: Use the toolbar to format text, add links, images, and more!
             </p>
@@ -593,53 +399,6 @@ const BlogsManager = () => {
           </div>
         )}
       </div>
-
-      <style jsx>{`
-        .prose {
-          max-width: none;
-        }
-        .prose p {
-          margin-bottom: 1em;
-        }
-        .prose h1, .prose h2, .prose h3 {
-          margin-top: 1em;
-          margin-bottom: 0.5em;
-          font-weight: bold;
-        }
-        .prose ul, .prose ol {
-          margin-left: 1.5em;
-          margin-bottom: 1em;
-        }
-        .prose blockquote {
-          border-left: 4px solid #e5e7eb;
-          padding-left: 1em;
-          margin: 1em 0;
-          color: #6b7280;
-        }
-        .prose pre {
-          background: #1f2937;
-          color: #f3f4f6;
-          padding: 1em;
-          border-radius: 0.5em;
-          overflow-x: auto;
-        }
-        .prose code {
-          background: #f3f4f6;
-          padding: 0.2em 0.4em;
-          border-radius: 0.25em;
-          font-size: 0.875em;
-        }
-        .prose a {
-          color: #ea580c;
-          text-decoration: underline;
-        }
-        .prose img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 0.5em;
-          margin: 1em 0;
-        }
-      `}</style>
     </div>
   );
 };

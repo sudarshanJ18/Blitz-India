@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { motion } from "framer-motion";
 import React from "react";
 
@@ -51,7 +51,7 @@ export const HeroHighlight = ({
       )}
     >
       <div className="absolute inset-0 bg-white"></div>
-      
+
       <div className={cn("relative z-10 w-full", className)}>
         {children}
       </div>

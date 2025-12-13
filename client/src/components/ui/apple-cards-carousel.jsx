@@ -11,7 +11,7 @@ import {
   IconArrowNarrowRight,
   IconX,
 } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import {
   AnimatePresence,
   motion,
@@ -20,7 +20,7 @@ import {
   useScroll,
   animate
 } from "motion/react";
-import { useOutsideClick } from "@/hooks/use-outside-click";
+import { useOutsideClick } from "../../hooks/use-outside-click";
 
 export const CarouselContext = createContext({
   onCardClose: () => { },
@@ -290,7 +290,12 @@ export const Card = ({ card, index, layout = false }) => {
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="mt-0.5 sm:mt-1 md:mt-2 max-w-xs text-left font-sans text-xs sm:text-sm md:text-base lg:text-xl xl:text-3xl font-semibold [text-wrap:balance] text-white leading-tight"
+            className={cn(
+              "mt-0.5 sm:mt-1 md:mt-2 max-w-xs text-left font-sans font-semibold [text-wrap:balance] text-white leading-tight transition-all duration-300",
+              isHovered
+                ? "text-sm sm:text-base md:text-lg lg:text-2xl xl:text-3xl"
+                : "text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
+            )}
           >
             {card.title}
           </motion.p>

@@ -48,6 +48,21 @@ import docpng from "./docpng.png";
 import analpng from "./anapng.png";
 import manupng from "./manupng.png";
 import aboutheroImg from "./abouthero.jpg";
+import heroimg1 from "./mech1.jpg"
+import heroimg2 from "./mech2.jpg"
+import heroimg3 from "./mech3.jpg"
+import heroimg4 from "./mech4.jpg"
+import heroimg5 from "./mech5.jpg"
+import heroimg6 from "./mech6.jpg"
+
+export const heroimages = {
+  heroimg1,
+  heroimg2,
+  heroimg3,
+  heroimg4,
+  heroimg5,
+  heroimg6,
+}
 
 export const abouthero = {
   abouthero: aboutheroImg,
@@ -394,7 +409,7 @@ export const serviceCategories = [
 ];
 
 // Flattened services array for backward compatibility and easy lookup
-export const services = serviceCategories.flatMap(category => 
+export const services = serviceCategories.flatMap(category =>
   category.services.map(service => ({
     ...service,
     category: category.title,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const AboutCTA = () => {
   return (
@@ -7,9 +8,15 @@ const AboutCTA = () => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main CTA Box */}
         <div className="bg-gray-800 text-white p-8 md:p-12 lg:p-20 relative overflow-hidden">
-          {/* Decorative Elements */}
-          {/* <div className="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-orange-600 opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-48 h-48 md:w-64 md:h-64 bg-orange-600 opacity-10 rounded-full translate-y-1/2 -translate-x-1/2"></div> */}
+          {/* Lottie Animation - Positioned absolutely on the right */}
+          <div className="hidden lg:block absolute top-1/3 right-8 -translate-y-1/2 w-80 xl:w-96 z-0">
+            <DotLottieReact
+              src="https://lottie.host/ae419ec6-9c9a-42c5-abf1-75a094c64a46/wSrD3t4cer.lottie"
+              loop
+              autoplay
+              className="w-full h-auto"
+            />
+          </div>
 
           <div className="relative z-10">
             <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold uppercase leading-tight mb-6 md:mb-8">

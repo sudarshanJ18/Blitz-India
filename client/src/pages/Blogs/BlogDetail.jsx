@@ -1,12 +1,73 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { blogPosts } from '../../data/blogPosts.js';
+import blogsService from '../../services/blogs.service';
+import 'react-quill-new/dist/quill.snow.css';
+import Loader from '../../components/common/Loader';
 
 const BlogDetail = () => {
   const { slug } = useParams();
-  const post = blogPosts.find(post => post.slug === slug);
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!post) {
+  const [scrollY, setScrollY] = useState(0);
+  const [imageSize, setImageSize] = useState(250);
+  const [blur, setBlur] = useState(0);
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        setLoading(true);
+        const blogData = await blogsService.getBlogBySlug(slug);
+        setPost(blogData);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching blog:', err);
+        setError('Blog post not found');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
+  }, [slug]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const fromTop = window.scrollY;
+      setScrollY(fromTop);
+
+      // Calculate new zoom size (starts at 250%, zooms out as you scroll)
+      const newSize = 250 - (fromTop / 3);
+      if (newSize > 100) {
+        setImageSize(newSize);
+      } else {
+        setImageSize(100);
+      }
+
+      // Calculate blur (increases with scroll)
+      const newBlur = fromTop / 100;
+      setBlur(newBlur);
+
+      // Calculate opacity (fades out with scroll)
+      const newOpacity = 1 - (fromTop / 800);
+      setOpacity(newOpacity > 0 ? newOpacity : 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader size={60} color="#ea580c" />
+      </div>
+    );
+  }
+
+  if (error || !post) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
@@ -20,145 +81,116 @@ const BlogDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Blog Header */}
-      <div className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumb */}
-          <div className="mb-6">
-            <Link
-              to="/blogs"
-              className="inline-flex items-center text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm sm:text-base"
-            >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Back to Blogs
-            </Link>
-          </div>
+    <div className="min-h-screen bg-gray-900">
+      {/* Fixed Parallax Background Image */}
+      <div
+        className="fixed top-0 left-0 right-0 z-0 overflow-hidden"
+        style={{
+          paddingTop: '50vh',
+          backgroundImage: `url(${post.image?.startsWith('/uploads') ? `http://localhost:5000${post.image}` : (post.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d')})`,
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: `${imageSize}%`,
+          filter: `blur(${blur}px)`,
+          opacity: opacity,
+          boxShadow: '0 -50px 20px -20px #111827 inset',
+          transition: 'none'
+        }}
+      />
 
-          {/* Category Badge */}
-          <div className="mb-4">
-            <span className="inline-block px-4 py-2 bg-orange-500/10 text-orange-600 text-sm font-bold rounded-full border border-orange-500/20">
-              {post.category.name}
-            </span>
-          </div>
+      {/* Scrollable Content */}
+      <div className="relative z-10 pt-[45vh] md:pt-[35vh] bg-transparent">
+        {/* Blog Content Container */}
+        <div className="bg-white rounded-t-3xl shadow-2xl">
+          {/* Blog Header */}
+          <div className="pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Breadcrumb */}
+              <div className="mb-6">
+                <Link
+                  to="/blogs"
+                  className="inline-flex items-center text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm sm:text-base"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Back to Blogs
+                </Link>
+              </div>
 
-          {/* Title */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight sm:leading-relaxed lg:leading-snug mb-6">
-            {post.title}
-          </h1>
+              {/* Category Badge */}
+              <div className="mb-4">
+                <span className="inline-block px-4 py-2 bg-orange-500/10 text-orange-600 text-sm font-bold rounded-full border border-orange-500/20">
+                  {post.category || 'Engineering'}
+                </span>
+              </div>
 
-          {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
-            <div className="flex items-center">
-              <img
-                src={post.author.avatarUrl}
-                alt={`${post.author.name} avatar`}
-                className="h-10 w-10 rounded-full object-cover mr-3"
-                loading="lazy"
-              />
-              <div>
-                <p className="font-semibold text-gray-900">{post.author.name}</p>
-                <p className="text-sm">{post.author.role}</p>
+              {/* Title */}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight sm:leading-relaxed lg:leading-snug mb-6">
+                {post.title}
+              </h1>
+
+              {/* Meta Information */}
+              <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
+                <div className="flex items-center">
+                  <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold mr-3">
+                    {(post.author || 'B')[0].toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">{post.author || 'Blitz India Engineering'}</p>
+                    <p className="text-sm">{post.authorRole || 'Engineering Team'}</p>
+                  </div>
+                </div>
+                <span className="hidden sm:block">•</span>
+                <span>{new Date(post.publishedDate).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                <span>•</span>
+                <span>{post.readTime || '5 min read'}</span>
               </div>
             </div>
-            <span className="hidden sm:block">•</span>
-            <span>{new Date(post.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-            <span>•</span>
-            <span>{post.readTime}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Blog Content */}
-      <div className="pb-16 sm:pb-20 lg:pb-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Featured Image */}
-          <div className="mb-12 rounded-2xl overflow-hidden shadow-lg">
-            <img
-              src={post.imageUrl}
-              alt={post.title}
-              className="w-full h-64 sm:h-80 md:h-96 object-cover"
-            />
           </div>
 
-          {/* Article Content */}
-          <article className="prose prose-lg max-w-none">
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              {post.excerpt}
-            </p>
-            
-            <div className="mt-12 space-y-6 text-gray-700">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. 
-                Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus 
-                rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna 
-                non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.
-              </p>
-              
-              <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Understanding the Fundamentals</h2>
-              
-              <p>
-                Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis 
-                consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis. 
-                Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Nullam 
-                quis risus eget urna mollis ornare vel eu leo.
-              </p>
-              
-              <blockquote className="border-l-4 border-orange-500 pl-6 italic text-gray-700 my-8">
-                "The key to successful engineering is understanding both the technical and 
-                human aspects of problem-solving. It's not just about the calculations; 
-                it's about creating solutions that work in the real world."
-              </blockquote>
-              
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. 
-                Donec ullamcorper nulla non metus auctor fringilla. Cras justo odio, 
-                dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta 
-                felis euismod semper.
-              </p>
-              
-              <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Practical Implementation</h2>
-              
-              <p>
-                Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
-                ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
-                mollis euismod. Donec sed odio dui. Sed posuere consectetur est at lobortis.
-              </p>
-              
-              <ul className="list-disc pl-6 space-y-2 mt-6">
-                <li>Focus on iterative design and testing</li>
-                <li>Prioritize user feedback throughout development</li>
-                <li>Implement robust quality assurance processes</li>
-                <li>Maintain detailed documentation for future reference</li>
-                <li>Continuously evaluate and optimize performance</li>
-              </ul>
-              
-              <p>
-                Curabitur blandit tempus porttitor. Aenean eu leo quam. Pellentesque ornare 
-                sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis 
-                ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient 
-                montes, nascetur ridiculus mus.
-              </p>
-            </div>
-          </article>
+          {/* Blog Content */}
+          <div className="pb-16 sm:pb-20 lg:pb-24">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Article Content */}
+              <article className="max-w-none">
+                <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                  {post.summary}
+                </p>
 
-          {/* Tags */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
-                Engineering
-              </span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
-                Innovation
-              </span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
-                Best Practices
-              </span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
-                {post.category.name}
-              </span>
+                <div
+                  className="ql-editor mt-12 prose prose-lg max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: (() => {
+                      try {
+                        const txt = document.createElement("textarea");
+                        txt.innerHTML = post.content || '';
+                        return txt.value;
+                      } catch (e) {
+                        return post.content || '';
+                      }
+                    })()
+                  }}
+                />
+              </article>
+
+              {/* Tags */}
+              <div className="mt-12 pt-8 border-t border-gray-200">
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
+                    Engineering
+                  </span>
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
+                    Innovation
+                  </span>
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
+                    Best Practices
+                  </span>
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
+                    {post.category || 'Technology'}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

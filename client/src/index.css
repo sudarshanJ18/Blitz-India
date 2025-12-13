@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+
   html,
   body,
   #root {
@@ -29,29 +30,42 @@
 }
 
 /* Fix for common components that might have extra spacing */
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
 }
 
 /* Remove extra spacing from lists */
-ul, ol {
+ul,
+ol {
   margin: 0;
   padding: 0;
 }
 
 /* Remove extra spacing from common elements */
-div, section, article, header, footer, nav, main {
+div,
+section,
+article,
+header,
+footer,
+nav,
+main {
   /* Only apply when needed to avoid overriding intentional spacing */
 }
 
 /* Custom spacing utilities to replace excessive padding */
-.space-y-reduced > :not([hidden]) ~ :not([hidden]) {
+.space-y-reduced> :not([hidden])~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
-.space-x-reduced > :not([hidden]) ~ :not([hidden]) {
+.space-x-reduced> :not([hidden])~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
@@ -114,12 +128,14 @@ div, section, article, header, footer, nav, main {
 .gap-reduced {
   @apply gap-1 sm:gap-2 md:gap-3;
 }
+
 /* Testimonials fade-in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

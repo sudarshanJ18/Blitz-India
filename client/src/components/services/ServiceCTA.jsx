@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from "@/components/common/Button.jsx";
+import Button from "../common/Button.jsx";
 
 const ServiceCTA = () => {
     return (
@@ -10,7 +10,7 @@ const ServiceCTA = () => {
                     Ready to Start Your Project?
                 </h2>
                 <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
-                    Let's work together to bring your engineering vision to life. 
+                    Let's work together to bring your engineering vision to life.
                     Contact us today for a consultation and discover how we can help you achieve your goals.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">

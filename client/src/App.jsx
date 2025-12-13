@@ -20,14 +20,18 @@ import PrivacyPolicy from './pages/Legal/PrivacyPolicy.jsx';
 import TermsOfService from './pages/Legal/TermsOfService.jsx';
 import BlogDetail from './pages/Blogs/BlogDetail.jsx';
 import NotFound from './pages/NotFound/NotFound.jsx';
-import './App.css';
+
 
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   React.useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    // Scroll to top instantly when route changes
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    // Also ensure document body scroll is reset
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [location.pathname]);
 
   return (
@@ -44,7 +48,7 @@ function AppContent() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blogs" element={<Blogs />} />
-          <Route path="/blog/:slug" element={<BlogDetail />} />
+          <Route path="/blogs/:slug" element={<BlogDetail />} />
           <Route path="/admin/*" element={<Admin />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />

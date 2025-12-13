@@ -34,22 +34,22 @@ const TeamSection = () => {
   };
 
   return (
-    <section className="py-6 bg-white">
+    <section className="py-2 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-3">
+        <div className="mb-0">
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-left">
             Meet Our Team
           </h2>
         </div>
 
         {/* Animated Testimonials Layout */}
-        <div className="relative h-[600px] mb-6 mt-0">
+        <div className="relative h-[600px] mb-0 mt-0">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
               className={`absolute inset-0 transition-all duration-700 ease-in-out ${index === activeIndex
-                  ? 'opacity-100 translate-x-0 scale-100'
-                  : 'opacity-0 translate-x-full scale-95 pointer-events-none'
+                ? 'opacity-100 translate-x-0 scale-100'
+                : 'opacity-0 translate-x-full scale-95 pointer-events-none'
                 }`}
             >
               <div className="flex flex-col lg:flex-row items-center gap-12 h-full">
@@ -59,7 +59,7 @@ const TeamSection = () => {
                     <img
                       src={testimonial.src}
                       alt={testimonial.name}
-                      className="w-80 h-80 rounded-2xl object-cover shadow-2xl border-4 border-[#4A5568]"
+                      className="w-full max-w-[20rem] aspect-square rounded-2xl object-cover shadow-2xl border-4 border-[#4A5568]"
                     />
                     <div className="absolute -bottom-6 -right-6 bg-[#4A5568] text-white px-6 py-3 rounded-xl shadow-2xl border-2 border-white">
                       <h3 className="font-bold text-xl">{testimonial.name}</h3>

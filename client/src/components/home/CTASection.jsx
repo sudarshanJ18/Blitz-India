@@ -125,9 +125,9 @@ const CTASection = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-5 pt-3 border-t border-gray-200">
+              {/* <div className="mt-5 pt-3 border-t border-gray-200">
                 <p className="text-orange-600 text-sm font-medium">Available 24/7 for your queries</p>
-              </div>
+              </div> */}
             </div>
           </WobbleCard>
 

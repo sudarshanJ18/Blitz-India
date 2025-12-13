@@ -127,34 +127,34 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="md:hidden space-y-4 pt-6">
-              <div className="flex items-center gap-2 mb-4">
+            <div className="md:hidden space-y-3 sm:space-y-4 pt-4 sm:pt-6">
+              <div className="flex items-center gap-2 mb-3 sm:mb-4">
                 <div className="h-px flex-1 bg-gradient-to-r from-orange-500 to-transparent"></div>
-                <h3 className="text-xl sm:text-2xl font-black text-gray-800 uppercase tracking-wide">Get in Touch</h3>
+                <h3 className="text-lg xs:text-xl sm:text-2xl font-black text-gray-800 uppercase tracking-wide whitespace-nowrap">Get in Touch</h3>
                 <div className="h-px flex-1 bg-gradient-to-l from-orange-500 to-transparent"></div>
               </div>
 
-              <a href="tel:+919158575785" className="group flex items-center gap-4 p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
-                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <a href="tel:+919158575785" className="group flex items-center gap-3 xs:gap-4 p-4 xs:p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl xs:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
+                <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
+                  <svg className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Call Us</p>
-                  <span className="text-lg sm:text-2xl font-black text-gray-900 group-hover:text-orange-600 transition-colors">+91 9158575785</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] xs:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 xs:mb-1">Call Us</p>
+                  <span className="text-base xs:text-lg sm:text-xl md:text-2xl font-black text-gray-900 group-hover:text-orange-600 transition-colors block">+91 9158575785</span>
                 </div>
               </a>
 
-              <a href="mailto:info@blitzindiaengineering.com" className="group flex items-center gap-4 p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
-                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <a href="mailto:info@blitzindiaengineering.com" className="group flex items-center gap-3 xs:gap-4 p-4 xs:p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl xs:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
+                <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
+                  <svg className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Email Us</p>
-                  <span className="text-base sm:text-lg font-black text-gray-900 group-hover:text-orange-600 transition-colors break-all">info@blitzindiaengineering.com</span>
+                  <p className="text-[10px] xs:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 xs:mb-1">Email Us</p>
+                  <span className="text-xs xs:text-sm sm:text-base md:text-lg font-black text-gray-900 group-hover:text-orange-600 transition-colors break-words leading-tight block">info@blitzindiaengineering.com</span>
                 </div>
               </a>
             </div>
@@ -183,32 +183,32 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="hidden md:flex flex-col gap-4 pt-6 w-full">
+            <div className="hidden md:flex flex-col gap-3 lg:gap-4 pt-4 lg:pt-6 w-full">
               <div className="flex items-center gap-2 mb-2">
                 <div className="h-px flex-1 bg-gradient-to-l from-orange-500 to-transparent"></div>
-                <h3 className="text-xl sm:text-2xl font-black text-gray-800 uppercase tracking-wide">Get in Touch</h3>
+                <h3 className="text-lg lg:text-xl xl:text-2xl font-black text-gray-800 uppercase tracking-wide whitespace-nowrap">Get in Touch</h3>
                 <div className="h-px flex-1 bg-gradient-to-r from-orange-500 to-transparent"></div>
               </div>
 
-              <a href="tel:+919158575785" className="group flex items-center gap-4 p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
-                <div className="text-right">
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Call Us</p>
-                  <span className="text-lg sm:text-xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight">+91 9158575785</span>
+              <a href="tel:+919158575785" className="group flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl lg:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
+                <div className="text-right flex-1 min-w-0">
+                  <p className="text-[10px] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 lg:mb-1">Call Us</p>
+                  <span className="text-base lg:text-lg xl:text-xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight block">+91 9158575785</span>
                 </div>
-                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex-shrink-0 w-14 h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl lg:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
+                  <svg className="w-7 h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
               </a>
 
-              <a href="mailto:info@blitzindiaengineering.com" className="group flex items-center gap-4 p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
-                <div className="text-right">
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Email Us</p>
-                  <span className="text-lg sm:text-xl md:text-2xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight">info@blitzindiaengineering.com</span>
+              <a href="mailto:info@blitzindiaengineering.com" className="group flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl lg:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
+                <div className="text-right flex-1 min-w-0">
+                  <p className="text-[10px] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 lg:mb-1">Email Us</p>
+                  <span className="text-sm lg:text-base xl:text-lg 2xl:text-xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight break-words leading-tight block">info@blitzindiaengineering.com</span>
                 </div>
-                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex-shrink-0 w-14 h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl lg:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
+                  <svg className="w-7 h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
@@ -231,7 +231,7 @@ const Footer = () => {
           </div>
 
 
-          {/* <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-2 text-sm">
             <span className="text-gray-600 font-medium">Developed by</span>
 
             <a
@@ -249,7 +249,7 @@ const Footer = () => {
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
             </a>
-          </div> */}
+          </div>
 
         </div>
       </div>

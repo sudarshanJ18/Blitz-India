@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import blogsService from '../../services/blogs.service';
+import Loader from '../common/Loader';
 
 const FeaturedPost = ({ limit = 3 }) => {
   const [posts, setPosts] = useState([]);
@@ -29,7 +30,7 @@ const FeaturedPost = ({ limit = 3 }) => {
       <section className="bg-white py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+            <Loader size={60} color="#ea580c" />
           </div>
         </div>
       </section>
@@ -59,7 +60,7 @@ const FeaturedPost = ({ limit = 3 }) => {
               <div className="flex items-center gap-x-4 text-base sm:text-lg font-medium text-gray-500">
                 <time dateTime={post.publishedDate}>{new Date(post.publishedDate).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
                 <Link
-                  to={`/blog/${post.slug}`}
+                  to={`/blogs/${post.slug}`}
                   className="relative z-10 rounded-full bg-orange-50 px-3 py-1.5 font-medium text-orange-600 hover:bg-orange-100 transition-colors duration-200"
                 >
                   {post.category || 'Engineering'}
@@ -68,7 +69,7 @@ const FeaturedPost = ({ limit = 3 }) => {
 
               <div className="group relative grow">
                 <h3 id={`featured-${post._id}`} className="mt-3 text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-200">
-                  <Link to={`/blog/${post.slug}`}>
+                  <Link to={`/blogs/${post.slug}`}>
                     <span className="absolute inset-0" aria-hidden="true" />
                     {post.title}
                   </Link>
@@ -82,7 +83,7 @@ const FeaturedPost = ({ limit = 3 }) => {
                 </div>
                 <div className="text-sm">
                   <p className="font-bold text-gray-900">
-                    <Link to={`/blog/${post.slug}`}>
+                    <Link to={`/blogs/${post.slug}`}>
                       <span className="absolute inset-0" aria-hidden="true" />
                       {post.author || 'Blitz India Engineering'}
                     </Link>

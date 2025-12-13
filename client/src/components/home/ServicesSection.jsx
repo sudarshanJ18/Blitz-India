@@ -3,8 +3,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { serviceCategories, serviceImg } from '../../assets/assets.js';
-import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { Carousel, Card } from "../ui/apple-cards-carousel";
+import { HoverBorderGradient } from "../ui/hover-border-gradient";
 
 export function ServicesSection() {
   const cardsData = serviceCategories.map((category, index) => {
@@ -45,7 +45,7 @@ export function ServicesSection() {
         </div>
 
         {/* CTA Button */}
-        <div className="text-center mt-4 md:mt-6 lg:mt-8 px-4">
+        <div className="mt-4 md:mt-6 lg:mt-8 px-4 flex justify-center">
           <Link to="/services">
             <HoverBorderGradient
               containerClassName="rounded-full"
@@ -60,6 +60,7 @@ export function ServicesSection() {
             </HoverBorderGradient>
           </Link>
         </div>
+
       </div>
     </div>
   );

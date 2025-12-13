@@ -136,7 +136,7 @@ const PostList = () => {
                     <span aria-hidden="true">·</span>
                     <span>{post.readTime || '5 min read'}</span>
                     <Link
-                      to={`/blog/${post.slug}`}
+                      to={`/blogs/${post.slug}`}
                       className="relative z-10 rounded-full bg-orange-50 px-3 py-1.5 font-medium text-orange-600 hover:bg-orange-100 transition-colors duration-200"
                     >
                       {post.category || 'Engineering'}
@@ -144,7 +144,7 @@ const PostList = () => {
                   </div>
                   <div className="group relative">
                     <h3 id={`post-${post._id}`} className="mt-3 text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors duration-200">
-                      <Link to={`/blog/${post.slug}`}>
+                      <Link to={`/blogs/${post.slug}`}>
                         <span className="absolute inset-0" aria-hidden="true" />
                         {post.title}
                       </Link>
@@ -157,7 +157,7 @@ const PostList = () => {
                     </div>
                     <div className="text-sm">
                       <p className="font-bold text-gray-900">
-                        <Link to={`/blog/${post.slug}`}>
+                        <Link to={`/blogs/${post.slug}`}>
                           <span className="absolute inset-0" aria-hidden="true" />
                           {post.author || 'Blitz India Engineering'}
                         </Link>

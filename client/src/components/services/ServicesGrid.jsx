@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { videos, serviceimgs } from '../../assets/assets.js';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 import axios from 'axios';
 
 const ServicesGrid = () => {
