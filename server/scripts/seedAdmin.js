@@ -8,9 +8,15 @@ const seedAdmin = async () => {
         await mongoose.connect(process.env.MONGODB_URI);
         console.log('MongoDB connected');
 
-        const email = 'admin@blitz.com';
-        const password = 'Admin123!'; // Meets complexity requirements
+        const email = 'info@blitzindiaengineering.com';
+        const password = 'OmSumAdmin7$%'; // Meets complexity requirements
         const name = 'Admin User';
+
+        // CLEANUP: Delete all other admins to ensure only this one exists
+        const deleteResult = await Admin.deleteMany({ email: { $ne: email } });
+        if (deleteResult.deletedCount > 0) {
+            console.log(`Deleted ${deleteResult.deletedCount} old/other admin accounts.`);
+        }
 
         // Check if admin exists
         let admin = await Admin.findOne({ email });

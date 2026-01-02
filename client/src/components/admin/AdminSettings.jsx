@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import MFASetup from './MFASetup';
 import MechanicalLoader from '../common/MechanicalLoader';
+import ImageUpload from './ImageUpload';
 
 const AdminSettings = () => {
   const [settings, setSettings] = useState(null);
@@ -143,6 +144,29 @@ const AdminSettings = () => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
                 placeholder="Company description"
               />
+            </div>
+          </div>
+        </section>
+
+        {/* Branding */}
+        <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Branding</h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full"></div>
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Company Logo</label>
+              <div className="space-y-2">
+                <ImageUpload
+                  onUploadComplete={(url) => setSettings(s => ({ ...s, logo: url }))}
+                  initialImage={settings.logo}
+                  maxFiles={1}
+                />
+                <p className="text-xs text-gray-500">
+                  Recommended size: 200x60px. Supports PNG, JPG, SVG.
+                </p>
+              </div>
             </div>
           </div>
         </section>

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useSettings } from '../../contexts/SettingsContext';
 
 const Footer = () => {
+  const { settings } = useSettings();
+
   return (
     <footer className="relative bg-gradient-to-b from-white to-gray-50 text-gray-900 overflow-hidden border-t border-gray-200">
       <div className="absolute inset-0 opacity-30">
@@ -18,12 +21,12 @@ const Footer = () => {
             <div className="space-y-3 overflow-visible">
               <div className="inline-block">
                 <h2 className="text-lg sm:text-xl md:text-2xl lg:text-4xl xl:text-4.5xl font-black uppercase tracking-tight bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent leading-tight whitespace-nowrap overflow-visible pb-1">
-                  Blitz India Engineering
+                  {settings.companyName || 'Blitz India Engineering'}
                 </h2>
                 <div className="h-1 w-full bg-gradient-to-r from-orange-600 via-orange-500 to-transparent rounded-full mt-2"></div>
               </div>
               <p className="text-sm sm:text-base uppercase text-gray-600 font-semibold tracking-[0.2em]">
-                We help engineer your product
+                {settings.tagline || 'We help engineer your product'}
               </p>
             </div>
 
@@ -39,7 +42,7 @@ const Footer = () => {
                     Accelerating Product Development since 2015
                   </p>
                   <p className="text-sm text-gray-600 mt-1.5 leading-relaxed">
-                    Transforming ideas into reality with cutting-edge engineering solutions
+                    {settings.description || 'Transforming ideas into reality with cutting-edge engineering solutions'}
                   </p>
                 </div>
               </div>
@@ -48,7 +51,7 @@ const Footer = () => {
             {/* Animated Gears - Interconnected Triangle Formation */}
             <div className="flex justify-center py-8">
               <div className="relative w-80 h-36">
-                <style jsx>{`
+                <style>{`
                   @keyframes rotateGearCW {
                     from {
                       transform: rotate(0deg);
@@ -134,7 +137,7 @@ const Footer = () => {
                 <div className="h-px flex-1 bg-gradient-to-l from-orange-500 to-transparent"></div>
               </div>
 
-              <a href="tel:+919158575785" className="group flex items-center gap-3 xs:gap-4 p-4 xs:p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl xs:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
+              <a href={`tel:${settings.phone?.replace(/\s+/g, '') || '+919158575785'}`} className="group flex items-center gap-3 xs:gap-4 p-4 xs:p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl xs:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
                 <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
                   <svg className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -142,11 +145,11 @@ const Footer = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] xs:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 xs:mb-1">Call Us</p>
-                  <span className="text-base xs:text-lg sm:text-xl md:text-2xl font-black text-gray-900 group-hover:text-orange-600 transition-colors block">+91 9158575785</span>
+                  <span className="text-base xs:text-lg sm:text-xl md:text-2xl font-black text-gray-900 group-hover:text-orange-600 transition-colors block">{settings.phone || '+91 9158575785'}</span>
                 </div>
               </a>
 
-              <a href="mailto:info@blitzindiaengineering.com" className="group flex items-center gap-3 xs:gap-4 p-4 xs:p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl xs:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
+              <a href={`mailto:${settings.email || 'info@blitzindiaengineering.com'}`} className="group flex items-center gap-3 xs:gap-4 p-4 xs:p-5 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl xs:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5">
                 <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
                   <svg className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -154,7 +157,7 @@ const Footer = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] xs:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 xs:mb-1">Email Us</p>
-                  <span className="text-xs xs:text-sm sm:text-base md:text-lg font-black text-gray-900 group-hover:text-orange-600 transition-colors break-words leading-tight block">info@blitzindiaengineering.com</span>
+                  <span className="text-xs xs:text-sm sm:text-base md:text-lg font-black text-gray-900 group-hover:text-orange-600 transition-colors break-words leading-tight block">{settings.email || 'info@blitzindiaengineering.com'}</span>
                 </div>
               </a>
             </div>
@@ -190,10 +193,10 @@ const Footer = () => {
                 <div className="h-px flex-1 bg-gradient-to-r from-orange-500 to-transparent"></div>
               </div>
 
-              <a href="tel:+919158575785" className="group flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl lg:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
+              <a href={`tel:${settings.phone?.replace(/\s+/g, '') || '+919158575785'}`} className="group flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl lg:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
                 <div className="text-right flex-1 min-w-0">
                   <p className="text-[10px] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 lg:mb-1">Call Us</p>
-                  <span className="text-base lg:text-lg xl:text-xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight block">+91 9158575785</span>
+                  <span className="text-base lg:text-lg xl:text-xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight block">{settings.phone || '+91 9158575785'}</span>
                 </div>
                 <div className="flex-shrink-0 w-14 h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl lg:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
                   <svg className="w-7 h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,10 +205,10 @@ const Footer = () => {
                 </div>
               </a>
 
-              <a href="mailto:info@blitzindiaengineering.com" className="group flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl lg:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
+              <a href={`mailto:${settings.email || 'info@blitzindiaengineering.com'}`} className="group flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-gradient-to-bl from-orange-50 via-white to-orange-50/30 border-2 border-orange-200 hover:border-orange-400 rounded-xl lg:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 justify-end">
                 <div className="text-right flex-1 min-w-0">
                   <p className="text-[10px] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5 lg:mb-1">Email Us</p>
-                  <span className="text-sm lg:text-base xl:text-lg 2xl:text-xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight break-words leading-tight block">info@blitzindiaengineering.com</span>
+                  <span className="text-sm lg:text-base xl:text-lg 2xl:text-xl font-black text-gray-900 group-hover:text-orange-600 transition-colors uppercase tracking-tight break-words leading-tight block">{settings.email || 'info@blitzindiaengineering.com'}</span>
                 </div>
                 <div className="flex-shrink-0 w-14 h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl lg:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 group-hover:scale-110 transition-all duration-300">
                   <svg className="w-7 h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,7 +228,7 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <p className="flex items-center gap-2.5 font-medium">
               <span className="text-xl font-extrabold tracking-wide text-gray-800 drop-shadow-sm">©</span>
-              <span className="text-gray-700 font-semibold">{new Date().getFullYear()} Blitz India Engineering.</span>
+              <span className="text-gray-700 font-semibold">{new Date().getFullYear()} {settings.companyName || 'Blitz India Engineering'}.</span>
               <span className="text-gray-500">All rights reserved.</span>
             </p>
           </div>

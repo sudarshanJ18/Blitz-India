@@ -100,7 +100,7 @@ const sendContactFormEmail = async (formData, attachment = null) => {
         // Email options
         const mailOptions = {
             from: `"${name} (via Blitz Contact Form)" <${process.env.EMAIL_USER}>`,
-            to: process.env.CONTACT_EMAIL || 'jsudarshanreddy2003@gmail.com',
+            to: process.env.CONTACT_EMAIL || 'info@blitzindiaengineering.com',
             replyTo: email,
             subject: `Contact Form: ${name} <${email}>`,
             html: htmlContent,

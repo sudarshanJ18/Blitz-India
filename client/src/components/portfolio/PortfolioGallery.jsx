@@ -10,14 +10,26 @@ const PortfolioGallery = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const categories = [
-    { id: 'all', name: 'All Projects' },
-    { id: 'automotive', name: 'Automotive' },
-    { id: 'aerospace', name: 'Aerospace' },
-    { id: 'manufacturing', name: 'Manufacturing' },
-    { id: 'energy', name: 'Energy' },
-    { id: 'medical', name: 'Medical' }
-  ];
+  const categories = React.useMemo(() => {
+    const unique = new Map();
+    unique.set('all', 'All Projects');
+
+    if (projects && projects.length > 0) {
+      projects.forEach((project) => {
+        if (project.category) {
+          const categorySlug = project.category.toLowerCase();
+          // Ensure first letter is uppercase for display
+          const display = project.category.charAt(0).toUpperCase() + project.category.slice(1);
+          if (!unique.has(categorySlug)) {
+            unique.set(categorySlug, display);
+          }
+        }
+      });
+    }
+
+    // key is id, value is name
+    return Array.from(unique.entries()).map(([id, name]) => ({ id, name }));
+  }, [projects]);
 
   useEffect(() => {
     fetchProjects();

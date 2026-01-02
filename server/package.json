@@ -8,6 +8,7 @@
         "dev": "nodemon server.js",
         "seed": "node scripts/seed.js",
         "create-admin": "node scripts/createAdmin.js",
+        "seed-admin": "node scripts/seedAdmin.js",
         "backup": "node scripts/backup-db.js",
         "audit": "npm audit",
         "audit:fix": "npm audit fix",

@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollToTop from './components/utils/ScrollToTop';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/common/Navbar.jsx';
@@ -25,14 +26,6 @@ import NotFound from './pages/NotFound/NotFound.jsx';
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-
-  React.useEffect(() => {
-    // Scroll to top instantly when route changes
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    // Also ensure document body scroll is reset
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -65,6 +58,7 @@ function App() {
     <HelmetProvider>
       <SettingsProvider>
         <Router>
+          <ScrollToTop />
           <AppContent />
           <ToastContainer
             position="top-right"

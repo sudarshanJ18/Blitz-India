@@ -133,13 +133,7 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
       <div className="relative w-full px-4 md:px-0">
         <div className="relative">
           {/* Left Arrow */}
-          <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-40 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 shadow-md hover:bg-gray-200 transition-colors"
-            onClick={scrollLeft}
-            disabled={!canScrollLeft}
-          >
-            <IconArrowNarrowLeft className="h-4 w-4 md:h-6 md:w-6 text-gray-500" />
-          </button>
+          {/* Left Arrow removed */}
 
           {/* Carousel Content */}
           <motion.div
@@ -179,20 +173,14 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
           </motion.div>
 
           {/* Right Arrow */}
-          <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-40 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 shadow-md hover:bg-gray-200 transition-colors"
-            onClick={scrollRight}
-            disabled={!canScrollRight}
-          >
-            <IconArrowNarrowRight className="h-4 w-4 md:h-6 md:w-6 text-gray-500" />
-          </button>
+          {/* Right Arrow removed */}
         </div>
       </div>
     </CarouselContext.Provider>
   );
 };
 
-export const Card = ({ card, index, layout = false }) => {
+export const Card = ({ card, index, layout = false, className }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
   const { onCardClose, currentIndex } = useContext(CarouselContext);
@@ -263,7 +251,12 @@ export const Card = ({ card, index, layout = false }) => {
               >
                 {card.title}
               </motion.p>
-              <div className="py-2 sm:py-3 md:py-6 lg:py-10">{card.content}</div>
+              <div className="py-2 sm:py-3 md:py-6 lg:py-10" onClick={(e) => {
+                // If a link is clicked inside the modal content, close the modal immediately
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                  handleClose();
+                }
+              }}>{card.content}</div>
             </motion.div>
           </div>
         )}
@@ -276,25 +269,26 @@ export const Card = ({ card, index, layout = false }) => {
         className={cn(
           "relative z-10 flex flex-col items-start justify-start overflow-hidden rounded-xl md:rounded-2xl bg-gray-100 shadow-lg transition-all duration-300 ease-in-out",
           "h-48 sm:h-64 md:h-80 lg:h-96",
-          isHovered ? "w-48 sm:w-60 md:w-80 lg:w-96" : "w-20 sm:w-28 md:w-40 lg:w-48"
+          isHovered ? "w-48 sm:w-60 md:w-80 lg:w-96" : "w-20 sm:w-28 md:w-40 lg:w-48",
+          className
         )}
         whileTap={{ scale: 0.98 }}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
-        <div className="relative z-40 p-2 sm:p-3 md:p-6 lg:p-8 whitespace-nowrap overflow-hidden">
+        <div className="relative z-40 p-4 sm:p-5 md:p-6 lg:p-8 whitespace-nowrap overflow-hidden">
           <motion.p
             layoutId={layout ? `category-${card.category}` : undefined}
-            className="text-left font-sans text-[8px] sm:text-xs md:text-sm lg:text-base font-medium text-white"
+            className="text-left font-sans text-sm sm:text-base md:text-sm lg:text-base font-bold text-white shadow-sm"
           >
             {card.category}
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
             className={cn(
-              "mt-0.5 sm:mt-1 md:mt-2 max-w-xs text-left font-sans font-semibold [text-wrap:balance] text-white leading-tight transition-all duration-300",
+              "mt-1 sm:mt-2 md:mt-2 max-w-xs text-left font-sans font-semibold [text-wrap:balance] text-white leading-tight transition-all duration-300 drop-shadow-md",
               isHovered
-                ? "text-sm sm:text-base md:text-lg lg:text-2xl xl:text-3xl"
-                : "text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
+                ? "text-2xl sm:text-3xl md:text-lg lg:text-2xl xl:text-3xl"
+                : "text-xl sm:text-2xl md:text-base lg:text-lg xl:text-xl"
             )}
           >
             {card.title}

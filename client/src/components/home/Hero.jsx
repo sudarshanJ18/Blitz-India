@@ -184,7 +184,15 @@ const Hero = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
+      <div
+        className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block z-20"
+        onClick={() => {
+          const element = document.getElementById('highlights');
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+      >
         <div className="flex flex-col items-center gap-2 text-gray-500 hover:text-orange-600 transition-colors cursor-pointer">
           <span className="text-xs font-medium">Scroll Down</span>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

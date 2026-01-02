@@ -63,7 +63,7 @@ const Highlights = () => {
   ];
 
   return (
-    <section className="py-6 md:py-8 bg-gradient-to-br from-white via-gray-50 to-gray-100 relative overflow-hidden">
+    <section id="highlights" className="py-6 md:py-8 bg-gradient-to-br from-white via-gray-50 to-gray-100 relative overflow-hidden">
       {/* Grid background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_10%,transparent_110%)] opacity-40" />
 

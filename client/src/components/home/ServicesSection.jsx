@@ -41,7 +41,22 @@ export function ServicesSection() {
 
         {/* Carousel Section */}
         <div className="w-full">
-          <Carousel items={cards} />
+          {/* Desktop View */}
+          <div className="hidden md:block">
+            <Carousel items={cards} />
+          </div>
+
+          {/* Mobile View - Vertical Stack */}
+          <div className="md:hidden flex flex-col gap-6 px-2">
+            {cardsData.map((card, index) => (
+              <Card
+                key={card.src}
+                card={card}
+                index={index}
+                className="w-full h-80"
+              />
+            ))}
+          </div>
         </div>
 
         {/* CTA Button */}
@@ -70,52 +85,53 @@ const ServiceContent = ({ category, image }) => {
   return (
     <div className="space-y-2 sm:space-y-3 md:space-y-4">
       {/* Main description */}
-      <div className="bg-white border border-gray-200 p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl shadow-sm">
+      <div className="bg-white border border-gray-200 p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-sm">
         <div className="max-w-4xl mx-auto">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
             {category.title} - Professional Engineering Services
           </h3>
-          <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed">
             {category.description} . Highest quality standards and technical expertise to ensure your project's success.
           </p>
 
           {/* Services showcase image */}
-          <div className="w-full overflow-hidden rounded-md sm:rounded-lg border border-gray-200">
+          <div className="w-full overflow-hidden rounded-lg sm:rounded-xl border border-gray-200">
             <img
               src={image}
               alt={category.title}
-              className="w-full h-auto max-h-[120px] sm:max-h-[200px] md:max-h-[250px] object-cover"
+              className="w-full h-auto max-h-[200px] sm:max-h-[250px] md:max-h-[300px] object-cover"
             />
           </div>
         </div>
       </div>
 
       {/* Services list */}
-      <div className="bg-white border border-gray-200 p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl shadow-sm">
+      <div className="bg-white border border-gray-200 p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-sm">
         <div className="max-w-6xl mx-auto">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3 sm:mb-4 text-center border-b border-gray-200 pb-2 sm:pb-3">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center border-b border-gray-200 pb-3 sm:pb-4">
             Available Services
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {category.services.slice(0, 6).map((service, index) => (
               <Link
                 key={service.id}
                 to={`/services/${category.id}/${service.subId}`}
-                className="flex items-start p-2 sm:p-3 bg-white border border-gray-200 rounded-md sm:rounded-lg hover:border-orange-300 hover:shadow-md transition-all duration-300 cursor-pointer group"
+                onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' })}
+                className="flex items-start p-3 sm:p-4 bg-white border border-gray-200 rounded-lg sm:rounded-xl hover:border-orange-300 hover:shadow-md transition-all duration-300 cursor-pointer group"
               >
-                <div className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mr-2 sm:mr-3 shadow-sm group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-[9px] sm:text-xs font-bold">
+                <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-sm group-hover:scale-110 transition-transform duration-200">
+                  <span className="text-white text-xs sm:text-sm font-bold">
                     {category.id}.{service.subId}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-baseline mb-1">
-                    <h4 className="font-semibold text-gray-900 text-sm sm:text-base break-words leading-tight group-hover:text-orange-600 transition-colors duration-200">
+                    <h4 className="font-semibold text-gray-900 text-base sm:text-lg break-words leading-tight group-hover:text-orange-600 transition-colors duration-200">
                       {service.title}
                     </h4>
                   </div>
                   {service.description && (
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
+                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed line-clamp-2">
                       {service.description}
                     </p>
                   )}
@@ -125,7 +141,7 @@ const ServiceContent = ({ category, image }) => {
           </div>
 
           {category.services.length > 6 && (
-            <div className="text-center mt-3 sm:mt-4 pt-3 border-t border-gray-200">
+            <div className="text-center mt-4 sm:mt-6 pt-4 border-t border-gray-200">
               <span className="text-orange-600 text-sm sm:text-base font-semibold">
                 +{category.services.length - 6} more services available
               </span>
@@ -135,23 +151,23 @@ const ServiceContent = ({ category, image }) => {
       </div>
 
       {/* CTA section */}
-      <div className="bg-white border border-gray-200 p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl shadow-sm">
+      <div className="bg-white border border-gray-200 p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-sm">
         <div className="max-w-3xl mx-auto text-center">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
             Ready to Get Started?
           </h3>
-          <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed px-2 sm:px-0">
+          <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed px-2 sm:px-0">
             Contact us today to discuss your {category.title} requirements and get a customized solution tailored to your specific needs.
           </p>
           <Link to={`/services/${category.id}`}>
             <HoverBorderGradient
               containerClassName="rounded-full"
               as="button"
-              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center space-x-2 px-4 py-2 text-sm font-medium hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center space-x-2 px-6 py-3 text-base font-medium hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg"
               duration={0.8}
             >
               <span>Explore {category.title}</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </HoverBorderGradient>

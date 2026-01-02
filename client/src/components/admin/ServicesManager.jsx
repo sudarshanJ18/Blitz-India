@@ -7,6 +7,11 @@ import {
   updateService,
   deleteService
 } from '../../services/services.service';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Plus, Search, Filter, Edit2, Trash2, Layers,
+  Check, X, Image as ImageIcon, ChevronDown, Wrench, Settings, Brain
+} from 'lucide-react';
 
 const emptyService = {
   title: '',
@@ -15,6 +20,30 @@ const emptyService = {
   image: '',
   description: '',
   features: [],
+};
+
+const CATEGORY_ICONS = {
+  'Engineering Design': Wrench,
+  'Manufacturing Solutions': Settings,
+  'Advanced Analysis': Brain,
+  'default': Layers
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100 }
+  }
 };
 
 const ServicesManager = () => {
@@ -26,6 +55,9 @@ const ServicesManager = () => {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [nextSubId, setNextSubId] = useState(1);
+  const [showForm, setShowForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterCategory, setFilterCategory] = useState('');
 
   // Fetch categories and services from API
   useEffect(() => {
@@ -94,18 +126,18 @@ const ServicesManager = () => {
       if (isEditing) {
         const response = await updateService(isEditing, serviceData);
         setServices(services.map(s => s._id === isEditing ? response.data : s));
-        setMessage({ type: 'success', text: 'Service updated successfully!' });
+        setMessage({ type: 'success', text: 'Service updated successfully' });
         setIsEditing(null);
+        setShowForm(false);
       } else {
         const response = await createService(serviceData);
         setServices([response.data, ...services]);
-        setMessage({ type: 'success', text: 'Service created successfully!' });
+        setMessage({ type: 'success', text: 'Service created successfully' });
+        setShowForm(false);
       }
 
       setForm(emptyService);
       setSubmitting(false);
-
-      // Clear message after 3 seconds
       setTimeout(() => setMessage({ type: '', text: '' }), 3000);
     } catch (error) {
       console.error('Failed to save service:', error);
@@ -122,7 +154,7 @@ const ServicesManager = () => {
       try {
         await deleteService(id);
         setServices(services.filter((s) => s._id !== id));
-        setMessage({ type: 'success', text: 'Service deleted successfully!' });
+        setMessage({ type: 'success', text: 'Service deleted' });
         setTimeout(() => setMessage({ type: '', text: '' }), 3000);
       } catch (error) {
         console.error('Failed to delete service:', error);
@@ -137,242 +169,338 @@ const ServicesManager = () => {
   const editService = (service) => {
     setForm(service);
     setIsEditing(service._id);
+    setShowForm(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const cancelEdit = () => {
-    setForm(emptyService);
-    setIsEditing(null);
-  };
+  const filteredServices = services.filter(s => {
+    const matchesSearch = s.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      s.shortDescription.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = !filterCategory || s.category === filterCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading services...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-8"
+    >
       {/* Header */}
-      <div>
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 bg-clip-text text-transparent mb-2">
-          Manage Services
-        </h1>
-        <p className="text-gray-600 text-lg">Create and manage your service offerings</p>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">Services</h1>
+          <p className="text-slate-500 text-lg mt-1 font-medium">Manage your portfolio of services</p>
+        </div>
+
+        <button
+          onClick={() => {
+            setShowForm(!showForm);
+            if (!showForm) {
+              setForm(emptyService);
+              setIsEditing(null);
+            }
+          }}
+          className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-md ${showForm
+            ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            : 'bg-orange-600 text-white hover:bg-orange-700 hover:shadow-lg hover:-translate-y-0.5'
+            }`}
+        >
+          {showForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+          {showForm ? 'Close Editor' : 'Add New Service'}
+        </button>
       </div>
 
       {/* Message Notification */}
-      {message.text && (
-        <div className={`rounded-lg p-4 ${message.type === 'success'
-          ? 'bg-green-50 border border-green-200'
-          : 'bg-red-50 border border-red-200'
-          }`}>
-          <div className="flex items-center">
-            {message.type === 'success' ? (
-              <svg className="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-            )}
-            <p className={`text-sm font-medium ${message.type === 'success' ? 'text-green-800' : 'text-red-800'
-              }`}>
-              {message.text}
-            </p>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {message.text && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className={`rounded-xl p-4 flex items-center shadow-sm ${message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'
+              }`}
+          >
+            {message.type === 'success' ? <Check className="w-5 h-5 mr-3" /> : <X className="w-5 h-5 mr-3" />}
+            <span className="font-medium">{message.text}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Form */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {isEditing ? 'Edit Service' : 'Add New Service'}
-          </h2>
-          {isEditing && (
-            <button
-              onClick={cancelEdit}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Title *</label>
-              <input
-                name="title"
-                value={form.title}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                placeholder="Service title"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
-              <select
-                name="category"
-                value={form.category}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                required
-              >
-                <option value="">Select category</option>
-                {categories.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Auto-generated Category/Subcategory ID Display */}
-          {form.category && (
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-orange-900 mb-1">Auto-Generated Service ID</p>
-                  <p className="text-xs text-orange-700">
-                    This service will be accessible at: /services/{apiCategories.find(c => c.title === form.category)?.categoryId}/{isEditing ? form.subId : nextSubId}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="bg-orange-600 text-white px-4 py-2 rounded-lg font-bold text-lg">
-                    {apiCategories.find(c => c.title === form.category)?.categoryId}.{isEditing ? form.subId : nextSubId}
+      {/* Form Section */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8 mb-8">
+              <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+                <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3">
+                  <div className="p-2 bg-orange-100 rounded-lg text-orange-600">
+                    {isEditing ? <Edit2 className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
                   </div>
-                  <p className="text-xs text-orange-700 mt-1">Category.SubCategory</p>
-                </div>
+                  {isEditing ? 'Edit Service' : 'Create Service'}
+                </h2>
               </div>
-            </div>
-          )}
 
-          <div className="mt-6">
-            <label className="block text-sm font-semibold text-gray-700 mb-3">Service Image</label>
-            <ImageUpload
-              onUploadComplete={(url) => setForm(f => ({ ...f, image: url }))}
-              initialImage={form.image}
-              maxFiles={1}
-            />
-            <input type="hidden" name="image" value={form.image} />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="md:col-span-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Short Description *</label>
-              <input
-                name="shortDescription"
-                value={form.shortDescription}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                placeholder="Brief service description"
-                required
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Full Description</label>
-              <textarea
-                name="description"
-                value={form.description}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                rows={6}
-                placeholder="Detailed service description"
-              />
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={submitting}
-              className="px-8 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              {submitting ? (
-                <span className="flex items-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processing...
-                </span>
-              ) : (
-                isEditing ? 'Update Service' : 'Add Service'
-              )}
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {/* Services Grid */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">All Services ({services.length})</h2>
-        {services.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-lg p-12 border border-gray-100 text-center">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <p className="text-gray-500 text-lg">No services yet. Add your first service above.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((s) => (
-              <article
-                key={s._id || s.title}
-                className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group"
-              >
-                {s.image && (
-                  <div className="h-48 overflow-hidden relative">
-                    <img
-                      src={s.image.startsWith('http') ? s.image : `${import.meta.env.VITE_API_URL}${s.image}`}
-                      alt={s.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              <form onSubmit={handleSubmit} className="space-y-8">
+                {/* Main Info */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700">Service Title *</label>
+                    <input
+                      name="title"
+                      value={form.title}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                      placeholder="e.g. 3D Modeling"
+                      required
                     />
-                    {/* Service ID Badge */}
-                    <div className="absolute top-3 right-3 bg-orange-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-                      {s.categoryId}.{s.subId}
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700">Category *</label>
+                    <div className="relative">
+                      <select
+                        name="category"
+                        value={form.category}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none appearance-none"
+                        required
+                      >
+                        <option value="">Select Category</option>
+                        {categories.map((c) => (
+                          <option key={c} value={c}>{c}</option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-4 top-3.5 w-5 h-5 text-gray-400 pointer-events-none" />
                     </div>
                   </div>
-                )}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
-                      {s.category || 'Uncategorized'}
-                    </span>
-                    <span className="text-xs text-gray-500">{s.features?.length || 0} features</span>
+                </div>
+
+                {/* ID Preview */}
+                <AnimatePresence>
+                  {form.category && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="bg-orange-50 border border-orange-100 rounded-xl p-4 flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-white rounded-lg shadow-sm text-orange-600">
+                          <Layers className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-orange-900">System ID Assignment</p>
+                          <p className="text-xs text-orange-700">
+                            Identifier: <code className="bg-white/50 px-1 rounded">{apiCategories.find(c => c.title === form.category)?.categoryId}.{isEditing ? form.subId : nextSubId}</code>
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Image Upload */}
+                <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 border-dashed">
+                  <h3 className="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <ImageIcon className="w-5 h-5 text-slate-500" />
+                    Cover Image
+                  </h3>
+                  <ImageUpload
+                    onUploadComplete={(url) => setForm(f => ({ ...f, image: url }))}
+                    initialImage={form.image}
+                    maxFiles={1}
+                  />
+                  <input type="hidden" name="image" value={form.image} />
+                </div>
+
+                {/* Content */}
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700">Short Summary *</label>
+                    <input
+                      name="shortDescription"
+                      value={form.shortDescription}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                      placeholder="Brief overview for cards"
+                      required
+                    />
                   </div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">{s.title}</h2>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">{s.shortDescription}</p>
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <button
-                      onClick={() => editService(s)}
-                      className="text-orange-600 hover:text-orange-700 text-sm font-semibold transition-colors"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => removeService(s._id)}
-                      className="text-red-600 hover:text-red-700 text-sm font-semibold transition-colors"
-                    >
-                      Delete
-                    </button>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700">Detailed Description</label>
+                    <textarea
+                      name="description"
+                      value={form.description}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                      rows={6}
+                      placeholder="Full details about this service..."
+                    />
                   </div>
                 </div>
-              </article>
-            ))}
+
+                {/* Actions */}
+                <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="px-6 py-2.5 text-slate-600 font-semibold hover:bg-slate-100 rounded-xl transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="px-8 py-2.5 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {submitting ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Check className="w-5 h-5" />
+                        {isEditing ? 'Update Service' : 'Create Service'}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Grid & Filters */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search services..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+            />
           </div>
+          <div className="relative w-full md:w-64">
+            <Filter className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="w-full pl-11 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none appearance-none"
+            >
+              <option value="">All Categories</option>
+              {categories.map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-4 top-3.5 w-5 h-5 text-gray-400 pointer-events-none" />
+          </div>
+        </div>
+
+        {filteredServices.length === 0 ? (
+          <div className="text-center py-20">
+            <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Layers className="w-10 h-10 text-slate-300" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-700 mb-1">No services found</h3>
+            <p className="text-slate-500">Create a new service to get started.</p>
+          </div>
+        ) : (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+          >
+            {filteredServices.map((s) => {
+              const Icon = CATEGORY_ICONS[s.category] || CATEGORY_ICONS['default'];
+
+              return (
+                <motion.article
+                  key={s._id || s.title}
+                  variants={itemVariants}
+                  className="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300"
+                >
+                  <div className="relative h-48 overflow-hidden bg-slate-100">
+                    {s.image ? (
+                      <img
+                        src={s.image.startsWith('http') ? s.image : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${s.image}`}
+                        alt={s.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-400">
+                        <Icon className="w-12 h-12 opacity-50" />
+                      </div>
+                    )}
+
+                    <div className="absolute top-3 right-3 flex gap-2">
+                      <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-slate-700 text-xs font-bold rounded-full shadow-sm">
+                        {s.categoryId}.{s.subId}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full uppercase tracking-wider">
+                        {s.category || 'General'}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-slate-800 mb-2 line-clamp-1 group-hover:text-orange-600 transition-colors">
+                      {s.title}
+                    </h3>
+                    <p className="text-slate-500 text-sm mb-4 line-clamp-2 leading-relaxed">
+                      {s.shortDescription}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-50">
+                      <div className="text-xs text-slate-400 font-medium">
+                        {s.features?.length || 0} features included
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => editService(s)}
+                          className="p-2 bg-slate-50 text-slate-600 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                          title="Edit Service"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => removeService(s._id)}
+                          className="p-2 bg-slate-50 text-slate-600 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors"
+                          title="Delete Service"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

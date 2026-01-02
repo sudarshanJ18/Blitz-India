@@ -3,6 +3,7 @@ const ServiceCategory = require('../../models/ServiceCategory');
 const Project = require('../../models/Project');
 const Blog = require('../../models/Blog');
 const ContactSubmission = require('../../models/ContactSubmission');
+const Testimonial = require('../../models/Testimonial');
 
 /**
  * Get dashboard statistics
@@ -20,7 +21,9 @@ const getDashboardStats = async (req, res, next) => {
             totalBlogs,
             publishedBlogs,
             newSubmissions,
-            totalSubmissions
+            totalSubmissions,
+            totalTestimonials,
+            publishedTestimonials
         ] = await Promise.all([
             Service.countDocuments(),
             Service.countDocuments({ published: true }),
@@ -30,7 +33,9 @@ const getDashboardStats = async (req, res, next) => {
             Blog.countDocuments(),
             Blog.countDocuments({ published: true }),
             ContactSubmission.countDocuments({ status: 'new' }),
-            ContactSubmission.countDocuments()
+            ContactSubmission.countDocuments(),
+            Testimonial.countDocuments(),
+            Testimonial.countDocuments({ published: true })
         ]);
 
         // Get recent activity
@@ -61,6 +66,10 @@ const getDashboardStats = async (req, res, next) => {
                         total: totalBlogs,
                         published: publishedBlogs
                     },
+                    testimonials: {
+                        total: totalTestimonials,
+                        published: publishedTestimonials
+                    },
                     submissions: {
                         total: totalSubmissions,
                         new: newSubmissions
@@ -69,7 +78,8 @@ const getDashboardStats = async (req, res, next) => {
                 recentActivity: {
                     submissions: recentSubmissions,
                     blogs: recentBlogs
-                }
+                },
+                serverTime: new Date()
             }
         });
     } catch (error) {

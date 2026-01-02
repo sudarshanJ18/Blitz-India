@@ -80,9 +80,9 @@ const AdminLayout = ({ children }) => {
   ];
 
   const Sidebar = () => (
-    <aside className={`bg-white text-slate-700 w-72 min-h-screen fixed lg:relative lg:translate-x-0 transform transition-transform duration-300 ease-in-out shadow-lg border-r border-gray-100 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}>
+    <aside className={`bg-white text-slate-700 w-72 h-screen fixed lg:sticky lg:top-0 lg:translate-x-0 transform transition-transform duration-300 ease-in-out shadow-lg border-r border-gray-100 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-40 flex flex-col`}>
       {/* Logo Section */}
-      <div className="flex justify-between items-center px-6 py-6 border-b border-gray-100">
+      <div className="flex justify-between items-center px-6 py-6 border-b border-gray-100 flex-none">
         <Link to="/" className="flex items-center space-x-3 group">
           <img
             src={assets.logo}
@@ -104,7 +104,7 @@ const AdminLayout = ({ children }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="px-4 py-6 space-y-1">
+      <nav className="px-4 py-6 space-y-1 flex-1 overflow-y-auto custom-scrollbar">
         {navItems.map((item, index) => (
           <NavLink
             key={index}
@@ -125,7 +125,7 @@ const AdminLayout = ({ children }) => {
       </nav>
 
       {/* Bottom Section */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100 bg-white space-y-2">
+      <div className="p-4 border-t border-gray-100 bg-white space-y-2 flex-none">
         <button
           onClick={handleLogout}
           className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition-all duration-200 group shadow-md hover:shadow-lg"

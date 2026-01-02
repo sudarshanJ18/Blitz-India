@@ -1,25 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import * as testimonialsService from '../../services/testimonials.service';
+import React, { useState, useEffect } from 'react';
+import { getAdminTestimonials, createTestimonial, updateTestimonial, deleteTestimonial } from '../../services/testimonials.service';
 import ImageUpload from './ImageUpload';
-import toast from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    Plus, Search, Edit2, Trash2, Check, X,
+    MessageSquare, Star, User, Building, Quote, Briefcase, Eye, EyeOff, Award
+} from 'lucide-react';
 
-const emptyTestimonial = {
+const initialForm = {
     name: '',
     position: '',
     company: '',
     testimonial: '',
-    image: '',
     rating: 5,
-    featured: false,
-    published: true,
+    image: '',
+    published: false,
+    featured: false
+};
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 }
+    }
+};
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: { type: "spring", stiffness: 100 }
+    }
 };
 
 const TestimonialsManager = () => {
     const [testimonials, setTestimonials] = useState([]);
-    const [form, setForm] = useState(emptyTestimonial);
+    const [form, setForm] = useState(initialForm);
     const [isEditing, setIsEditing] = useState(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [showForm, setShowForm] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [message, setMessage] = useState({ type: '', text: '' });
 
     useEffect(() => {
         fetchTestimonials();
@@ -28,415 +52,477 @@ const TestimonialsManager = () => {
     const fetchTestimonials = async () => {
         try {
             setLoading(true);
-            const data = await testimonialsService.getAdminTestimonials();
+            const data = await getAdminTestimonials();
             setTestimonials(data || []);
         } catch (error) {
             console.error('Error fetching testimonials:', error);
-            toast.error('Failed to load testimonials. Please try again.');
+            showMessage('error', 'Failed to load testimonials');
         } finally {
             setLoading(false);
         }
     };
 
+    const showMessage = (type, text) => {
+        setMessage({ type, text });
+        setTimeout(() => setMessage({ type: '', text: '' }), 3000);
+    };
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        const newValue = type === 'checkbox' ? checked : (type === 'number' ? parseInt(value) : (value || ''));
-        setForm((f) => ({ ...f, [name]: newValue }));
+        setForm((prev) => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!form.name || !form.position || !form.company || !form.testimonial) {
-            toast.error('Name, position, company, and testimonial are required');
-            return;
-        }
-
-        const testimonialData = {
-            name: form.name,
-            position: form.position,
-            company: form.company,
-            testimonial: form.testimonial,
-            rating: form.rating,
-            featured: form.featured,
-            published: form.published
-        };
-
-        if (form.image) testimonialData.image = form.image;
-
         try {
             setSaving(true);
+            // Ensure payload uses 'testimonial' key
+            const payload = {
+                ...form,
+                testimonial: form.testimonial
+            };
+
             if (isEditing) {
-                const updated = await testimonialsService.updateTestimonial(isEditing, testimonialData);
-                setTestimonials(testimonials.map(t => t._id === isEditing ? updated : t));
-                toast.success('Testimonial updated successfully!');
-                setIsEditing(null);
+                await updateTestimonial(isEditing, payload);
+                showMessage('success', 'Testimonial updated');
             } else {
-                const newTestimonial = await testimonialsService.createTestimonial(testimonialData);
-                setTestimonials([newTestimonial, ...testimonials]);
-                toast.success('Testimonial created successfully!');
+                await createTestimonial(payload);
+                showMessage('success', 'Testimonial created');
             }
-            setForm(emptyTestimonial);
+            setForm(initialForm);
+            setIsEditing(null);
+            setShowForm(false);
+            fetchTestimonials();
         } catch (error) {
             console.error('Error saving testimonial:', error);
-            console.error('Error response:', error.response?.data);
-            const errorMessage = error.response?.data?.message || error.response?.data?.error || 'Failed to save testimonial';
-            toast.error(errorMessage);
+            showMessage('error', 'Failed to save testimonial');
         } finally {
             setSaving(false);
         }
     };
 
-    const removeTestimonial = async (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this testimonial?')) {
             try {
-                await testimonialsService.deleteTestimonial(id);
-                setTestimonials(testimonials.filter((t) => t._id !== id));
-                toast.success('Testimonial deleted successfully!');
+                await deleteTestimonial(id);
+                setTestimonials(prev => prev.filter(t => t._id !== id));
+                showMessage('success', 'Testimonial deleted');
             } catch (error) {
                 console.error('Error deleting testimonial:', error);
-                toast.error('Failed to delete testimonial');
+                showMessage('error', 'Failed to delete testimonial');
             }
         }
     };
 
-    const editTestimonial = (testimonial) => {
-        const editForm = {
-            name: testimonial.name || '',
-            position: testimonial.position || '',
-            company: testimonial.company || '',
-            testimonial: testimonial.testimonial || '',
-            image: testimonial.image || '',
+    const handleEdit = (testimonial) => {
+        setForm({
+            name: testimonial.name,
+            position: testimonial.position,
+            company: testimonial.company,
+            // Handle potentially different field names from backend
+            testimonial: testimonial.testimonial || testimonial.message || '',
             rating: testimonial.rating || 5,
-            featured: testimonial.featured || false,
-            published: testimonial.published !== undefined ? testimonial.published : true
-        };
-        setForm(editForm);
+            image: testimonial.image || '',
+            published: testimonial.published || false,
+            featured: testimonial.featured || false
+        });
         setIsEditing(testimonial._id);
+        setShowForm(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const cancelEdit = () => {
-        setForm(emptyTestimonial);
-        setIsEditing(null);
-    };
-
-    const toggleFeatured = async (testimonial) => {
+    const handleTogglePublish = async (testimonial) => {
         try {
-            const updated = await testimonialsService.updateTestimonial(testimonial._id, {
-                ...testimonial,
-                featured: !testimonial.featured
-            });
-            setTestimonials(testimonials.map(t => t._id === testimonial._id ? updated : t));
-            toast.success(`Testimonial ${updated.featured ? 'featured' : 'unfeatured'}!`);
+            const newStatus = !testimonial.published;
+            await updateTestimonial(testimonial._id, { published: newStatus });
+            setTestimonials(prev => prev.map(t =>
+                t._id === testimonial._id ? { ...t, published: newStatus } : t
+            ));
+            showMessage('success', `Testimonial ${newStatus ? 'published' : 'unpublished'}`);
         } catch (error) {
-            console.error('Error toggling featured:', error);
-            toast.error('Failed to update testimonial');
+            console.error('Error updating status:', error);
+            showMessage('error', 'Failed to update status');
+            fetchTestimonials();
         }
     };
 
-    const togglePublished = async (testimonial) => {
+    const handleToggleFeatured = async (testimonial) => {
         try {
-            const updated = await testimonialsService.updateTestimonial(testimonial._id, {
-                ...testimonial,
-                published: !testimonial.published
-            });
-            setTestimonials(testimonials.map(t => t._id === testimonial._id ? updated : t));
-            toast.success(`Testimonial ${updated.published ? 'published' : 'unpublished'}!`);
+            const newStatus = !testimonial.featured;
+            await updateTestimonial(testimonial._id, { featured: newStatus });
+            setTestimonials(prev => prev.map(t =>
+                t._id === testimonial._id ? { ...t, featured: newStatus } : t
+            ));
+            showMessage('success', `Testimonial ${newStatus ? 'featured' : 'unfeatured'}`);
         } catch (error) {
-            console.error('Error toggling published:', error);
-            toast.error('Failed to update testimonial');
+            console.error('Error updating status:', error);
+            showMessage('error', 'Failed to update status');
+            fetchTestimonials();
         }
     };
+
+    const filteredTestimonials = testimonials.filter(t =>
+        t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        t.company.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
             </div>
         );
     }
 
     return (
-        <div className="space-y-8">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-8"
+        >
             {/* Header */}
-            <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 bg-clip-text text-transparent mb-2">
-                    Manage Testimonials
-                </h1>
-                <p className="text-gray-600 text-lg">Create and manage customer testimonials</p>
-            </div>
-
-            {/* Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900">
-                        {isEditing ? 'Edit Testimonial' : 'Add New Testimonial'}
-                    </h2>
-                    {isEditing && (
-                        <button
-                            onClick={cancelEdit}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                        >
-                            Cancel
-                        </button>
-                    )}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">Testimonials</h1>
+                    <p className="text-slate-500 text-lg mt-1 font-medium">Manage client feedback and reviews</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Customer Information */}
-                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border-l-4 border-blue-600">
-                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                            <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            Customer Information
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Name *</label>
-                                <input
-                                    name="name"
-                                    value={form.name}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                                    placeholder="Customer name"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Position *</label>
-                                <input
-                                    name="position"
-                                    value={form.position}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                                    placeholder="e.g. CTO, Product Manager"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Company *</label>
-                                <input
-                                    name="company"
-                                    value={form.company}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                                    placeholder="Company name"
-                                    required
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Customer Image */}
-                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl border-l-4 border-purple-600">
-                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                            <svg className="w-5 h-5 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            Customer Photo
-                        </h3>
-                        <ImageUpload
-                            onUploadComplete={(url) => setForm(f => ({ ...f, image: url }))}
-                            initialImage={form.image}
-                            maxFiles={1}
-                        />
-                        <input type="hidden" name="image" value={form.image} />
-                        <p className="text-xs text-gray-500 mt-2">Optional: Upload customer's photo</p>
-                    </div>
-
-                    {/* Testimonial Content */}
-                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl border-l-4 border-green-600">
-                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                            <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                            </svg>
-                            Testimonial
-                        </h3>
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Testimonial Text *</label>
-                            <textarea
-                                name="testimonial"
-                                value={form.testimonial}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all bg-white"
-                                rows={5}
-                                placeholder="What did the customer say about your service?"
-                                required
-                            />
-                        </div>
-                        <div className="mt-4">
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Rating</label>
-                            <select
-                                name="rating"
-                                value={form.rating}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all bg-white"
-                            >
-                                <option value={5}>5 Stars - Excellent</option>
-                                <option value={4}>4 Stars - Very Good</option>
-                                <option value={3}>3 Stars - Good</option>
-                                <option value={2}>2 Stars - Fair</option>
-                                <option value={1}>1 Star - Poor</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    {/* Options */}
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                        <div className="flex gap-6">
-                            <div className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="featured"
-                                    checked={form.featured}
-                                    onChange={handleChange}
-                                    className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
-                                />
-                                <label className="ml-3 text-sm font-semibold text-gray-700 flex items-center">
-                                    <svg className="w-5 h-5 text-yellow-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    Featured
-                                </label>
-                            </div>
-                            <div className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="published"
-                                    checked={form.published}
-                                    onChange={handleChange}
-                                    className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
-                                />
-                                <label className="ml-3 text-sm font-semibold text-gray-700">
-                                    Published
-                                </label>
-                            </div>
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={saving}
-                            className="px-8 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                        >
-                            {saving ? (
-                                <>
-                                    <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Saving...
-                                </>
-                            ) : (
-                                <>
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    {isEditing ? 'Update Testimonial' : 'Add Testimonial'}
-                                </>
-                            )}
-                        </button>
-                    </div>
-                </form>
+                <button
+                    onClick={() => {
+                        setShowForm(!showForm);
+                        if (!showForm) {
+                            setForm(initialForm);
+                            setIsEditing(null);
+                        }
+                    }}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-md ${showForm
+                        ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        : 'bg-orange-600 text-white hover:bg-orange-700 hover:shadow-lg hover:-translate-y-0.5'
+                        }`}
+                >
+                    {showForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                    {showForm ? 'Close Editor' : 'New Testimonial'}
+                </button>
             </div>
 
-            {/* Testimonials List */}
-            <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">All Testimonials ({testimonials.length})</h2>
-                {testimonials.length === 0 ? (
-                    <div className="bg-white rounded-2xl shadow-lg p-12 border border-gray-100 text-center">
-                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                            </svg>
+            {/* Message Notification */}
+            <AnimatePresence>
+                {message.text && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className={`rounded-xl p-4 flex items-center shadow-sm ${message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'
+                            }`}
+                    >
+                        {message.type === 'success' ? <Check className="w-5 h-5 mr-3" /> : <X className="w-5 h-5 mr-3" />}
+                        <span className="font-medium">{message.text}</span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Form */}
+            <AnimatePresence>
+                {showForm && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                    >
+                        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8 mb-8">
+                            <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+                                <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3">
+                                    <div className="p-2 bg-orange-100 rounded-lg text-orange-600">
+                                        {isEditing ? <Edit2 className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
+                                    </div>
+                                    {isEditing ? 'Edit Testimonial' : 'Add New Testimonial'}
+                                </h2>
+                            </div>
+
+                            <form onSubmit={handleSubmit} className="space-y-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                            <User className="w-4 h-4" /> Client Name *
+                                        </label>
+                                        <input
+                                            name="name"
+                                            value={form.name}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                                            placeholder="e.g. John Doe"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                            <Briefcase className="w-4 h-4" /> Position *
+                                        </label>
+                                        <input
+                                            name="position"
+                                            value={form.position}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                                            placeholder="e.g. CEO"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                            <Building className="w-4 h-4" /> Company *
+                                        </label>
+                                        <input
+                                            name="company"
+                                            value={form.company}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                                            placeholder="e.g. Tech Corp"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                            <Star className="w-4 h-4" /> Rating (1-5) *
+                                        </label>
+                                        <input
+                                            type="number"
+                                            name="rating"
+                                            min="1"
+                                            max="5"
+                                            value={form.rating}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                        <Quote className="w-4 h-4" /> Testimonial Message *
+                                    </label>
+                                    <textarea
+                                        name="testimonial"
+                                        value={form.testimonial}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                                        rows={4}
+                                        placeholder="Enter the client's feedback here..."
+                                        required
+                                    />
+                                </div>
+
+                                <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 border-dashed">
+                                    <h3 className="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                        <User className="w-5 h-5 text-slate-500" />
+                                        Client Photo
+                                    </h3>
+                                    <ImageUpload
+                                        onUploadComplete={(url) => setForm(f => ({ ...f, image: url }))}
+                                        initialImage={form.image}
+                                        maxFiles={1}
+                                    />
+                                    <input type="hidden" name="image" value={form.image} />
+                                </div>
+
+                                <div className="flex flex-wrap gap-6 pt-4 border-t border-gray-100">
+                                    <label className="flex items-center gap-3 cursor-pointer group">
+                                        <div className={`w-6 h-6 rounded border flex items-center justify-center transition-colors ${form.published ? 'bg-orange-600 border-orange-600' : 'bg-white border-slate-300'}`}>
+                                            {form.published && <Check className="w-4 h-4 text-white" />}
+                                        </div>
+                                        <input
+                                            type="checkbox"
+                                            name="published"
+                                            checked={form.published}
+                                            onChange={handleChange}
+                                            className="hidden"
+                                        />
+                                        <span className="font-semibold text-slate-700 group-hover:text-orange-600 transition-colors">Publish immediately</span>
+                                    </label>
+
+                                    <label className="flex items-center gap-3 cursor-pointer group">
+                                        <div className={`w-6 h-6 rounded border flex items-center justify-center transition-colors ${form.featured ? 'bg-yellow-500 border-yellow-500' : 'bg-white border-slate-300'}`}>
+                                            {form.featured && <Star className="w-3 h-3 text-white fill-current" />}
+                                        </div>
+                                        <input
+                                            type="checkbox"
+                                            name="featured"
+                                            checked={form.featured}
+                                            onChange={handleChange}
+                                            className="hidden"
+                                        />
+                                        <span className="font-semibold text-slate-700 group-hover:text-yellow-600 transition-colors">Set as Featured</span>
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowForm(false)}
+                                        className="px-6 py-2.5 text-slate-600 font-semibold hover:bg-slate-100 rounded-xl transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={saving}
+                                        className="px-8 py-2.5 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                    >
+                                        {saving ? (
+                                            <>
+                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                Saving...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Check className="w-5 h-5" />
+                                                {isEditing ? 'Update Testimonial' : 'Add Testimonial'}
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <p className="text-gray-500 text-lg">No testimonials yet. Add your first testimonial above.</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* List */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search by name or company..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+                        />
+                    </div>
+                </div>
+
+                {filteredTestimonials.length === 0 ? (
+                    <div className="text-center py-20">
+                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <MessageSquare className="w-10 h-10 text-slate-300" />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-700 mb-1">No testimonials found</h3>
+                        <p className="text-slate-500">Collect your first client feedback.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {testimonials.map((t) => (
-                            <article
+                    <motion.div
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                        variants={containerVariants}
+                    >
+                        {filteredTestimonials.map((t) => (
+                            <motion.div
                                 key={t._id}
-                                className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 hover:shadow-xl transition-all duration-300"
+                                variants={itemVariants}
+                                className="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 flex flex-col"
                             >
-                                <div className="flex items-start gap-4 mb-4">
-                                    {t.image ? (
-                                        <img
-                                            src={t.image}
-                                            alt={t.name}
-                                            className="w-16 h-16 rounded-full object-cover"
-                                        />
-                                    ) : (
-                                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-xl">
-                                            {t.name.charAt(0)}
+                                <div className="p-6 flex-1 flex flex-col">
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="flex items-center gap-3">
+                                            {t.image ? (
+                                                <img
+                                                    src={t.image.startsWith('http') ? t.image : `http://localhost:5000${t.image}`}
+                                                    alt={t.name}
+                                                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
+                                                />
+                                            ) : (
+                                                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                                                    <User className="w-6 h-6" />
+                                                </div>
+                                            )}
+                                            <div>
+                                                <h3 className="font-bold text-slate-900 leading-tight">{t.name}</h3>
+                                                <p className="text-xs text-slate-500 font-medium">{t.position} at {t.company}</p>
+                                            </div>
                                         </div>
-                                    )}
-                                    <div className="flex-1">
-                                        <h3 className="text-lg font-bold text-gray-900">{t.name}</h3>
-                                        <p className="text-sm text-gray-600">{t.position}</p>
-                                        <p className="text-sm text-orange-600 font-semibold">{t.company}</p>
+
+                                        <div className="flex flex-col gap-1 items-end">
+                                            <span className={`px-2 py-1 text-[10px] uppercase font-bold rounded-lg tracking-wider ${t.published ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'
+                                                }`}>
+                                                {t.published ? 'Published' : 'Draft'}
+                                            </span>
+                                            {t.featured && (
+                                                <span className="px-2 py-1 text-[10px] uppercase font-bold rounded-lg tracking-wider bg-yellow-100 text-yellow-700 flex items-center gap-1">
+                                                    <Award className="w-3 h-3" /> Featured
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="flex gap-1">
-                                        {[...Array(t.rating)].map((_, i) => (
-                                            <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
+
+                                    <div className="flex gap-1 mb-3">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star
+                                                key={i}
+                                                className={`w-4 h-4 ${i < t.rating ? 'text-amber-400 fill-amber-400' : 'text-slate-200'}`}
+                                            />
                                         ))}
                                     </div>
-                                </div>
-                                <p className="text-gray-700 mb-4 italic">"{t.testimonial}"</p>
-                                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                    <div className="flex gap-2">
-                                        {t.featured && (
-                                            <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
-                                                Featured
-                                            </span>
-                                        )}
-                                        {t.published ? (
-                                            <span className="text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">
-                                                Published
-                                            </span>
-                                        ) : (
-                                            <span className="text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                                Draft
-                                            </span>
-                                        )}
+
+                                    <div className="relative flex-1">
+                                        <Quote className="absolute -left-1 -top-2 w-6 h-6 text-slate-100 transform -scale-x-100" />
+                                        <p className="text-slate-600 text-sm leading-relaxed italic pl-6 relative z-10 line-clamp-4">
+                                            "{t.testimonial || t.message}"
+                                        </p>
                                     </div>
+                                </div>
+
+                                <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
                                     <div className="flex gap-2">
                                         <button
-                                            onClick={() => toggleFeatured(t)}
-                                            className={`text-xs font-semibold transition-colors ${t.featured ? 'text-orange-600 hover:text-orange-700' : 'text-gray-400 hover:text-gray-600'
+                                            onClick={() => handleTogglePublish(t)}
+                                            className={`p-2 rounded-lg transition-colors shadow-sm ${t.published
+                                                ? 'bg-white text-green-600 hover:bg-green-50'
+                                                : 'bg-white text-slate-400 hover:bg-green-50 hover:text-green-600'
                                                 }`}
-                                            title={t.featured ? 'Unfeature' : 'Feature'}
+                                            title={t.published ? "Unpublish" : "Publish"}
                                         >
-                                            ★
+                                            {t.published ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                                         </button>
                                         <button
-                                            onClick={() => togglePublished(t)}
-                                            className="text-xs font-semibold text-gray-600 hover:text-gray-800 transition-colors"
-                                            title={t.published ? 'Unpublish' : 'Publish'}
+                                            onClick={() => handleToggleFeatured(t)}
+                                            className={`p-2 rounded-lg transition-colors shadow-sm ${t.featured
+                                                ? 'bg-white text-yellow-500 hover:bg-yellow-50'
+                                                : 'bg-white text-slate-400 hover:bg-yellow-50 hover:text-yellow-500'
+                                                }`}
+                                            title={t.featured ? "Remove from Featured" : "Add to Featured"}
                                         >
-                                            {t.published ? '👁️' : '👁️‍🗨️'}
+                                            <Star className={`w-4 h-5 ${t.featured ? 'fill-current' : ''}`} />
+                                        </button>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => handleEdit(t)}
+                                            className="p-2 bg-white text-slate-600 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors shadow-sm"
+                                            title="Edit"
+                                        >
+                                            <Edit2 className="w-4 h-4" />
                                         </button>
                                         <button
-                                            onClick={() => editTestimonial(t)}
-                                            className="text-orange-600 hover:text-orange-700 text-sm font-semibold transition-colors"
+                                            onClick={() => handleDelete(t._id)}
+                                            className="p-2 bg-white text-slate-600 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm"
+                                            title="Delete"
                                         >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => removeTestimonial(t._id)}
-                                            className="text-red-600 hover:text-red-700 text-sm font-semibold transition-colors"
-                                        >
-                                            Delete
+                                            <Trash2 className="w-4 h-4" />
                                         </button>
                                     </div>
                                 </div>
-                            </article>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 };
 

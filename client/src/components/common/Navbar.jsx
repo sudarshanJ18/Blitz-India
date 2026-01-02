@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { assets, serviceCategories } from '../../assets/assets.js';
+import { useSettings } from '../../contexts/SettingsContext';
 
 const THEME_COLORS = {
   primary: '#FF6B35',
@@ -12,6 +13,7 @@ const THEME_COLORS = {
 };
 
 const Navbar = () => {
+  const { settings } = useSettings();
   const [scrolled, setScrolled] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const [hoveredService, setHoveredService] = useState(false);
@@ -164,9 +166,9 @@ const Navbar = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center group">
               <img
-                src={assets.logo}
-                alt="Blitz India Engineering"
-                className="h-24 w-auto transition-transform duration-300 group-hover:scale-105"
+                src={settings?.logo ? (settings.logo.startsWith('http') ? settings.logo : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${settings.logo}`) : assets.logo}
+                alt={settings?.companyName || "Blitz India Engineering"}
+                className={`w-auto transition-all duration-300 group-hover:scale-105 ${scrolled ? 'h-24' : 'h-14'}`}
                 draggable={false}
               />
             </Link>
@@ -347,8 +349,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 px-4">
           <Link to="/" className={`flex items-center transition-opacity duration-300 ${atTop ? 'opacity-0' : 'opacity-100'}`} onClick={handleNavClick}>
             <img
-              src={assets.logo}
-              alt="Blitz India Engineering"
+              src={settings?.logo ? (settings.logo.startsWith('http') ? settings.logo : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${settings.logo}`) : assets.logo}
+              alt={settings?.companyName || "Blitz India Engineering"}
               className="h-12 w-auto transition-all duration-300 hover:scale-105"
               draggable={false}
             />

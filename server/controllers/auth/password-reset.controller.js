@@ -10,7 +10,7 @@ const emailService = require('../../services/email.service');
 exports.forgotPassword = async (req, res) => {
     try {
         // Use the configured admin email directly (no email input required)
-        const adminEmail = process.env.ADMIN_EMAIL || 'jsudarshanreddy2003@gmail.com';
+        const adminEmail = process.env.ADMIN_EMAIL || 'info@blitzindiaengineering.com';
 
         // Find admin by the configured email
         const admin = await Admin.findOne({ email: adminEmail.toLowerCase() });

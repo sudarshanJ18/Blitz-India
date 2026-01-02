@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { motion, animate, useInView } from 'framer-motion';
 
 // SVG Icons Components
 const ProjectsIcon = () => (
@@ -55,6 +56,9 @@ const PortfolioStats = () => {
   const [animatedNumbers, setAnimatedNumbers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
+
+  const containerRef = useRef(null);
+  const inView = useInView(containerRef, { once: true, margin: "-100px" });
 
   const stats = [
     {
@@ -123,24 +127,24 @@ const PortfolioStats = () => {
     }
   }, [isAutoRotating, stats.length]);
 
-  // Animate numbers on mount
+  // Animate numbers using Framer Motion
   useEffect(() => {
-    stats.forEach((stat, index) => {
-      setTimeout(() => {
-        let current = 0;
-        const increment = stat.number / 50;
-        const timer = setInterval(() => {
-          current += increment;
-          if (current >= stat.number) {
-            setAnimatedNumbers(prev => ({ ...prev, [stat.id]: stat.number }));
-            clearInterval(timer);
-          } else {
-            setAnimatedNumbers(prev => ({ ...prev, [stat.id]: Math.floor(current) }));
+    if (inView) {
+      stats.forEach((stat) => {
+        const controls = animate(0, stat.number, {
+          duration: 2,
+          ease: "easeOut",
+          onUpdate: (value) => {
+            setAnimatedNumbers(prev => ({
+              ...prev,
+              [stat.id]: Math.floor(value)
+            }));
           }
-        }, 30);
-      }, 300 * index);
-    });
-  }, []);
+        });
+        return () => controls.stop();
+      });
+    }
+  }, [inView]);
 
   const handleCardClick = (index) => {
     setCurrentIndex(index);
@@ -148,40 +152,88 @@ const PortfolioStats = () => {
     setTimeout(() => setIsAutoRotating(true), 10000);
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const getCardPosition = (index) => {
     const total = stats.length;
     const diff = (index - currentIndex + total) % total;
 
+    // Adjust values based on device
+    const xOffset = isMobile ? '55%' : '70%';
+    const zDepth = isMobile ? -150 : -200;
+    const zDepthInfo = isMobile ? -300 : -400;
+
     if (diff === 0) {
-      return { transform: 'translateX(0) translateZ(0) rotateY(0deg) scale(1.15)', zIndex: 50, opacity: 1 };
+      return {
+        transform: `translateX(0) translateZ(0) rotateY(0deg) scale(${isMobile ? 1.05 : 1.15})`,
+        zIndex: 50,
+        opacity: 1
+      };
     } else if (diff === 1 || diff === -total + 1) {
-      return { transform: 'translateX(70%) translateZ(-200px) rotateY(-25deg) scale(0.85)', zIndex: 30, opacity: 0.7 };
+      return {
+        transform: `translateX(${xOffset}) translateZ(${zDepth}px) rotateY(-${isMobile ? 15 : 25}deg) scale(0.85)`,
+        zIndex: 30,
+        opacity: 0.7
+      };
     } else if (diff === total - 1 || diff === -1) {
-      return { transform: 'translateX(-70%) translateZ(-200px) rotateY(25deg) scale(0.85)', zIndex: 30, opacity: 0.7 };
+      return {
+        transform: `translateX(-${xOffset}) translateZ(${zDepth}px) rotateY(${isMobile ? 15 : 25}deg) scale(0.85)`,
+        zIndex: 30,
+        opacity: 0.7
+      };
     } else if (diff === 2 || diff === -total + 2) {
-      return { transform: 'translateX(130%) translateZ(-400px) rotateY(-35deg) scale(0.6)', zIndex: 10, opacity: 0.4 };
+      return {
+        transform: `translateX(${isMobile ? '100%' : '130%'}) translateZ(${zDepthInfo}px) rotateY(-${isMobile ? 25 : 35}deg) scale(0.6)`,
+        zIndex: 10,
+        opacity: 0.4
+      };
     } else if (diff === total - 2 || diff === -2) {
-      return { transform: 'translateX(-130%) translateZ(-400px) rotateY(35deg) scale(0.6)', zIndex: 10, opacity: 0.4 };
+      return {
+        transform: `translateX(-${isMobile ? '100%' : '130%'}) translateZ(${zDepthInfo}px) rotateY(${isMobile ? 25 : 35}deg) scale(0.6)`,
+        zIndex: 10,
+        opacity: 0.4
+      };
     } else {
-      return { transform: 'translateX(0) translateZ(-600px) scale(0.3)', zIndex: 0, opacity: 0 };
+      return {
+        transform: `translateX(0) translateZ(-600px) scale(0.3)`,
+        zIndex: 0,
+        opacity: 0
+      };
     }
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <section ref={containerRef} className="py-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">
             Portfolio <span className="text-orange-600">Impact</span>
           </h2>
           {/* <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Numbers that demonstrate our commitment to engineering excellence and client success
           </p> */}
-        </div>
+        </motion.div>
 
         {/* 3D Carousel */}
-        <CarouselContainer>
+        <CarouselContainer
+          as={motion.div}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+        >
           <div className="carousel-wrapper">
             {stats.map((stat, index) => (
               <CarouselCard

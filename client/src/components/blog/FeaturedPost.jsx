@@ -96,15 +96,22 @@ const FeaturedPost = ({ limit = 3 }) => {
         </div>
 
         <div className="mt-12 text-center">
-          <Link
-            to="/blogs"
-            className="inline-flex items-center gap-2 rounded-full border border-orange-600 px-6 py-3 text-base font-bold text-orange-600 hover:bg-orange-600 hover:text-white transition-colors duration-200"
+          <a
+            href="#blog-posts-heading"
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.getElementById('blog-posts-heading');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="inline-flex items-center gap-2 rounded-full border border-orange-600 px-6 py-3 text-base font-bold text-orange-600 hover:bg-orange-600 hover:text-white transition-colors duration-200 cursor-pointer"
           >
             View All Articles
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
-          </Link>
+          </a>
         </div>
       </div>
     </section>
