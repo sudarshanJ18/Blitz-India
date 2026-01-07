@@ -5,12 +5,10 @@ const ServicesCTA = () => {
   return (
     <section className="py-6 sm:py-8 lg:py-10 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main CTA Section */}
+        
         <div className="text-center mb-6 sm:mb-8">
           <div className="inline-block mb-4">
-            {/* <span className="px-4 py-2 bg-orange-500/10 text-orange-500 text-sm font-bold rounded-full border border-orange-500/20">
-              Get Started Today
-            </span> */}
+            
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black mb-3 leading-tight">
@@ -22,7 +20,7 @@ const ServicesCTA = () => {
             Let's discuss your engineering requirements and how we can help bring your vision to life with our expert services.
           </p>
 
-          {/* CTA Buttons */}
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Link
               to="/contact"

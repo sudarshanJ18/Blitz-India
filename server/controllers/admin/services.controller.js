@@ -3,12 +3,9 @@ const ServiceCategory = require('../../models/ServiceCategory');
 const logger = require('../../utils/logger');
 const { AppError } = require('../../middleware/errorHandler');
 
-// SERVICES
 
-/**
- * Get all services (Admin - includes unpublished)
- * GET /api/admin/services
- */
+
+
 const getAllServices = async (req, res, next) => {
     try {
         const services = await Service.find().sort({ categoryId: 1, order: 1, subId: 1 });
@@ -23,10 +20,7 @@ const getAllServices = async (req, res, next) => {
     }
 };
 
-/**
- * Get single service by ID
- * GET /api/admin/services/:id
- */
+
 const getServiceById = async (req, res, next) => {
     try {
         const service = await Service.findById(req.params.id);
@@ -41,10 +35,7 @@ const getServiceById = async (req, res, next) => {
     }
 };
 
-/**
- * Create new service
- * POST /api/admin/services
- */
+
 const createService = async (req, res, next) => {
     try {
         const service = await Service.create(req.body);
@@ -61,10 +52,7 @@ const createService = async (req, res, next) => {
     }
 };
 
-/**
- * Update service
- * PUT /api/admin/services/:id
- */
+
 const updateService = async (req, res, next) => {
     try {
         const service = await Service.findByIdAndUpdate(
@@ -89,10 +77,7 @@ const updateService = async (req, res, next) => {
     }
 };
 
-/**
- * Delete service
- * DELETE /api/admin/services/:id
- */
+
 const deleteService = async (req, res, next) => {
     try {
         const service = await Service.findByIdAndDelete(req.params.id);
@@ -112,12 +97,9 @@ const deleteService = async (req, res, next) => {
     }
 };
 
-// SERVICE CATEGORIES
 
-/**
- * Get all categories (Admin - includes unpublished)
- * GET /api/admin/services/categories
- */
+
+
 const getAllCategories = async (req, res, next) => {
     try {
         const categories = await ServiceCategory.find().sort({ order: 1, categoryId: 1 });
@@ -132,10 +114,7 @@ const getAllCategories = async (req, res, next) => {
     }
 };
 
-/**
- * Create service category
- * POST /api/admin/services/categories
- */
+
 const createCategory = async (req, res, next) => {
     try {
         const category = await ServiceCategory.create(req.body);
@@ -152,10 +131,7 @@ const createCategory = async (req, res, next) => {
     }
 };
 
-/**
- * Update service category
- * PUT /api/admin/services/categories/:id
- */
+
 const updateCategory = async (req, res, next) => {
     try {
         const category = await ServiceCategory.findByIdAndUpdate(
@@ -180,10 +156,7 @@ const updateCategory = async (req, res, next) => {
     }
 };
 
-/**
- * Delete service category
- * DELETE /api/admin/services/categories/:id
- */
+
 const deleteCategory = async (req, res, next) => {
     try {
         const category = await ServiceCategory.findByIdAndDelete(req.params.id);

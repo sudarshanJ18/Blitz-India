@@ -55,14 +55,14 @@ const blogSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Indexes
-// Note: slug field already has unique: true which creates an index automatically
+
+
 blogSchema.index({ published: 1 });
 blogSchema.index({ category: 1 });
 blogSchema.index({ publishedDate: -1 });
 blogSchema.index({ featured: 1 });
 
-// Generate slug from title before saving
+
 blogSchema.pre('save', function (next) {
     if (this.isModified('title') && !this.slug) {
         this.slug = this.title
@@ -78,7 +78,7 @@ blogSchema.pre('save', function (next) {
     next();
 });
 
-// Method to increment views
+
 blogSchema.methods.incrementViews = function () {
     this.views += 1;
     return this.save();

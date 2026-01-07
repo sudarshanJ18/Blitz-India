@@ -17,7 +17,7 @@ const TeamSection = () => {
     id: member.id
   }));
 
-  // Auto-rotate testimonials
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % testimonials.length);
@@ -34,7 +34,7 @@ const TeamSection = () => {
           </h2>
         </div>
 
-        {/* Manual Animated Testimonials Layout */}
+        
         <div className="relative h-[500px] mb-12">
           {testimonials.map((testimonial, index) => (
             <div
@@ -48,7 +48,7 @@ const TeamSection = () => {
               }`}
             >
               <div className="flex flex-col lg:flex-row items-center gap-8">
-                {/* Image Section */}
+                
                 <div className="lg:w-1/3">
                   <div className="relative">
                     <img
@@ -63,10 +63,10 @@ const TeamSection = () => {
                   </div>
                 </div>
 
-                {/* Content Section */}
+                
                 <div className="lg:w-2/3">
                   <div className="bg-white rounded-2xl p-8 shadow-2xl border-2 border-[#4A5568]">
-                    {/* Expertise badges */}
+                    
                     <div className="mb-4">
                       <div className="flex flex-wrap gap-2">
                         {testimonial.expertise.slice(0, 3).map((skill, skillIndex) => (
@@ -80,19 +80,19 @@ const TeamSection = () => {
                       </div>
                     </div>
 
-                    {/* Quote */}
+                    
                     <blockquote className="text-gray-700 text-xl leading-relaxed mb-6 italic">
                       "{testimonial.quote}"
                     </blockquote>
 
-                    {/* Experience */}
+                    
                     <div className="mb-6">
                       <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
                         {testimonial.experience}
                       </span>
                     </div>
 
-                    {/* Profile link */}
+                    
                     <Link
                       to={`/about#${testimonial.id}`}
                       className="inline-flex items-center text-[#4A5568] hover:text-[#2D3748] font-medium transition-colors duration-200"
@@ -109,7 +109,7 @@ const TeamSection = () => {
           ))}
         </div>
 
-        {/* Navigation Dots */}
+        
         <div className="flex justify-center mb-8 space-x-3">
           {testimonials.map((_, index) => (
             <button
@@ -122,7 +122,7 @@ const TeamSection = () => {
           ))}
         </div>
 
-        {/* Full Team CTA */}
+        
         <div className="text-center">
           <Link
             to="/about"

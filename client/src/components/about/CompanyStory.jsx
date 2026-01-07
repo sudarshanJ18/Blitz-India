@@ -5,7 +5,7 @@ const CompanyStory = () => {
     return (
         <section className="min-h-screen flex items-center py-16 md:py-20 lg:py-24 bg-white">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Bold Title Section */}
+
                 <div className="mb-12 md:mb-16">
                     <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 uppercase leading-tight">
                         OUR JOURNEY:
@@ -16,9 +16,9 @@ const CompanyStory = () => {
                     </h2>
                 </div>
 
-                {/* Content Grid */}
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
-                    {/* Left Column - Story */}
+
                     <div className="space-y-4 md:space-y-6">
                         <p className="text-base sm:text-lg text-gray-500 font-medium leading-relaxed">
                             Founded in 2014, Blitz India Engineering started with a vision to bridge the gap between innovative ideas
@@ -39,7 +39,7 @@ const CompanyStory = () => {
                         </p>
                     </div>
 
-                    {/* Right Column - Image & Mission */}
+
                     <div className="space-y-6 md:space-y-8">
                         <div className="relative overflow-hidden bg-gray-900">
                             <img
@@ -47,7 +47,7 @@ const CompanyStory = () => {
                                 alt="Blitz India Engineering Office"
                                 className="w-full h-64 md:h-80 lg:h-96 object-cover hover:opacity-90 transition-all duration-500"
                             />
-                            {/* High contrast overlay effect */}
+
                             <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/20 pointer-events-none"></div>
                         </div>
                         <div className="bg-gray-800 text-white p-6 md:p-8">
@@ -60,7 +60,7 @@ const CompanyStory = () => {
                     </div>
                 </div>
 
-                {/* Milestones */}
+
                 <div className="mt-12 md:mt-16 lg:mt-20 border-t border-gray-300 pt-8 md:pt-12">
                     <h3 className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-bold text-gray-800 mb-8 md:mb-12 uppercase">KEY <span className="text-orange-600">MILESTONES</span></h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">

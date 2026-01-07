@@ -103,7 +103,7 @@ const MessagesManager = () => {
             </div>
 
             <div className="flex flex-col md:flex-row gap-6 h-full">
-                {/* Message List */}
+                
                 <div className={`flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col ${selectedMessage ? 'hidden md:flex' : 'flex'}`}>
                     <div className="p-4 border-b border-gray-100 bg-white sticky top-0 z-10 space-y-3">
                         <div className="relative">
@@ -172,7 +172,7 @@ const MessagesManager = () => {
                     </div>
                 </div>
 
-                {/* Message Detail */}
+                
                 <AnimatePresence mode="wait">
                     {selectedMessage ? (
                         <motion.div

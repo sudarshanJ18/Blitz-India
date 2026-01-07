@@ -1,14 +1,11 @@
 const SiteSettings = require('../../models/SiteSettings');
 
-/**
- * Get public site settings
- * GET /api/settings/public
- */
+
 const getPublicSettings = async (req, res, next) => {
     try {
         const settings = await SiteSettings.getSingleton();
 
-        // Return only public-facing settings
+        
         res.json({
             success: true,
             data: {

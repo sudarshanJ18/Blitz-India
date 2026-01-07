@@ -116,7 +116,7 @@ export const serviceImg = {
   manufacturing: manufacturing
 };
 
-// Service Categories Structure
+
 export const serviceCategories = [
   {
     id: 1,
@@ -408,7 +408,7 @@ export const serviceCategories = [
   },
 ];
 
-// Flattened services array for backward compatibility and easy lookup
+
 export const services = serviceCategories.flatMap(category =>
   category.services.map(service => ({
     ...service,
@@ -626,7 +626,7 @@ export const testimonials = [
   },
 ];
 
-// Legacy serviceCategories array removed - now using structured serviceCategories above
+
 
 export const industries = [
   "Automotive",

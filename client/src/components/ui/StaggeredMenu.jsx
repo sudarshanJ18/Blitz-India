@@ -50,7 +50,7 @@ export const StaggeredMenu = ({
 
   const itemEntranceTweenRef = useRef(null);
 
-  // Scroll handler for background visibility
+  
   React.useEffect(() => {
     if (!stickyBackground) return;
 
@@ -82,7 +82,7 @@ export const StaggeredMenu = ({
       }
       preLayerElsRef.current = preLayers;
 
-      // Set initial positions for full screen
+      
       const offscreen = fullScreen ? (position === 'left' ? -100 : 100) : (position === 'left' ? -100 : 100);
       gsap.set([panel, ...preLayers], { xPercent: offscreen });
       
@@ -130,7 +130,7 @@ export const StaggeredMenu = ({
 
     const tl = gsap.timeline({ paused: true });
 
-    // Show overlay first
+    
     if (overlay) {
       tl.to(overlay, { opacity: 1, duration: 0.3, ease: 'power2.out' }, 0);
     }
@@ -354,7 +354,7 @@ export const StaggeredMenu = ({
     <div
       className={`sm-scope z-50 ${isFixed ? 'fixed top-0 left-0 w-screen h-screen overflow-hidden' : 'w-full h-full'}`}
     >
-      {/* Header with background that shows on scroll */}
+      
       <header 
         className={`staggered-menu-header fixed top-0 left-0 w-full flex items-center justify-between p-[2em] z-40 transition-all duration-300 ${
           scrolled ? 'bg-white shadow-lg' : 'bg-transparent'
@@ -416,7 +416,7 @@ export const StaggeredMenu = ({
         </button>
       </header>
 
-      {/* Overlay for full screen */}
+      
       <div
         ref={overlayRef}
         className="sm-overlay fixed inset-0 bg-black z-30 pointer-events-none opacity-0"
@@ -424,7 +424,7 @@ export const StaggeredMenu = ({
         aria-hidden="true"
       />
 
-      {/* Full screen menu panel */}
+      
       <aside
         id="staggered-menu-panel"
         ref={panelRef}

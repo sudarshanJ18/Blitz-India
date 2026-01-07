@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const ServiceFeatures = ({ service }) => {
-  // Animation variants
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -24,7 +24,7 @@ const ServiceFeatures = ({ service }) => {
     }
   };
 
-  // Take only first 3 features
+  
   const displayFeatures = service.features.slice(0, 3);
 
   return (
@@ -40,9 +40,7 @@ const ServiceFeatures = ({ service }) => {
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-2">
             Key Features & Capabilities
           </h2>
-          {/* <p className="text-xl text-gray-500 max-w-3xl mx-auto">
-            Discover the comprehensive features that make our {service.title.toLowerCase()} services stand out from the competition.
-          </p> */}
+          
         </motion.div>
 
         <motion.div
@@ -80,7 +78,7 @@ const ServiceFeatures = ({ service }) => {
           ))}
         </motion.div>
 
-        {/* Advanced Capabilities */}
+        
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

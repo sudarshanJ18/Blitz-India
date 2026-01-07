@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 
 const TOTPSetup = () => {
-    const [step, setStep] = useState(1); // 1: QR Code, 2: Verify, 3: Success
+    const [step, setStep] = useState(1); 
     const [qrCodeData, setQrCodeData] = useState(null);
     const [secret, setSecret] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
@@ -19,7 +19,7 @@ const TOTPSetup = () => {
         const initSetup = async () => {
             try {
                 const data = await setupMFA();
-                setQrCodeData(data.qrCode); // Backend sends QR code data URL
+                setQrCodeData(data.qrCode); 
                 setSecret(data.secret);
             } catch (error) {
                 console.error('MFA setup error:', error);
@@ -39,7 +39,7 @@ const TOTPSetup = () => {
             setBackupCodes(response.backupCodes);
             setStep(3);
 
-            // Update user context to reflect MFA enabled
+            
             const updatedUser = response.user || user;
             if (updatedUser) {
                 updateUser({ ...updatedUser, isTOTPEnabled: true });
@@ -102,7 +102,7 @@ const TOTPSetup = () => {
                                             required
                                             value={verificationCode}
                                             onChange={(e) => {
-                                                // Only allow numeric input
+                                                
                                                 const value = e.target.value.replace(/[^0-9]/g, '');
                                                 if (value.length <= 6) {
                                                     setVerificationCode(value);

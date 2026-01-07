@@ -1,11 +1,6 @@
-/**
- * Security Middleware
- * Provides additional security features including HTTPS enforcement
- */
 
-/**
- * Redirect HTTP to HTTPS in production
- */
+
+
 const httpsRedirect = (req, res, next) => {
     if (process.env.NODE_ENV === 'production') {
         if (req.header('x-forwarded-proto') !== 'https') {
@@ -15,13 +10,11 @@ const httpsRedirect = (req, res, next) => {
     next();
 };
 
-/**
- * Security headers configuration for Helmet
- */
+
 const helmetConfig = {
     crossOriginResourcePolicy: { policy: "cross-origin" },
     hsts: {
-        maxAge: 31536000, // 1 year in seconds
+        maxAge: 31536000, 
         includeSubDomains: true,
         preload: true
     },

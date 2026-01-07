@@ -11,20 +11,20 @@ const TestimonialsSection = () => {
         fetchTestimonials();
     }, []);
 
-    // Auto-play functionality - change slide every 2 seconds
+    
     useEffect(() => {
         if (testimonials.length <= 1 || isPaused) return;
 
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-        }, 2000); // 2 seconds
+        }, 2000); 
 
         return () => clearInterval(interval);
     }, [testimonials.length, isPaused]);
 
     const fetchTestimonials = async () => {
         try {
-            // Fetch only FEATURED testimonials for this section
+            
             const data = await testimonialsService.getAllTestimonials({ featured: true });
             setTestimonials(data || []);
         } catch (error) {
@@ -53,7 +53,7 @@ const TestimonialsSection = () => {
     }
 
     if (testimonials.length === 0) {
-        return null; // Don't show section if no testimonials
+        return null; 
     }
 
     const currentTestimonial = testimonials[currentIndex];
@@ -61,7 +61,7 @@ const TestimonialsSection = () => {
     return (
         <section className="py-6 bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
+                
                 <div className="text-center mb-6">
                     <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-2">
                         Hear from our <span className="text-orange-600">customers</span>
@@ -69,21 +69,21 @@ const TestimonialsSection = () => {
                     <div className="w-24 h-1 bg-gradient-to-r from-orange-600 to-orange-400 mx-auto rounded-full"></div>
                 </div>
 
-                {/* Testimonial Carousel */}
+                
                 <div
                     className="relative overflow-hidden"
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
                 >
                     <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 lg:p-16 max-w-4xl mx-auto">
-                        {/* Quote Icon */}
+                        
                         <div className="absolute top-8 left-8 text-orange-200">
                             <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                             </svg>
                         </div>
 
-                        {/* Testimonial Content with Animation */}
+                        
                         <div className="relative z-10 text-center">
                             <div
                                 key={currentIndex}
@@ -93,7 +93,7 @@ const TestimonialsSection = () => {
                                     "{currentTestimonial.testimonial}"
                                 </p>
 
-                                {/* Customer Info */}
+                                
                                 <div className="flex flex-col items-center">
                                     {currentTestimonial.image ? (
                                         <img
@@ -110,7 +110,7 @@ const TestimonialsSection = () => {
                                     <p className="text-gray-600 font-medium">{currentTestimonial.position}</p>
                                     <p className="text-orange-600 font-semibold">{currentTestimonial.company}</p>
 
-                                    {/* Rating Stars */}
+                                    
                                     <div className="flex gap-1 mt-3">
                                         {[...Array(currentTestimonial.rating)].map((_, i) => (
                                             <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
@@ -123,7 +123,7 @@ const TestimonialsSection = () => {
                         </div>
                     </div>
 
-                    {/* Dots Indicator */}
+                    
                     {testimonials.length > 1 && (
                         <div className="flex justify-center gap-2 mt-8">
                             {testimonials.map((_, index) => (

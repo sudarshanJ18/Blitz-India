@@ -34,10 +34,10 @@ const serviceCategorySchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Indexes
-// Note: categoryId and slug fields already have unique: true which creates indexes automatically
 
-// Generate slug from title before saving
+
+
+
 serviceCategorySchema.pre('save', function (next) {
     if (this.isModified('title') && !this.slug) {
         this.slug = this.title

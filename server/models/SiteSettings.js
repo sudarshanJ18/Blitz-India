@@ -64,7 +64,7 @@ const siteSettingsSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Singleton pattern
+
 siteSettingsSchema.statics.getSingleton = async function () {
     let settings = await this.findOne();
     if (!settings) {

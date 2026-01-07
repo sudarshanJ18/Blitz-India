@@ -7,9 +7,9 @@ const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear authentication token
+    
     localStorage.removeItem('adminToken');
-    // Redirect to login page
+    
     navigate('/admin/login');
   };
 
@@ -81,7 +81,7 @@ const AdminLayout = ({ children }) => {
 
   const Sidebar = () => (
     <aside className={`bg-white text-slate-700 w-72 h-screen fixed lg:sticky lg:top-0 lg:translate-x-0 transform transition-transform duration-300 ease-in-out shadow-lg border-r border-gray-100 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-40 flex flex-col`}>
-      {/* Logo Section */}
+      
       <div className="flex justify-between items-center px-6 py-6 border-b border-gray-100 flex-none">
         <Link to="/" className="flex items-center space-x-3 group">
           <img
@@ -103,7 +103,7 @@ const AdminLayout = ({ children }) => {
         </button>
       </div>
 
-      {/* Navigation */}
+      
       <nav className="px-4 py-6 space-y-1 flex-1 overflow-y-auto custom-scrollbar">
         {navItems.map((item, index) => (
           <NavLink
@@ -124,7 +124,7 @@ const AdminLayout = ({ children }) => {
         ))}
       </nav>
 
-      {/* Bottom Section */}
+      
       <div className="p-4 border-t border-gray-100 bg-white space-y-2 flex-none">
         <button
           onClick={handleLogout}
@@ -152,7 +152,7 @@ const AdminLayout = ({ children }) => {
     <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />
 
-      {/* Overlay for mobile */}
+      
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden backdrop-blur-sm"
@@ -161,7 +161,7 @@ const AdminLayout = ({ children }) => {
       )}
 
       <div className="flex-1 flex flex-col">
-        {/* Mobile Header */}
+        
         <header className="bg-white shadow-sm px-6 py-4 flex justify-between items-center lg:hidden sticky top-0 z-20 border-b border-gray-100">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -180,7 +180,7 @@ const AdminLayout = ({ children }) => {
           <h2 className="text-lg font-bold text-slate-800">Admin</h2>
         </header>
 
-        {/* Main Content */}
+        
         <main className="flex-1 p-6 md:p-8 lg:p-10">
           <div className="max-w-7xl mx-auto">
             {children}

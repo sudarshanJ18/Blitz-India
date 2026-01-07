@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, animate, useInView } from 'framer-motion';
 
-// SVG Icons Components
+
 const ProjectsIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M3 3v18h18" />
@@ -117,7 +117,7 @@ const PortfolioStats = () => {
     }
   ];
 
-  // Auto-rotation effect
+  
   useEffect(() => {
     if (isAutoRotating) {
       const interval = setInterval(() => {
@@ -127,7 +127,7 @@ const PortfolioStats = () => {
     }
   }, [isAutoRotating, stats.length]);
 
-  // Animate numbers using Framer Motion
+  
   useEffect(() => {
     if (inView) {
       stats.forEach((stat) => {
@@ -165,7 +165,7 @@ const PortfolioStats = () => {
     const total = stats.length;
     const diff = (index - currentIndex + total) % total;
 
-    // Adjust values based on device
+    
     const xOffset = isMobile ? '55%' : '70%';
     const zDepth = isMobile ? -150 : -200;
     const zDepthInfo = isMobile ? -300 : -400;
@@ -212,7 +212,7 @@ const PortfolioStats = () => {
   return (
     <section ref={containerRef} className="py-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
@@ -222,12 +222,10 @@ const PortfolioStats = () => {
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">
             Portfolio <span className="text-orange-600">Impact</span>
           </h2>
-          {/* <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Numbers that demonstrate our commitment to engineering excellence and client success
-          </p> */}
+          
         </motion.div>
 
-        {/* 3D Carousel */}
+        
         <CarouselContainer
           as={motion.div}
           initial={{ opacity: 0, scale: 0.95 }}
@@ -243,7 +241,7 @@ const PortfolioStats = () => {
                 isCenter={index === currentIndex}
               >
                 <div className="card-inner">
-                  {/* Top Section - SVG Icon */}
+                  
                   <div className={`icon-section bg-gradient-to-br ${stat.gradient}`}>
                     <div className="icon-wrapper">
                       {stat.icon}
@@ -251,7 +249,7 @@ const PortfolioStats = () => {
                     <div className="icon-glow"></div>
                   </div>
 
-                  {/* Bottom Section - Glass Morphism */}
+                  
                   <div className="content-section">
                     <div className="glass-bg"></div>
                     <div className="content">
@@ -267,7 +265,7 @@ const PortfolioStats = () => {
             ))}
           </div>
 
-          {/* Navigation Controls */}
+          
           <div className="nav-controls">
             <button
               className="nav-btn"
@@ -295,7 +293,7 @@ const PortfolioStats = () => {
             </button>
           </div>
 
-          {/* Indicator Dots */}
+          
           <div className="indicator-dots">
             {stats.map((_, index) => (
               <button

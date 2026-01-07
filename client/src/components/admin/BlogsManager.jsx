@@ -209,7 +209,7 @@ const BlogsManager = () => {
       animate="visible"
       className="space-y-8"
     >
-      {/* Header */}
+      
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">Blogs</h1>
@@ -234,7 +234,7 @@ const BlogsManager = () => {
         </button>
       </div>
 
-      {/* Message Notification */}
+      
       <AnimatePresence>
         {message.text && (
           <motion.div
@@ -250,7 +250,7 @@ const BlogsManager = () => {
         )}
       </AnimatePresence>
 
-      {/* Editor Form */}
+      
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -424,7 +424,7 @@ const BlogsManager = () => {
         )}
       </AnimatePresence>
 
-      {/* Grid & Filters */}
+      
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">

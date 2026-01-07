@@ -42,7 +42,7 @@ export const SettingsProvider = ({ children }) => {
             }
         } catch (error) {
             console.error('Failed to fetch settings:', error);
-            // Keep default settings if fetch fails
+            
         } finally {
             setLoading(false);
         }

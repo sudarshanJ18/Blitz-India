@@ -32,21 +32,21 @@ export function ServicesSection() {
   return (
     <div className="w-full bg-white py-4 md:py-6 lg:py-8">
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-        {/* Header Section */}
+        
         <div className="text-center mb-4 md:mb-6 lg:mb-8 px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-left">
             Our Services
           </h2>
         </div>
 
-        {/* Carousel Section */}
+        
         <div className="w-full">
-          {/* Desktop View */}
+          
           <div className="hidden md:block">
             <Carousel items={cards} />
           </div>
 
-          {/* Mobile View - Vertical Stack */}
+          
           <div className="md:hidden flex flex-col gap-6 px-2">
             {cardsData.map((card, index) => (
               <Card
@@ -59,7 +59,7 @@ export function ServicesSection() {
           </div>
         </div>
 
-        {/* CTA Button */}
+        
         <div className="mt-4 md:mt-6 lg:mt-8 px-4 flex justify-center">
           <Link to="/services">
             <HoverBorderGradient
@@ -84,7 +84,7 @@ export function ServicesSection() {
 const ServiceContent = ({ category, image }) => {
   return (
     <div className="space-y-2 sm:space-y-3 md:space-y-4">
-      {/* Main description */}
+      
       <div className="bg-white border border-gray-200 p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-sm">
         <div className="max-w-4xl mx-auto">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
@@ -150,7 +150,7 @@ const ServiceContent = ({ category, image }) => {
         </div>
       </div>
 
-      {/* CTA section */}
+      
       <div className="bg-white border border-gray-200 p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-sm">
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">

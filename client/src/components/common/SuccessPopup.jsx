@@ -7,7 +7,7 @@ const SuccessPopup = ({ isOpen, onClose, title = "Success!", message = "Your mes
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0">
-                    {/* Backdrop */}
+                    
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -16,7 +16,7 @@ const SuccessPopup = ({ isOpen, onClose, title = "Success!", message = "Your mes
                         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
                     />
 
-                    {/* Modal */}
+                    
                     <motion.div
                         initial={{ opacity: 0, scale: 0.5, y: 100 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -24,7 +24,7 @@ const SuccessPopup = ({ isOpen, onClose, title = "Success!", message = "Your mes
                         transition={{ type: "spring", duration: 0.5 }}
                         className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 text-center overflow-hidden"
                     >
-                        {/* Success Icon Animation */}
+                        
                         <div className="mx-auto mb-6 flex items-center justify-center w-20 h-20 rounded-full bg-green-100">
                             <motion.div
                                 initial={{ scale: 0 }}
@@ -35,7 +35,7 @@ const SuccessPopup = ({ isOpen, onClose, title = "Success!", message = "Your mes
                             </motion.div>
                         </div>
 
-                        {/* Content */}
+                        
                         <motion.h3
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -54,7 +54,7 @@ const SuccessPopup = ({ isOpen, onClose, title = "Success!", message = "Your mes
                             {message}
                         </motion.p>
 
-                        {/* Button */}
+                        
                         <motion.button
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -67,7 +67,7 @@ const SuccessPopup = ({ isOpen, onClose, title = "Success!", message = "Your mes
                             Continue
                         </motion.button>
 
-                        {/* Decorative Background Elements */}
+                        
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-emerald-500" />
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-green-50 rounded-full blur-3xl -z-10" />
                         <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-50 rounded-full blur-3xl -z-10" />

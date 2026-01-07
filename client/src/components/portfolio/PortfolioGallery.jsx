@@ -18,7 +18,7 @@ const PortfolioGallery = () => {
       projects.forEach((project) => {
         if (project.category) {
           const categorySlug = project.category.toLowerCase();
-          // Ensure first letter is uppercase for display
+          
           const display = project.category.charAt(0).toUpperCase() + project.category.slice(1);
           if (!unique.has(categorySlug)) {
             unique.set(categorySlug, display);
@@ -27,7 +27,7 @@ const PortfolioGallery = () => {
       });
     }
 
-    // key is id, value is name
+    
     return Array.from(unique.entries()).map(([id, name]) => ({ id, name }));
   }, [projects]);
 

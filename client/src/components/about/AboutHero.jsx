@@ -43,7 +43,6 @@ const AboutHero = () => {
             </h1>
           </motion.div>
 
-          {/* Additional info badges */}
           <motion.div
             custom={3}
             variants={fadeUpVariants}
@@ -66,7 +65,6 @@ const AboutHero = () => {
             ))}
           </motion.div>
 
-          {/* CTA Buttons */}
           <motion.div
             custom={5}
             variants={fadeUpVariants}

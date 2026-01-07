@@ -13,18 +13,18 @@ const question = (query) => new Promise((resolve) => rl.question(query, resolve)
 
 const createAdminUser = async () => {
     try {
-        // Connect to MongoDB
+        
         await mongoose.connect(process.env.MONGODB_URI);
         logger.info('MongoDB connected');
 
         console.log('\n=== Create Admin User ===\n');
 
-        // Get admin details
+        
         const name = await question('Enter admin name: ');
         const email = await question('Enter admin email: ');
         const password = await question('Enter admin password (min 8 chars, must include uppercase, lowercase, and number): ');
 
-        // Validate inputs
+        
         if (!name || !email || !password) {
             throw new Error('All fields are required');
         }
@@ -37,13 +37,13 @@ const createAdminUser = async () => {
             throw new Error('Password must contain at least one uppercase letter, one lowercase letter, and one number');
         }
 
-        // Check if admin with this email already exists
+        
         const existingAdmin = await Admin.findOne({ email });
         if (existingAdmin) {
             throw new Error(`Admin with email ${email} already exists`);
         }
 
-        // Create admin
+        
         const admin = await Admin.create({
             name,
             email,

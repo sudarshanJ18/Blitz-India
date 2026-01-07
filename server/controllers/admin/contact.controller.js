@@ -2,10 +2,7 @@ const ContactSubmission = require('../../models/ContactSubmission');
 const logger = require('../../utils/logger');
 const { AppError } = require('../../middleware/errorHandler');
 
-/**
- * Get all contact submissions
- * GET /api/admin/contact/submissions
- */
+
 const getAllSubmissions = async (req, res, next) => {
     try {
         const { status, page = 1, limit = 20 } = req.query;
@@ -38,10 +35,7 @@ const getAllSubmissions = async (req, res, next) => {
     }
 };
 
-/**
- * Get single submission by ID
- * GET /api/admin/contact/submissions/:id
- */
+
 const getSubmissionById = async (req, res, next) => {
     try {
         const submission = await ContactSubmission.findById(req.params.id);
@@ -56,10 +50,7 @@ const getSubmissionById = async (req, res, next) => {
     }
 };
 
-/**
- * Update submission status
- * PUT /api/admin/contact/submissions/:id/status
- */
+
 const updateSubmissionStatus = async (req, res, next) => {
     try {
         const { status, notes } = req.body;
@@ -87,10 +78,7 @@ const updateSubmissionStatus = async (req, res, next) => {
     }
 };
 
-/**
- * Delete submission
- * DELETE /api/admin/contact/submissions/:id
- */
+
 const deleteSubmission = async (req, res, next) => {
     try {
         const submission = await ContactSubmission.findByIdAndDelete(req.params.id);

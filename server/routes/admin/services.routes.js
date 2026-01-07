@@ -14,16 +14,16 @@ const {
     deleteCategory
 } = require('../../controllers/admin/services.controller');
 
-// All routes require authentication
+
 router.use(verifyToken, requireAdmin);
 
-// Service category routes
+
 router.get('/categories', getAllCategories);
 router.post('/categories', createCategory);
 router.put('/categories/:id', validateObjectId, updateCategory);
 router.delete('/categories/:id', validateObjectId, deleteCategory);
 
-// Service routes
+
 router.get('/', getAllServices);
 router.get('/:id', validateObjectId, getServiceById);
 router.post('/', createService);

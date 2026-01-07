@@ -79,7 +79,7 @@ const TestimonialsManager = () => {
         e.preventDefault();
         try {
             setSaving(true);
-            // Ensure payload uses 'testimonial' key
+            
             const payload = {
                 ...form,
                 testimonial: form.testimonial
@@ -122,7 +122,7 @@ const TestimonialsManager = () => {
             name: testimonial.name,
             position: testimonial.position,
             company: testimonial.company,
-            // Handle potentially different field names from backend
+            
             testimonial: testimonial.testimonial || testimonial.message || '',
             rating: testimonial.rating || 5,
             image: testimonial.image || '',
@@ -184,7 +184,7 @@ const TestimonialsManager = () => {
             animate="visible"
             className="space-y-8"
         >
-            {/* Header */}
+            
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">Testimonials</h1>
@@ -209,7 +209,7 @@ const TestimonialsManager = () => {
                 </button>
             </div>
 
-            {/* Message Notification */}
+            
             <AnimatePresence>
                 {message.text && (
                     <motion.div
@@ -225,7 +225,7 @@ const TestimonialsManager = () => {
                 )}
             </AnimatePresence>
 
-            {/* Form */}
+            
             <AnimatePresence>
                 {showForm && (
                     <motion.div
@@ -392,7 +392,7 @@ const TestimonialsManager = () => {
                 )}
             </AnimatePresence>
 
-            {/* List */}
+            
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center gap-4 mb-8">
                     <div className="relative flex-1">

@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const logger = require('../utils/logger');
 
-// Import models
+
 const Service = require('../models/Service');
 const ServiceCategory = require('../models/ServiceCategory');
 const Project = require('../models/Project');
@@ -12,7 +12,7 @@ const SiteSettings = require('../models/SiteSettings');
 const LegalContent = require('../models/LegalContent');
 const Admin = require('../models/Admin');
 
-// Import data from frontend assets (you'll need to copy the data here)
+
 const seedData = {
     serviceCategories: [
         {
@@ -46,26 +46,26 @@ const seedData = {
     ],
 
     services: [
-        // Design & Modelling
+        
         { categoryId: 1, subId: 1, title: "3D Modeling", category: "Design & Modelling", shortDescription: "Precise digital models for design verification and manufacturing", description: "Our 3D Modeling service delivers precise and detailed digital representations of your products or components. Using advanced CAD software, we create models suitable for design verification, simulation, and manufacturing. This service helps reduce design errors and accelerates product development cycles by enabling early visualization and testing.", features: ["Advanced CAD software utilization", "Design verification support", "Simulation-ready models", "Early visualization capabilities"], timeline: "Project-based engagement", order: 1, published: true },
         { categoryId: 1, subId: 2, title: "2D Drafting", category: "Design & Modelling", shortDescription: "Detailed engineering drawings with dimensions and tolerances", description: "Our 2D Drafting service produces detailed engineering drawings adhering to industry standards for manufacturing and documentation. It includes all necessary views, dimensions, and tolerances to ensure error-free production.", features: ["Industry standard compliance", "Complete views and dimensions", "Manufacturing-ready drawings", "Error-free production support"], timeline: "Typical turnaround 5-10 days", order: 2, published: true },
         { categoryId: 1, subId: 3, title: "Sheet Metal Design", category: "Design & Modelling", shortDescription: "Manufacturable sheet metal components", description: "Specializing in sheet metal design, we create manufacturable and optimized components, considering bends, reliefs, and material properties to ensure high quality and cost-effective fabrication.", features: ["Bend and relief optimization", "Material property consideration", "High quality fabrication", "Cost-effective solutions"], order: 3, published: true },
         { categoryId: 1, subId: 4, title: "Welded Structures", category: "Design & Modelling", shortDescription: "Welded joint design and structural analysis", description: "Our welded structure design services include weld joint design, welding procedure specifications, and structural analysis to ensure strong, durable, and code-compliant welded assemblies.", features: ["Weld joint design", "Procedure specifications", "Structural analysis", "Code compliance assurance"], order: 4, published: true },
         { categoryId: 1, subId: 5, title: "Machining Tools & SPMs", category: "Design & Modelling", shortDescription: "Specialized machining tools and custom machines", description: "We design specialized machining tools and Special Purpose Machines (SPMs) tailored to your specific manufacturing requirements. Our designs focus on precision, efficiency, and reliability for high-volume production.", features: ["Custom tool design", "High-volume production support", "Precision engineering", "Efficiency optimization"], order: 5, published: true },
 
-        // Documentation
+        
         { categoryId: 2, subId: 1, title: "Process Flow Diagrams (PFD)", category: "Documentation", shortDescription: "Manufacturing process flow visualization", description: "We create detailed Process Flow Diagrams that illustrate the sequence of operations, material flow, and equipment requirements for your manufacturing processes. These diagrams are essential for process optimization and operator training.", features: ["Operation sequence mapping", "Material flow illustration", "Equipment requirement documentation", "Process optimization support"], order: 1, published: true },
         { categoryId: 2, subId: 2, title: "PFMEA & Control Plans", category: "Documentation", shortDescription: "Process failure prevention and control", description: "We develop Process Failure Mode and Effects Analysis (PFMEA) and comprehensive control plans to ensure manufacturing processes are robust and capable of producing high-quality products consistently.", features: ["Process failure prevention", "Control plan development", "Quality consistency assurance", "Manufacturing robustness"], order: 2, published: true },
         { categoryId: 2, subId: 3, title: "Work & Assembly Instructions", category: "Documentation", shortDescription: "Detailed assembly and work procedures", description: "We develop clear, detailed work instructions and assembly procedures that guide operators through complex manufacturing and assembly processes. Our instructions include visual aids, safety precautions, and quality checkpoints.", features: ["Visual aid integration", "Safety precaution documentation", "Quality checkpoint definition", "Operator guidance"], order: 3, published: true },
         { categoryId: 2, subId: 4, title: "Inspection Documents", category: "Documentation", shortDescription: "Quality control documentation and procedures", description: "We create comprehensive inspection documents including checklists, procedures, and acceptance criteria to ensure quality control throughout the manufacturing process. Our documents comply with industry standards and regulatory requirements.", features: ["Inspection checklists", "Procedure documentation", "Acceptance criteria definition", "Standards compliance"], order: 4, published: true },
         { categoryId: 2, subId: 5, title: "ASME / ISO Standards", category: "Documentation", shortDescription: "Industry standards compliance and certification", description: "We ensure your designs and processes comply with relevant ASME, ISO, and other industry standards. Our expertise includes pressure vessel codes, welding standards, and quality management systems.", features: ["ASME code compliance", "ISO standards adherence", "Pressure vessel codes", "Quality management systems"], order: 5, published: true },
 
-        // Analysis & Validation
+        
         { categoryId: 3, subId: 1, title: "FEA: Static, Dynamic, Thermal", category: "Analysis & Validation", shortDescription: "Static, dynamic, and thermal simulations", description: "Our Finite Element Analysis services include static, dynamic, and thermal simulations to validate designs under real-world conditions and improve product performance.", features: ["Static analysis", "Dynamic simulation", "Thermal analysis", "Real-world condition validation"], timeline: "Simulation cycles completed in 2-3 weeks", order: 1, published: true },
         { categoryId: 3, subId: 2, title: "CFD Analysis", category: "Analysis & Validation", shortDescription: "Fluid flow and heat transfer analysis", description: "We perform Computational Fluid Dynamics analysis to study fluid flow and heat transfer phenomena critical to your product's operation.", features: ["Fluid flow simulation", "Heat transfer analysis", "Performance optimization", "Critical operation validation"], timeline: "Analysis reports within 2-4 weeks", order: 2, published: true },
         { categoryId: 3, subId: 3, title: "DFMEA & Root Cause Analysis", category: "Analysis & Validation", shortDescription: "Design failure prevention and problem solving", description: "Our Design Failure Mode and Effects Analysis (DFMEA) service identifies potential failure modes in your designs and implements preventive measures. We also perform root cause analysis to solve existing quality issues.", features: ["Failure mode identification", "Preventive measure implementation", "Root cause analysis", "Quality issue resolution"], order: 3, published: true },
 
-        // Manufacturing Support
+        
         { categoryId: 4, subId: 1, title: "Should Costing", category: "Manufacturing Support", shortDescription: "Manufacturing cost analysis and optimization", description: "Our should-costing analysis provides detailed cost breakdowns for manufactured components, helping you understand cost drivers and identify opportunities for cost reduction without compromising quality.", features: ["Cost breakdown analysis", "Cost driver identification", "Reduction opportunity finding", "Quality maintenance"], order: 1, published: true },
         { categoryId: 4, subId: 2, title: "Factory Layout", category: "Manufacturing Support", shortDescription: "Optimized factory workflow and layout design", description: "We design efficient factory layouts that optimize workflow, minimize material handling, and maximize productivity. Our layouts consider equipment placement, material flow, safety requirements, and future expansion needs.", features: ["Workflow optimization", "Material handling minimization", "Productivity maximization", "Safety compliance"], order: 2, published: true },
         { categoryId: 4, subId: 3, title: "Vendor Coordination", category: "Manufacturing Support", shortDescription: "Supplier management and coordination", description: "We manage vendor relationships and coordinate supplier activities to ensure timely delivery of quality components. Our services include supplier evaluation, quality audits, and performance monitoring.", features: ["Supplier evaluation", "Quality audits", "Performance monitoring", "Delivery coordination"], order: 3, published: true }
@@ -228,20 +228,18 @@ const seedData = {
     ]
 };
 
-/**
- * Seed the database
- */
+
 const seedDatabase = async () => {
     try {
-        // Connect to MongoDB
+        
         await mongoose.connect(process.env.MONGODB_URI);
         logger.info('MongoDB connected for seeding');
 
-        // Clear existing data by dropping collections to reset indexes
-        // Clear existing data by dropping collections to reset indexes
+        
+        
         logger.info('Dropping existing collections...');
 
-        // Get list of all collections in the database
+        
         const collections = await mongoose.connection.db.listCollections().toArray();
         const collectionNames = collections.map(c => c.name);
         logger.info(`Found collections: ${collectionNames.join(', ')}`);
@@ -268,45 +266,45 @@ const seedDatabase = async () => {
         }
         logger.info('Existing collections dropped');
 
-        // Wait for indexes to be fully cleared
+        
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Seed Service Categories
+        
         logger.info('Seeding service categories...');
         await ServiceCategory.insertMany(seedData.serviceCategories);
         logger.info(`✓ ${seedData.serviceCategories.length} service categories created`);
 
-        // Seed Services
+        
         logger.info('Seeding services...');
         await Service.insertMany(seedData.services);
         logger.info(`✓ ${seedData.services.length} services created`);
 
-        // Seed Projects
+        
         logger.info('Seeding projects...');
         await Project.insertMany(seedData.projects);
         logger.info(`✓ ${seedData.projects.length} projects created`);
 
-        // Seed Home Content
+        
         logger.info('Seeding home content...');
         await HomeContent.create(seedData.homeContent);
         logger.info('✓ Home content created');
 
-        // Seed About Content
+        
         logger.info('Seeding about content...');
         await AboutContent.create(seedData.aboutContent);
         logger.info('✓ About content created');
 
-        // Seed Site Settings
+        
         logger.info('Seeding site settings...');
         await SiteSettings.create(seedData.siteSettings);
         logger.info('✓ Site settings created');
 
-        // Seed Legal Content
+        
         logger.info('Seeding legal content...');
         await LegalContent.insertMany(seedData.legalContent);
         logger.info('✓ Legal content created');
 
-        // Check if admin exists, if not create one
+        
         const adminExists = await Admin.countDocuments();
         if (adminExists === 0) {
             logger.info('No admin user found. Please create one using: npm run create-admin');
@@ -329,5 +327,5 @@ const seedDatabase = async () => {
     }
 };
 
-// Run seeder
+
 seedDatabase();

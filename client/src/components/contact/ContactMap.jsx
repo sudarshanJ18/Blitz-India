@@ -14,9 +14,9 @@ const ContactMap = () => {
         </div>
 
         <div className="relative bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-          {/* Map Container with Enhanced Styling */}
+          
           <div className="relative h-[500px] w-full">
-            {/* Loading Overlay */}
+            
             {!isLoaded && (
               <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center z-10">
                 <div className="text-center">
@@ -26,7 +26,7 @@ const ContactMap = () => {
               </div>
             )}
 
-            {/* Enhanced Google Maps Embed */}
+            
             <div className="relative h-full w-full">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.265588856342!2d73.856743!3d18.5204303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1690000000000!5m2!1sen!2sin"
@@ -45,15 +45,15 @@ const ContactMap = () => {
               ></iframe>
             </div>
 
-            {/* Custom Location Marker */}
+            
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <div className="relative">
-                {/* Pulsing Animation */}
+                
                 <div className="absolute inset-0">
                   <div className="w-8 h-8 bg-orange-500 rounded-full animate-ping opacity-20"></div>
                 </div>
 
-                {/* Main Marker */}
+                
                 <div className="relative bg-white rounded-full p-2 shadow-2xl border border-orange-300 transform hover:scale-110 transition-transform duration-300 cursor-pointer group">
                   <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -61,7 +61,7 @@ const ContactMap = () => {
                     </svg>
                   </div>
 
-                  {/* Tooltip */}
+                  
                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
                     <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap mb-2">
                       <div className="font-semibold">Blitz India Engineering</div>
@@ -73,7 +73,7 @@ const ContactMap = () => {
               </div>
             </div>
 
-            {/* Location Info Card */}
+            
             <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200 max-w-xs z-10">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -103,12 +103,12 @@ const ContactMap = () => {
               </div>
             </div>
 
-            {/* Zoom Controls */}
+            
             <div className="absolute top-6 right-6 flex flex-col gap-2 z-10">
               <button
                 onClick={() => {
                   const iframe = document.querySelector('iframe');
-                  // You can add custom zoom logic here if needed
+                  
                 }}
                 className="w-10 h-10 bg-white rounded-lg shadow-md border border-gray-200 flex items-center justify-center text-gray-700 hover:text-orange-600 hover:border-orange-300 transition-all duration-200"
               >

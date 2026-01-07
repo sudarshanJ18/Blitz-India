@@ -1,10 +1,7 @@
 const SiteSettings = require('../../models/SiteSettings');
 const logger = require('../../utils/logger');
 
-/**
- * Get all site settings
- * GET /api/admin/settings
- */
+
 const getSettings = async (req, res, next) => {
     try {
         const settings = await SiteSettings.getSingleton();
@@ -18,15 +15,12 @@ const getSettings = async (req, res, next) => {
     }
 };
 
-/**
- * Update site settings
- * PUT /api/admin/settings
- */
+
 const updateSettings = async (req, res, next) => {
     try {
         let settings = await SiteSettings.getSingleton();
 
-        // Update fields
+        
         Object.keys(req.body).forEach(key => {
             if (req.body[key] !== undefined) {
                 settings[key] = req.body[key];

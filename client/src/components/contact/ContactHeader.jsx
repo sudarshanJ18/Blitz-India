@@ -21,10 +21,7 @@ const ContactHeader = () => {
             animate="visible"
             className={`${heroBadgeClass} mb-8`}
           >
-            {/* <Circle className="h-2 w-2 fill-orange-500/80" />
-            <span className="text-sm text-gray-600 tracking-wide font-medium">
-              India-Based Partner
-            </span> */}
+            
           </motion.div>
 
           <motion.div
@@ -50,12 +47,10 @@ const ContactHeader = () => {
             initial="hidden"
             animate="visible"
           >
-            {/* <p className={`${heroParagraphClass} max-w-2xl mx-auto mb-8`}>
-              One message connects you with design, QA, and analysis support.
-            </p> */}
+            
           </motion.div>
 
-          {/* Additional info badges */}
+          
           <motion.div
             custom={3}
             variants={fadeUpVariants}

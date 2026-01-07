@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-/**
- * Lazy Loading Image Component with Intersection Observer
- * Loads images only when they enter the viewport
- */
+
 const LazyImage = ({
     src,
     alt,
@@ -19,12 +16,12 @@ const LazyImage = ({
     const imageRef = useRef(null);
 
     useEffect(() => {
-        // Skip if no src provided
+        
         if (!src) return;
 
-        // Check if IntersectionObserver is supported
+        
         if (!('IntersectionObserver' in window)) {
-            // Fallback: load image immediately if IO not supported
+            
             setImageSrc(src);
             return;
         }
@@ -39,7 +36,7 @@ const LazyImage = ({
                 });
             },
             {
-                rootMargin: '50px', // Start loading 50px before entering viewport
+                rootMargin: '50px', 
                 threshold: threshold
             }
         );

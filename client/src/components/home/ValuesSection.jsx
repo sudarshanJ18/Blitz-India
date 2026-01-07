@@ -10,7 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { values } from "../../assets/assets";
 
-// Custom microscope icon (clean, consistent)
+
 const MicroscopeIcon = () => (
   <svg
     className="h-6 w-6 text-orange-600"
@@ -127,7 +127,7 @@ const ValuesSection = () => {
           </div>
         </div>
       ),
-      icon: <MicroscopeIcon />, // fixed alignment + correct closing tag
+      icon: <MicroscopeIcon />, 
     },
   ];
 
@@ -140,7 +140,7 @@ const ValuesSection = () => {
 
   return (
     <section className="py-6 bg-gradient-to-br from-white via-gray-50 to-orange-50/30 relative overflow-hidden">
-      {/* Soft background blobs */}
+      
       <div className="absolute inset-0">
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-2xl"></div>

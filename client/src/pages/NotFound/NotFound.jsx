@@ -8,7 +8,7 @@ const NotFound = () => {
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-orange-50 via-white to-gray-50">
             <div className="text-center max-w-2xl mx-auto">
-                {/* Lottie Animation - Moved down with top margin */}
+                
                 <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -25,7 +25,7 @@ const NotFound = () => {
                     </div>
                 </motion.div>
 
-                {/* Description */}
+                
                 <motion.p
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -36,7 +36,7 @@ const NotFound = () => {
                     Don't worry, let's get you back on track!
                 </motion.p>
 
-                {/* Buttons */}
+                
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -62,7 +62,7 @@ const NotFound = () => {
                     </button>
                 </motion.div>
 
-                {/* Popular Pages */}
+                
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

@@ -1,9 +1,6 @@
 const Blog = require('../../models/Blog');
 
-/**
- * Get all published blogs (Public)
- * GET /api/blogs
- */
+
 const getAllBlogs = async (req, res, next) => {
     try {
         const { category, page = 1, limit = 10 } = req.query;
@@ -20,7 +17,7 @@ const getAllBlogs = async (req, res, next) => {
                 .sort({ featured: -1, publishedDate: -1 })
                 .skip(skip)
                 .limit(parseInt(limit))
-                .select('-content'), // Exclude full content in list view
+                .select('-content'), 
             Blog.countDocuments(filter)
         ]);
 
@@ -37,10 +34,7 @@ const getAllBlogs = async (req, res, next) => {
     }
 };
 
-/**
- * Get single blog by slug (Public)
- * GET /api/blogs/:slug
- */
+
 const getBlogBySlug = async (req, res, next) => {
     try {
         const { slug } = req.params;
@@ -52,7 +46,7 @@ const getBlogBySlug = async (req, res, next) => {
             throw new AppError('Blog post not found', 404);
         }
 
-        // Increment view count
+        
         await blog.incrementViews();
 
         res.json({

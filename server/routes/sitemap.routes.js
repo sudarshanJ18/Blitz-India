@@ -5,15 +5,12 @@ const Project = require('../models/Project');
 
 const router = Router();
 
-/**
- * Generate sitemap.xml
- * GET /sitemap.xml
- */
+
 router.get('/sitemap.xml', async (req, res) => {
     try {
         const baseUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 
-        // Static pages
+        
         const staticPages = [
             { url: '', changefreq: 'daily', priority: 1.0 },
             { url: '/about', changefreq: 'monthly', priority: 0.8 },
@@ -25,13 +22,13 @@ router.get('/sitemap.xml', async (req, res) => {
             { url: '/terms-of-service', changefreq: 'yearly', priority: 0.3 },
         ];
 
-        // Fetch published blogs
+        
         const blogs = await Blog.find({ published: true }).select('slug publishedDate').sort({ publishedDate: -1 });
 
-        // Fetch published projects
+        
         const projects = await Project.find({ published: true }).select('slug date').sort({ date: -1 });
 
-        // Build sitemap URLs
+        
         const urlset = [
             {
                 _attr: {
@@ -42,7 +39,7 @@ router.get('/sitemap.xml', async (req, res) => {
             }
         ];
 
-        // Add static pages
+        
         staticPages.forEach(page => {
             urlset.push({
                 url: [
@@ -54,7 +51,7 @@ router.get('/sitemap.xml', async (req, res) => {
             });
         });
 
-        // Add blog posts
+        
         blogs.forEach(blog => {
             urlset.push({
                 url: [
@@ -66,7 +63,7 @@ router.get('/sitemap.xml', async (req, res) => {
             });
         });
 
-        // Add projects
+        
         projects.forEach(project => {
             urlset.push({
                 url: [

@@ -100,7 +100,7 @@ const HomeManager = () => {
                 </button>
             </div>
 
-            {/* Hero Section */}
+            
             <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
                 <h2 className="text-xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-100">Hero Section</h2>
                 <div className="space-y-6">
@@ -163,7 +163,7 @@ const HomeManager = () => {
                 </div>
             </div>
 
-            {/* Stats Section */}
+            
             <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
                 <div className="flex justify-between items-center mb-6 pb-2 border-b border-gray-100">
                     <h2 className="text-xl font-bold text-gray-900">Key Statistics</h2>

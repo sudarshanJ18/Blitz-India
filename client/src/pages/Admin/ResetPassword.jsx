@@ -18,7 +18,7 @@ const ResetPassword = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    // Verify token on mount
+    
     useEffect(() => {
         const verifyToken = async () => {
             try {
@@ -84,7 +84,7 @@ const ResetPassword = () => {
                 text: response.data.message || 'Password reset successfully!'
             });
 
-            // Redirect to login after 2 seconds
+            
             setTimeout(() => {
                 navigate('/admin/login');
             }, 2000);
@@ -137,7 +137,7 @@ const ResetPassword = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 flex items-center justify-center p-4">
             <div className="max-w-md w-full">
-                {/* Logo */}
+                
                 <div className="text-center mb-8">
                     <Link to="/" className="inline-block">
                         <img
@@ -152,7 +152,7 @@ const ResetPassword = () => {
                     </p>
                 </div>
 
-                {/* Form Card */}
+                
                 <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
                     {message.text && (
                         <div
@@ -277,7 +277,7 @@ const ResetPassword = () => {
                     </div>
                 </div>
 
-                {/* Footer */}
+                
                 <div className="mt-8 text-center text-sm text-gray-600">
                     <p>&copy; {new Date().getFullYear()} Blitz India Engineering. All rights reserved.</p>
                 </div>

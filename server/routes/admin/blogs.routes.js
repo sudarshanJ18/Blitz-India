@@ -10,7 +10,7 @@ const {
     deleteBlog
 } = require('../../controllers/admin/blogs.controller');
 
-// All routes require authentication
+
 router.use(verifyToken, requireAdmin);
 
 router.get('/', getAllBlogs);

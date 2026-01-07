@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { values } from "../../assets/assets";
 
-// Simple Image Component without floating animation
+
 const ImageComponent = ({ src, alt }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -23,7 +23,7 @@ const ImageComponent = ({ src, alt }) => {
 };
 
 const AboutSection = () => {
-  // Using imported local images
+  
   const images = [
     {
       src: values.about1,
@@ -44,9 +44,9 @@ const AboutSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
-          {/* Image Grid Section */}
+          
           <div className="relative">
-            {/* Main image grid */}
+            
             <div className="grid grid-cols-2 gap-4 relative z-10">
               {images.map((image, index) => (
                 <div
@@ -62,7 +62,7 @@ const AboutSection = () => {
             </div>
           </div>
 
-          {/* Content Section */}
+          
           <div className="space-y-6">
             <div className="space-y-6">
               <h2 className="font-serif font-bold leading-tight tracking-tight text-black dark:text-black 

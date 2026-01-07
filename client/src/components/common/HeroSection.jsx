@@ -5,20 +5,20 @@ import MechanicalDecorations from "../ui/MechanicalDecorations";
 
 const HeroBackdrop = () => (
   <>
-    {/* Threads animated background */}
+    
     <div className="absolute inset-0 overflow-hidden">
       <Threads
-        color={[0.95, 0.45, 0.15]} // Orange color for mechanical engineering theme
+        color={[0.95, 0.45, 0.15]} 
         amplitude={1.2}
         distance={0}
         enableMouseInteraction={true}
       />
     </div>
 
-    {/* Mechanical decorative shapes */}
-    {/* <MechanicalDecorations /> */}
+    
+    
 
-    {/* Subtle gradient overlays for depth */}
+    
     <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.02] via-transparent to-gray-600/[0.02]" />
     <div className="absolute inset-0 bg-gradient-to-t from-gray-100/60 via-transparent to-white/40 pointer-events-none" />
   </>

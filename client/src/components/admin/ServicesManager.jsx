@@ -59,7 +59,7 @@ const ServicesManager = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
 
-  // Fetch categories and services from API
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -83,7 +83,7 @@ const ServicesManager = () => {
     return apiCategories.map(c => c.title);
   }, [apiCategories]);
 
-  // Calculate next subId when category changes
+  
   useEffect(() => {
     if (form.category && !isEditing) {
       const selectedCategory = apiCategories.find(c => c.title === form.category);
@@ -195,7 +195,7 @@ const ServicesManager = () => {
       animate="visible"
       className="space-y-8"
     >
-      {/* Header */}
+      
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">Services</h1>
@@ -220,7 +220,7 @@ const ServicesManager = () => {
         </button>
       </div>
 
-      {/* Message Notification */}
+      
       <AnimatePresence>
         {message.text && (
           <motion.div
@@ -236,7 +236,7 @@ const ServicesManager = () => {
         )}
       </AnimatePresence>
 
-      {/* Form Section */}
+      
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -256,7 +256,7 @@ const ServicesManager = () => {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Main Info */}
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700">Service Title *</label>
@@ -290,7 +290,7 @@ const ServicesManager = () => {
                   </div>
                 </div>
 
-                {/* ID Preview */}
+                
                 <AnimatePresence>
                   {form.category && (
                     <motion.div
@@ -313,7 +313,7 @@ const ServicesManager = () => {
                   )}
                 </AnimatePresence>
 
-                {/* Image Upload */}
+                
                 <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 border-dashed">
                   <h3 className="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
                     <ImageIcon className="w-5 h-5 text-slate-500" />
@@ -327,7 +327,7 @@ const ServicesManager = () => {
                   <input type="hidden" name="image" value={form.image} />
                 </div>
 
-                {/* Content */}
+                
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700">Short Summary *</label>
@@ -354,7 +354,7 @@ const ServicesManager = () => {
                   </div>
                 </div>
 
-                {/* Actions */}
+                
                 <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
                   <button
                     type="button"
@@ -387,7 +387,7 @@ const ServicesManager = () => {
         )}
       </AnimatePresence>
 
-      {/* Grid & Filters */}
+      
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">

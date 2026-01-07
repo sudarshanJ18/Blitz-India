@@ -21,7 +21,7 @@ const ContactForm = () => {
   const [formStatus, setFormStatus] = useState({ submitted: false, error: null, loading: false });
   const [showPopup, setShowPopup] = useState(false);
 
-  // Fetch categories on mount
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -38,7 +38,7 @@ const ContactForm = () => {
     fetchCategories();
   }, []);
 
-  // Get available subcategories based on selected category
+  
   const getSubcategories = () => {
     if (!formData.serviceCategory) return [];
     const category = categories.find(cat => cat.title === formData.serviceCategory);
@@ -49,12 +49,12 @@ const ContactForm = () => {
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
-    // Reset subcategory when category changes
+    
     if (name === 'serviceCategory') {
       setFormData(prev => ({
         ...prev,
         serviceCategory: value,
-        serviceSubcategory: '' // Reset subcategory
+        serviceSubcategory: '' 
       }));
     } else {
       setFormData(prev => ({
@@ -68,7 +68,7 @@ const ContactForm = () => {
     e.preventDefault();
     setFormStatus({ submitted: false, error: null, loading: true });
 
-    // Validation
+    
     if (!formData.consent) {
       setFormStatus({ submitted: false, error: "You must agree to the privacy policy to continue.", loading: false });
       return;
@@ -80,7 +80,7 @@ const ContactForm = () => {
     }
 
     try {
-      // Create FormData for file upload
+      
       const submitData = new FormData();
       submitData.append('name', formData.name);
       submitData.append('email', formData.email);
@@ -89,7 +89,7 @@ const ContactForm = () => {
       submitData.append('message', formData.message);
       submitData.append('consent', formData.consent);
 
-      // Optional fields
+      
       if (formData.company && formData.company.trim()) {
         submitData.append('company', formData.company);
       }
@@ -100,7 +100,7 @@ const ContactForm = () => {
         submitData.append('attachment', formData.attachment);
       }
 
-      // Submit to API
+      
       const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
         method: 'POST',
         body: submitData
@@ -112,12 +112,12 @@ const ContactForm = () => {
         setFormStatus({ submitted: true, error: null, loading: false });
         setShowPopup(true);
 
-        // Reset form
+        
         setFormData({
           name: '', email: '', phone: '', company: '', serviceCategory: '',
           serviceSubcategory: '', message: '', attachment: null, consent: false
         });
-        // Reset file input
+        
         const fileInput = document.getElementById('attachment');
         if (fileInput) fileInput.value = '';
       } else {

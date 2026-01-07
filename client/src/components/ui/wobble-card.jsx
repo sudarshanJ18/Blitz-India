@@ -23,7 +23,7 @@ export const WobbleCard = ({
     setMousePosition({ x, y });
   };
 
-  // 3D tilt effect
+  
   const rotateX = (mousePosition.y - 0.5) * 10;
   const rotateY = (mousePosition.x - 0.5) * -10;
 
@@ -51,7 +51,7 @@ export const WobbleCard = ({
       )}
       onClick={onClick}
     >
-      {/* Main content */}
+      
       <div
         className={cn(
           "relative z-10 w-full h-full flex items-center justify-center p-6",
@@ -61,7 +61,7 @@ export const WobbleCard = ({
         {children}
       </div>
       
-      {/* Subtle light reflection */}
+      
       <motion.div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500"
         style={{
@@ -75,7 +75,7 @@ export const WobbleCard = ({
         transition={{ duration: 0.3 }}
       />
       
-      {/* Depth shadow effect */}
+      
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{

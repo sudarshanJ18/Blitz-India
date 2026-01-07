@@ -24,10 +24,10 @@ const legalContentSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Index
-// Note: type field already has unique: true which creates an index automatically
 
-// Update lastUpdated when content changes
+
+
+
 legalContentSchema.pre('save', function (next) {
     if (this.isModified('content')) {
         this.lastUpdated = Date.now();

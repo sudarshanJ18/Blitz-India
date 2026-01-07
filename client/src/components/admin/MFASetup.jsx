@@ -8,7 +8,7 @@ import { Eye, EyeOff, Copy, Check } from 'lucide-react';
 const MFASetup = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-    const [step, setStep] = useState('initial'); // initial, setup, verify, success, disable
+    const [step, setStep] = useState('initial'); 
     const [qrCode, setQrCode] = useState('');
     const [secret, setSecret] = useState('');
     const [showSecret, setShowSecret] = useState(false);
@@ -53,7 +53,7 @@ const MFASetup = () => {
             setLoading(true);
             await disableMFA(password);
             toast.success('MFA Disabled Successfully');
-            // Logout to force re-login and refresh state
+            
             logout();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to disable MFA');
@@ -169,7 +169,7 @@ const MFASetup = () => {
 
                 <button
                     onClick={() => {
-                        // Navigate to dashboard and reload to update auth state
+                        
                         window.location.href = '/admin/dashboard';
                     }}
                     className="w-full py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors font-semibold"
@@ -198,7 +198,7 @@ const MFASetup = () => {
             {step === 'setup' && (
                 <div className="space-y-8">
                     <div className="grid md:grid-cols-2 gap-8">
-                        {/* QR Code Section */}
+                        
                         <div className="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl border border-gray-200">
                             <h3 className="text-lg font-bold text-gray-900 mb-4">Scan QR Code</h3>
                             <img src={qrCode} alt="MFA QR Code" className="w-48 h-48 mb-4 border-4 border-white rounded-lg shadow-md" />
@@ -212,7 +212,7 @@ const MFASetup = () => {
                                 <span className="bg-white px-2 py-1 rounded border">1Password</span>
                             </div>
 
-                            {/* Secret Key Display */}
+                            
                             <div className="mt-6 w-full">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Or enter this secret key manually:
@@ -252,7 +252,7 @@ const MFASetup = () => {
                             </div>
                         </div>
 
-                        {/* Verification Section */}
+                        
                         <div>
                             <h3 className="text-lg font-bold text-gray-900 mb-4">Verify Setup</h3>
                             <p className="text-gray-600 text-sm mb-6">
@@ -267,7 +267,7 @@ const MFASetup = () => {
                                         type="text"
                                         value={totpCode}
                                         onChange={(e) => {
-                                            // Only allow numeric input
+                                            
                                             const value = e.target.value.replace(/[^0-9]/g, '');
                                             if (value.length <= 6) {
                                                 setTotpCode(value);

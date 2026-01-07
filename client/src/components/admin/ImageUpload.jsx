@@ -2,13 +2,13 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { CloudUpload, ImageIcon, CircleX, TriangleAlert, X } from 'lucide-react';
 
 const ImageUpload = ({
-    maxFiles = 1, // Default to single file for blog header
-    maxSize = 5 * 1024 * 1024, // 5MB
+    maxFiles = 1, 
+    maxSize = 5 * 1024 * 1024, 
     accept = 'image/*',
     className = '',
     onUploadComplete,
-    initialImage = '', // Can be string (single) or array (multiple)
-    multipleMode = false // When true, returns array of URLs instead of single URL
+    initialImage = '', 
+    multipleMode = false 
 }) => {
     const [images, setImages] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
@@ -16,13 +16,13 @@ const ImageUpload = ({
     const [uploading, setUploading] = useState(false);
     const [draggedIndex, setDraggedIndex] = useState(null);
 
-    // Initialize with existing image if provided
+    
     useEffect(() => {
         if (initialImage && images.length === 0) {
-            // Handle both string (single image) and array (multiple images)
+            
             const imagesToLoad = Array.isArray(initialImage) ? initialImage : [initialImage];
             const imageObjects = imagesToLoad
-                .filter(url => url) // Filter out empty strings
+                .filter(url => url) 
                 .map((url, index) => ({
                     id: `initial-${index}`,
                     preview: url,
@@ -51,7 +51,7 @@ const ImageUpload = ({
         const formData = new FormData();
         formData.append('file', file);
 
-        const token = localStorage.getItem('adminToken'); // Assuming token is stored here
+        const token = localStorage.getItem('adminToken'); 
 
         try {
             const response = await fetch('http://localhost:5000/api/admin/upload', {
@@ -68,7 +68,7 @@ const ImageUpload = ({
                 throw new Error(data.message || 'Upload failed');
             }
 
-            return data.url; // Return the file URL
+            return data.url; 
         } catch (error) {
             console.error('Upload error:', error);
             throw error;
@@ -79,7 +79,7 @@ const ImageUpload = ({
         const newImages = [];
         const newErrors = [];
 
-        // Convert FileList to Array
+        
         const fileArray = Array.from(files);
 
         for (const file of fileArray) {
@@ -102,22 +102,22 @@ const ImageUpload = ({
             setUploading(true);
 
             try {
-                // Simulate progress
+                
                 setImages(prev => prev.map(img =>
                     img.id === tempId ? { ...img, progress: 50 } : img
                 ));
 
-                // Actual upload
+                
                 const url = await uploadFileToBackend(file);
 
                 setImages(prev => prev.map(img =>
                     img.id === tempId ? { ...img, progress: 100, status: 'completed', url } : img
                 ));
 
-                // Notify parent - send array in multiple mode, single URL otherwise
+                
                 if (onUploadComplete) {
                     if (multipleMode) {
-                        // Send all uploaded URLs as array after state update
+                        
                         setTimeout(() => {
                             setImages(prev => {
                                 const allUrls = prev
@@ -155,7 +155,7 @@ const ImageUpload = ({
             }
             const newImages = prev.filter(img => img.id !== id);
 
-            // Notify parent with updated state after render
+            
             setTimeout(() => {
                 if (onUploadComplete) {
                     if (multipleMode) {
@@ -214,7 +214,7 @@ const ImageUpload = ({
         input.click();
     }, [accept, addImages, maxFiles]);
 
-    // Drag and drop reordering handlers
+    
     const handleImageDragStart = useCallback((e, index) => {
         setDraggedIndex(index);
         e.dataTransfer.effectAllowed = 'move';
@@ -226,14 +226,14 @@ const ImageUpload = ({
 
         if (draggedIndex === null || draggedIndex === index) return;
 
-        // Reorder images
+        
         setImages(prev => {
             const newImages = [...prev];
             const draggedImage = newImages[draggedIndex];
             newImages.splice(draggedIndex, 1);
             newImages.splice(index, 0, draggedImage);
 
-            // Update parent if in multiple mode after render
+            
             setTimeout(() => {
                 if (multipleMode && onUploadComplete) {
                     const allUrls = newImages
@@ -263,7 +263,7 @@ const ImageUpload = ({
 
     return (
         <div className={`w-full max-w-4xl ${className}`}>
-            {/* Upload Area */}
+            
             {images.length < maxFiles && (
                 <div
                     className={`
@@ -298,7 +298,7 @@ const ImageUpload = ({
                 </div>
             )}
 
-            {/* Image Preview List */}
+            
             {images.length > 0 && (
                 <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
                     {images.map((img, index) => (
@@ -317,7 +317,7 @@ const ImageUpload = ({
                                     alt="Preview"
                                     className="w-full h-full object-cover"
                                 />
-                                {/* Overlay with remove button */}
+                                
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-start justify-end p-2">
                                     <button
                                         onClick={(e) => {
@@ -331,7 +331,7 @@ const ImageUpload = ({
                                 </div>
                             </div>
 
-                            {/* Progress Bar */}
+                            
                             {img.status === 'uploading' && (
                                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-100">
                                     <div
@@ -341,7 +341,7 @@ const ImageUpload = ({
                                 </div>
                             )}
 
-                            {/* Status Indicator */}
+                            
                             {img.status === 'error' && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-white/90">
                                     <div className="text-center p-2">
@@ -355,7 +355,7 @@ const ImageUpload = ({
                 </div>
             )}
 
-            {/* Error Messages */}
+            
             {errors.length > 0 && (
                 <div className="mt-4 p-4 bg-red-50 border border-red-100 rounded-xl flex items-start gap-3">
                     <TriangleAlert className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />

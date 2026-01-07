@@ -2,10 +2,7 @@ const Blog = require('../../models/Blog');
 const logger = require('../../utils/logger');
 const { AppError } = require('../../middleware/errorHandler');
 
-/**
- * Get all blogs (Admin - includes unpublished)
- * GET /api/admin/blogs
- */
+
 const getAllBlogs = async (req, res, next) => {
     try {
         const blogs = await Blog.find().sort({ featured: -1, publishedDate: -1 });
@@ -20,10 +17,7 @@ const getAllBlogs = async (req, res, next) => {
     }
 };
 
-/**
- * Get single blog by ID
- * GET /api/admin/blogs/:id
- */
+
 const getBlogById = async (req, res, next) => {
     try {
         const blog = await Blog.findById(req.params.id);
@@ -38,10 +32,7 @@ const getBlogById = async (req, res, next) => {
     }
 };
 
-/**
- * Create new blog
- * POST /api/admin/blogs
- */
+
 const createBlog = async (req, res, next) => {
     try {
         const blog = await Blog.create(req.body);
@@ -58,10 +49,7 @@ const createBlog = async (req, res, next) => {
     }
 };
 
-/**
- * Update blog
- * PUT /api/admin/blogs/:id
- */
+
 const updateBlog = async (req, res, next) => {
     try {
         const blog = await Blog.findByIdAndUpdate(
@@ -86,10 +74,7 @@ const updateBlog = async (req, res, next) => {
     }
 };
 
-/**
- * Delete blog
- * DELETE /api/admin/blogs/:id
- */
+
 const deleteBlog = async (req, res, next) => {
     try {
         const blog = await Blog.findByIdAndDelete(req.params.id);

@@ -1,8 +1,6 @@
 const nodemailer = require('nodemailer');
 
-/**
- * Email Service for sending password reset emails
- */
+
 class EmailService {
     constructor() {
         this.transporter = null;
@@ -10,7 +8,7 @@ class EmailService {
     }
 
     initializeTransporter() {
-        // Check if email configuration exists
+        
         if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
             console.warn('⚠️  Email service not configured. Password reset emails will not be sent.');
             console.warn('Please configure EMAIL_HOST, EMAIL_USER, and EMAIL_PASS in .env file');
@@ -21,7 +19,7 @@ class EmailService {
             this.transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
                 port: parseInt(process.env.EMAIL_PORT) || 587,
-                secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
+                secure: process.env.EMAIL_SECURE === 'true', 
                 auth: {
                     user: process.env.EMAIL_USER,
                     pass: process.env.EMAIL_PASS
@@ -34,12 +32,7 @@ class EmailService {
         }
     }
 
-    /**
-     * Send password reset email
-     * @param {string} toEmail - Recipient email address
-     * @param {string} resetToken - Password reset token
-     * @param {string} adminName - Admin name (optional)
-     */
+    
     async sendPasswordResetEmail(toEmail, resetToken, adminName = 'Admin') {
         if (!this.transporter) {
             throw new Error('Email service is not configured. Please set up email credentials in .env file.');
@@ -101,7 +94,7 @@ class EmailService {
                 </body>
                 </html>
             `,
-            // Fallback text version
+            
             text: `
                 Hello ${adminName},
                 
@@ -129,9 +122,7 @@ class EmailService {
         }
     }
 
-    /**
-     * Verify email configuration
-     */
+    
     async verifyConnection() {
         if (!this.transporter) {
             return false;
@@ -148,5 +139,5 @@ class EmailService {
     }
 }
 
-// Export singleton instance
+
 module.exports = new EmailService();

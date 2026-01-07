@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
     }
 
     if (!isAuth) {
-        // Redirect to login page but save the attempted location
+        
         return <Navigate to="/admin/login" state={{ from: location }} replace />;
     }
 

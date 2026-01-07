@@ -61,7 +61,7 @@ const contactSubmissionSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Indexes
+
 contactSubmissionSchema.index({ email: 1 });
 contactSubmissionSchema.index({ status: 1 });
 contactSubmissionSchema.index({ submittedAt: -1 });

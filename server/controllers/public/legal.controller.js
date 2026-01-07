@@ -1,9 +1,6 @@
 const LegalContent = require('../../models/LegalContent');
 
-/**
- * Get privacy policy (Public)
- * GET /api/legal/privacy
- */
+
 const getPrivacyPolicy = async (req, res, next) => {
     try {
         let content = await LegalContent.findOne({ type: 'privacy' });
@@ -28,10 +25,7 @@ const getPrivacyPolicy = async (req, res, next) => {
     }
 };
 
-/**
- * Get terms of service (Public)
- * GET /api/legal/terms
- */
+
 const getTermsOfService = async (req, res, next) => {
     try {
         let content = await LegalContent.findOne({ type: 'terms' });

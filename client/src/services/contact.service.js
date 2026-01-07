@@ -3,7 +3,7 @@ import api from '../lib/api';
 const API_URL = `/api/admin/contact`;
 
 const contactService = {
-    // Get all submissions with pagination and filtering
+    
     getAllSubmissions: async (page = 1, limit = 20, status = '') => {
         try {
             let url = `${API_URL}/submissions?page=${page}&limit=${limit}`;
@@ -16,7 +16,7 @@ const contactService = {
         }
     },
 
-    // Get single submission details
+    
     getSubmissionById: async (id) => {
         try {
             const response = await api.get(`${API_URL}/submissions/${id}`);
@@ -26,7 +26,7 @@ const contactService = {
         }
     },
 
-    // Update submission status
+    
     updateStatus: async (id, status, notes) => {
         try {
             const response = await api.put(
@@ -39,7 +39,7 @@ const contactService = {
         }
     },
 
-    // Delete submission
+    
     deleteSubmission: async (id) => {
         try {
             const response = await api.delete(`${API_URL}/submissions/${id}`);

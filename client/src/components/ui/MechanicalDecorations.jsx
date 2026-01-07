@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 
-// PREMIUM GEAR - Modern glassmorphic style
+
 const PremiumGear = ({ className = "w-full h-full" }) => (
     <svg className={className} viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -21,7 +21,7 @@ const PremiumGear = ({ className = "w-full h-full" }) => (
 
         <circle cx="100" cy="100" r="75" fill="url(#gearGradient)" opacity="0.3" />
 
-        {/* Gear teeth */}
+        
         {[...Array(12)].map((_, i) => {
             const angle = (i * 30 - 90) * (Math.PI / 180);
             const nextAngle = ((i + 1) * 30 - 90) * (Math.PI / 180);
@@ -52,7 +52,7 @@ const PremiumGear = ({ className = "w-full h-full" }) => (
     </svg>
 );
 
-// MODERN CIRCUIT
+
 const ModernCircuit = ({ className = "w-full h-full" }) => (
     <svg className={className} viewBox="0 0 200 200" fill="none">
         <defs>
@@ -73,7 +73,7 @@ const ModernCircuit = ({ className = "w-full h-full" }) => (
     </svg>
 );
 
-// GEOMETRIC HEX
+
 const GeometricHex = ({ className = "w-full h-full" }) => (
     <svg className={className} viewBox="0 0 200 200" fill="none">
         <defs>
@@ -88,7 +88,7 @@ const GeometricHex = ({ className = "w-full h-full" }) => (
     </svg>
 );
 
-// TECHNICAL GRID
+
 const TechnicalGrid = ({ className = "w-full h-full" }) => (
     <svg className={className} viewBox="0 0 200 200" fill="none">
         <defs>
@@ -105,7 +105,7 @@ const TechnicalGrid = ({ className = "w-full h-full" }) => (
     </svg>
 );
 
-// Premium shape component with responsive sizing
+
 const PremiumShape = ({
     Icon,
     className,
@@ -134,7 +134,7 @@ const PremiumShape = ({
     const rotateX = useTransform(y, [-30, 30], [5, -5]);
     const rotateY = useTransform(x, [-30, 30], [-5, 5]);
 
-    // Responsive size
+    
     const actualSize = typeof size === 'object' ? size : { mobile: size * 0.5, desktop: size };
 
     return (
@@ -172,7 +172,7 @@ const PremiumShape = ({
     );
 };
 
-// Responsive configuration
+
 const PREMIUM_SHAPES = [
     {
         Icon: PremiumGear,
@@ -211,14 +211,14 @@ const PREMIUM_SHAPES = [
 export const MechanicalDecorations = () => {
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Ambient glow - smaller on mobile */}
+            
             <motion.div
                 animate={{ scale: [1, 1.2, 1], opacity: [0.08, 0.15, 0.08] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute left-[8%] md:left-[12%] top-[15%] md:top-[20%] w-[300px] h-[300px] md:w-[650px] md:h-[650px] bg-gradient-radial from-orange-500/15 via-orange-500/8 to-transparent rounded-full blur-3xl"
             />
 
-            {/* Shapes */}
+            
             {PREMIUM_SHAPES.map((shape, index) => (
                 <PremiumShape key={index} {...shape} />
             ))}

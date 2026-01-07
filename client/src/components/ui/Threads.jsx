@@ -119,7 +119,7 @@ void main() {
 `;
 
 const Threads = ({
-    color = [0.95, 0.45, 0.15], // Orange color for mechanical engineering theme
+    color = [0.95, 0.45, 0.15], 
     amplitude = 1,
     distance = 0,
     enableMouseInteraction = true,

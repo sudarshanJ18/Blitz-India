@@ -141,7 +141,7 @@ const Dashboard = () => {
     },
     {
       title: 'Inquiries',
-      value: counts?.submissions?.total || 0, // Showing total here, subtext shows new
+      value: counts?.submissions?.total || 0, 
       subtext: `${counts?.submissions?.new || 0} Unread`,
       icon: Mail,
       color: 'red',
@@ -156,7 +156,7 @@ const Dashboard = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Header */}
+      
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
         <div>
           <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">
@@ -238,7 +238,7 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        {/* Recent Blogs Activity */}
+        
         <motion.div variants={itemVariants} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 border-b border-gray-50 flex items-center justify-between">
             <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">

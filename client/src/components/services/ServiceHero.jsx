@@ -29,24 +29,24 @@ export const HeroLayout = ({
 
   return (
     <section className="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden min-h-[60vh] flex items-center">
-      {/* Threads animated background */}
+      
       <div className="absolute inset-0 overflow-hidden">
         <Threads
-          color={[0.55, 0.57, 0.60]} // Steel gray color for mechanical engineering theme
+          color={[0.55, 0.57, 0.60]} 
           amplitude={0.8}
           distance={0}
           enableMouseInteraction={true}
         />
       </div>
 
-      {/* Mechanical decorative shapes */}
+      
       <MechanicalDecorations />
 
-      {/* Gradient overlays */}
+      
       <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.02] via-transparent to-gray-600/[0.02]" />
       <div className="absolute inset-0 bg-gradient-to-t from-gray-100/60 via-transparent to-white/40 pointer-events-none" />
 
-      {/* Content */}
+      
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {topSlot && <div className="mb-8">{typeof topSlot === 'function' ? topSlot() : topSlot}</div>}
 

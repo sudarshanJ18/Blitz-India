@@ -20,7 +20,7 @@ const AboutManager = () => {
         try {
             const data = await getAboutContent();
             if (data) {
-                // Ensure stats is an array
+                
                 setFormData({
                     ...data,
                     stats: Array.isArray(data.stats) ? data.stats : []
@@ -44,7 +44,7 @@ const AboutManager = () => {
         }));
     };
 
-    // Stats Handlers
+    
     const handleStatChange = (index, field, value) => {
         const newStats = [...formData.stats];
         newStats[index] = { ...newStats[index], [field]: value };
@@ -102,7 +102,7 @@ const AboutManager = () => {
                 </button>
             </div>
 
-            {/* Story Section */}
+            
             <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
                 <h2 className="text-xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-100">Company Story</h2>
                 <div className="space-y-6">
@@ -144,7 +144,7 @@ const AboutManager = () => {
                 </div>
             </div>
 
-            {/* Stats Section */}
+            
             <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
                 <div className="flex justify-between items-center mb-6 pb-2 border-b border-gray-100">
                     <h2 className="text-xl font-bold text-gray-900">Company Stats</h2>
@@ -202,7 +202,7 @@ const AboutManager = () => {
                 </div>
             </div>
 
-            {/* Team Link */}
+            
             <div className="bg-blue-50 rounded-xl p-6 border border-blue-100 flex justify-between items-center">
                 <div>
                     <h3 className="font-bold text-blue-900">Manage Team Members</h3>

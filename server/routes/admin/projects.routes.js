@@ -10,7 +10,7 @@ const {
     deleteProject
 } = require('../../controllers/admin/projects.controller');
 
-// All routes require authentication
+
 router.use(verifyToken, requireAdmin);
 
 router.get('/', getAllProjects);

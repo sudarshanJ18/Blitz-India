@@ -3,13 +3,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const logger = require('../utils/logger');
 
-/**
- * Optimize and convert image to WebP format
- * @param {Object} file - Multer file object
- * @param {Number} maxWidth - Maximum width for resizing (default: 1920)
- * @param {Number} quality - WebP quality (default: 80)
- * @returns {String} Path to optimized image
- */
+
 const optimizeImage = async (file, maxWidth = 1920, quality = 80) => {
     try {
         const ext = path.extname(file.originalname || file.filename);
@@ -22,7 +16,7 @@ const optimizeImage = async (file, maxWidth = 1920, quality = 80) => {
             .webp({ quality })
             .toFile(outputPath);
 
-        // Delete original file
+        
         try {
             await fs.unlink(file.path);
         } catch (err) {
@@ -37,9 +31,7 @@ const optimizeImage = async (file, maxWidth = 1920, quality = 80) => {
     }
 };
 
-/**
- * Middleware to optimize uploaded images
- */
+
 const imageOptimizerMiddleware = async (req, res, next) => {
     try {
         if (req.file && req.file.mimetype?.startsWith('image/')) {
@@ -61,7 +53,7 @@ const imageOptimizerMiddleware = async (req, res, next) => {
         next();
     } catch (error) {
         logger.error('Image optimization middleware error:', error);
-        // Continue without optimization if it fails
+        
         next();
     }
 };

@@ -1,12 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-/**
- * Structured Data Component for Schema.org
- * Adds JSON-LD structured data for better SEO
- */
+
 const StructuredData = ({ type = 'Organization', data = null }) => {
-    // Default organization schema
+    
     const organizationSchema = {
         "@context": "https://schema.org",
         "@type": "Organization",
@@ -32,7 +29,7 @@ const StructuredData = ({ type = 'Organization', data = null }) => {
         ]
     };
 
-    // Service schema template
+    
     const serviceSchema = (serviceData) => ({
         "@context": "https://schema.org",
         "@type": "Service",
@@ -44,7 +41,7 @@ const StructuredData = ({ type = 'Organization', data = null }) => {
         }
     });
 
-    // Article schema template (for blogs)
+    
     const articleSchema = (articleData) => ({
         "@context": "https://schema.org",
         "@type": "Article",
@@ -67,7 +64,7 @@ const StructuredData = ({ type = 'Organization', data = null }) => {
         }
     });
 
-    // Breadcrumb schema template
+    
     const breadcrumbSchema = (items) => ({
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -79,7 +76,7 @@ const StructuredData = ({ type = 'Organization', data = null }) => {
         }))
     });
 
-    // Select schema based on type
+    
     let schema;
     switch (type) {
         case 'Organization':

@@ -22,7 +22,7 @@ const QuillEditor = ({ value, onChange, modules, formats }) => {
                         />
                     );
 
-                    // Use React 18's createRoot if available
+                    
                     if (React.version.startsWith('18')) {
                         import('react-dom/client').then((ReactDOM) => {
                             const root = ReactDOM.createRoot(quillRef.current);
@@ -41,10 +41,10 @@ const QuillEditor = ({ value, onChange, modules, formats }) => {
         };
     }, []);
 
-    // Update content when value changes
+    
     useEffect(() => {
         if (editorRef.current && value !== undefined) {
-            // Content update will be handled by ReactQuill internally
+            
         }
     }, [value]);
 

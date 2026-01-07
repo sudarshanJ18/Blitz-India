@@ -23,7 +23,7 @@ const Navbar = () => {
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState(null);
   const location = useLocation();
 
-  // Refs for dropdown elements
+  
   const servicesDropdownRef = useRef(null);
   const categoryTimeoutRef = useRef(null);
   const serviceTimeoutRef = useRef(null);
@@ -51,7 +51,7 @@ const Navbar = () => {
     };
   }, [mobileMenuOpen]);
 
-  // Cleanup timeouts on unmount
+  
   useEffect(() => {
     return () => {
       if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
@@ -59,7 +59,7 @@ const Navbar = () => {
     };
   }, []);
 
-  // Handle mouse enter for services dropdown
+  
   const handleServicesMouseEnter = () => {
     if (serviceTimeoutRef.current) {
       clearTimeout(serviceTimeoutRef.current);
@@ -67,7 +67,7 @@ const Navbar = () => {
     setHoveredService(true);
   };
 
-  // Handle mouse leave for services dropdown
+  
   const handleServicesMouseLeave = () => {
     serviceTimeoutRef.current = setTimeout(() => {
       setHoveredService(false);
@@ -75,7 +75,7 @@ const Navbar = () => {
     }, 200);
   };
 
-  // Handle mouse enter for category
+  
   const handleCategoryMouseEnter = (categoryId) => {
     if (categoryTimeoutRef.current) {
       clearTimeout(categoryTimeoutRef.current);
@@ -83,14 +83,14 @@ const Navbar = () => {
     setHoveredCategory(categoryId);
   };
 
-  // Handle mouse leave for category
+  
   const handleCategoryMouseLeave = () => {
     categoryTimeoutRef.current = setTimeout(() => {
       setHoveredCategory(null);
     }, 200);
   };
 
-  // Cancel timeout when entering subcategory dropdown
+  
   const handleSubcategoryMouseEnter = () => {
     if (categoryTimeoutRef.current) {
       clearTimeout(categoryTimeoutRef.current);
@@ -98,13 +98,13 @@ const Navbar = () => {
   };
 
   const handleNavClick = (e) => {
-    // For menu toggle button
+    
     if (e && e.currentTarget && e.currentTarget.getAttribute('type') === 'button') {
       setMobileMenuOpen(!mobileMenuOpen);
       return;
     }
 
-    // For navigation links
+    
     if (e && e.preventDefault) {
       e.preventDefault();
       const targetId = e.currentTarget.getAttribute('href');
@@ -113,7 +113,7 @@ const Navbar = () => {
         setMobileServiceAccordion(false);
         setMobileCategoryOpen(null);
 
-        // Small delay to allow menu to close before navigation
+        
         setTimeout(() => {
           if (targetId.startsWith('#')) {
             const element = document.querySelector(targetId);
@@ -128,7 +128,7 @@ const Navbar = () => {
     }
   };
 
-  // Build menu items with nested services for mobile menu
+  
   const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/', number: '01' },
     {
@@ -153,7 +153,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Desktop Navigation Bar */}
+      
       <nav
         className={`hidden lg:block fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-in-out ${scrolled
           ? 'bg-white shadow-2xl'
@@ -163,7 +163,7 @@ const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-24">
-            {/* Logo */}
+            
             <Link to="/" className="flex items-center group">
               <img
                 src={settings?.logo ? (settings.logo.startsWith('http') ? settings.logo : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${settings.logo}`) : assets.logo}
@@ -173,7 +173,7 @@ const Navbar = () => {
               />
             </Link>
 
-            {/* Desktop Menu */}
+            
             <div className="flex items-center space-x-10">
               <Link
                 to="/"
@@ -187,7 +187,7 @@ const Navbar = () => {
                   }`}></span>
               </Link>
 
-              {/* Services Dropdown */}
+              
               <div
                 className="relative"
                 onMouseEnter={handleServicesMouseEnter}
@@ -214,7 +214,7 @@ const Navbar = () => {
                     }`}></span>
                 </Link>
 
-                {/* Categories Dropdown */}
+                
                 {hoveredService && (
                   <div className="absolute top-full left-0 mt-4 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50 animate-dropdown">
                     {serviceCategories.map((category, idx) => (
@@ -245,7 +245,7 @@ const Navbar = () => {
                           </svg>
                         </Link>
 
-                        {/* Sub-categories Dropdown */}
+                        
                         {hoveredCategory === category.id && (
                           <div
                             className="absolute left-full top-0 ml-2 w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-[60] animate-dropdown max-h-[600px] overflow-y-auto custom-scrollbar"
@@ -334,7 +334,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Navigation Menu - Fixed button visibility */}
+      
       <div
         className={`lg:hidden fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'
           }`}
@@ -382,7 +382,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      
       <div
         className={`lg:hidden fixed inset-0 z-40 transition-all duration-500 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
@@ -420,7 +420,7 @@ const Navbar = () => {
                   );
                 }
 
-                // Services item with inline accordion, keeping order consistent with desktop
+                
                 return (
                   <div key={item.label} className="space-y-4">
                     <div className="flex items-center justify-between">
@@ -525,7 +525,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Enhanced Custom Styles */}
+      
       <style>{`
         /* Dropdown Animation */
         @keyframes dropdownSlide {

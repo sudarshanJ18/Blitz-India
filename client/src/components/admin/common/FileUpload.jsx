@@ -16,12 +16,12 @@ const FileUpload = ({ label, onFileSelect, currentImage, className = '' }) => {
     };
 
     const validateFile = (file) => {
-        // Check file type
+        
         if (!file.type.startsWith('image/')) {
             setError('Please upload an image file (JPG, PNG, WEBP)');
             return false;
         }
-        // Check file size (limit to 500KB for localStorage safety)
+        
         if (file.size > 500 * 1024) {
             setError('File size too large. Please use an image under 500KB.');
             return false;
@@ -61,7 +61,7 @@ const FileUpload = ({ label, onFileSelect, currentImage, className = '' }) => {
     };
 
     const removeImage = (e) => {
-        e.preventDefault(); // Prevent form submission
+        e.preventDefault(); 
         e.stopPropagation();
         onFileSelect('');
         if (inputRef.current) inputRef.current.value = '';

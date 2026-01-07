@@ -17,12 +17,12 @@ import ResetPassword from './ResetPassword.jsx';
 const Admin = () => {
   return (
     <Routes>
-      {/* Public routes - Login and Password Reset */}
+      
       <Route path="login" element={<Login />} />
       <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="reset-password/:token" element={<ResetPassword />} />
 
-      {/* Protected routes - Require authentication */}
+      
       <Route
         path="*"
         element={

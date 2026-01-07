@@ -64,14 +64,14 @@ const Highlights = () => {
 
   return (
     <section id="highlights" className="py-6 md:py-8 bg-gradient-to-br from-white via-gray-50 to-gray-100 relative overflow-hidden">
-      {/* Grid background */}
+      
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_10%,transparent_110%)] opacity-40" />
 
-      {/* Glows */}
+      
       <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-orange-500/20 rounded-full blur-4xl animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-500/20 rounded-full blur-4xl animate-pulse delay-1000" />
 
-      {/* Heading in container */}
+      
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-left mb-6 md:mb-8">
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-500 leading-tight mb-3 md:mb-4">
@@ -83,14 +83,14 @@ const Highlights = () => {
         </div>
       </div>
 
-      {/* FULL-WIDTH scrolling area (edge to edge) */}
+      
       <div className="relative mt-6 md:mt-8">
         <div className="h-[420px] sm:h-[460px] w-screen relative left-1/2 -translate-x-1/2 overflow-hidden pb-6">
-          {/* fade at screen edges */}
+          
           <div className="absolute inset-y-0 left-0 w-12 sm:w-16 bg-gradient-to-r from-white via-white to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-12 sm:w-16 bg-gradient-to-l from-white via-white to-transparent z-10 pointer-events-none" />
 
-          {/* First Row */}
+          
           <div className="flex space-x-8 absolute top-0 left-0 animate-infinite-scroll hover:pause-animation">
             {highlights.map((highlight, index) => (
               <div
@@ -121,7 +121,7 @@ const Highlights = () => {
             ))}
           </div>
 
-          {/* Second Row */}
+          
           <div className="flex space-x-8 absolute top-36 left-0 animate-infinite-scroll-reverse mt-8 hover:pause-animation">
             {highlights
               .slice()

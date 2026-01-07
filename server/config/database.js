@@ -6,7 +6,7 @@ const connectDB = async (retryCount = 0, maxRetries = 3) => {
         logger.info(`Attempting to connect to MongoDB (attempt ${retryCount + 1}/${maxRetries + 1})...`);
         
         const options = {
-            serverSelectionTimeoutMS: 10000, // Increased timeout
+            serverSelectionTimeoutMS: 10000, 
             socketTimeoutMS: 45000,
             useNewUrlParser: true,
             useUnifiedTopology: true
@@ -16,7 +16,7 @@ const connectDB = async (retryCount = 0, maxRetries = 3) => {
 
         logger.info(`MongoDB Connected: ${conn.connection.host}`);
 
-        // Connection event listeners
+        
         mongoose.connection.on('error', (err) => {
             logger.error('MongoDB connection error:', err);
         });
@@ -29,7 +29,7 @@ const connectDB = async (retryCount = 0, maxRetries = 3) => {
             logger.info('MongoDB reconnected');
         });
 
-        // Graceful shutdown
+        
         process.on('SIGINT', async () => {
             await mongoose.connection.close();
             logger.info('MongoDB connection closed through app termination');

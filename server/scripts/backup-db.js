@@ -5,18 +5,15 @@ require('dotenv').config();
 
 const logger = require('../utils/logger');
 
-/**
- * Automated Database Backup Script
- * Creates compressed MongoDB backups with timestamps
- */
 
-// Configuration
+
+
 const backupDir = path.join(__dirname, '../backups');
 const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
 const timeStamp = new Date().toISOString().replace(/[:.]/g, '-');
 const backupFile = path.join(backupDir, `backup-${timeStamp}.gz`);
 
-// Ensure backup directory exists
+
 if (!fs.existsSync(backupDir)) {
     fs.mkdirSync(backupDir, { recursive: true });
     logger.info('Created backup directory:', backupDir);
@@ -30,14 +27,14 @@ const performBackup = () => {
         process.exit(1);
     }
 
-    // Extract database name from URI
+    
     const dbName = mongoUri.split('/').pop().split('?')[0];
 
     logger.info('Starting database backup...');
     logger.info('Database:', dbName);
     logger.info('Backup file:', backupFile);
 
-    // Execute mongodump command
+    
     const command = `mongodump --uri="${mongoUri}" --archive="${backupFile}" --gzip`;
 
     exec(command, (error, stdout, stderr) => {
@@ -54,24 +51,22 @@ const performBackup = () => {
         logger.info('Backup completed successfully');
         console.log('✅ Backup completed:', backupFile);
 
-        // Get file size
+        
         const stats = fs.statSync(backupFile);
         const fileSizeMB = (stats.size / (1024 * 1024)).toFixed(2);
         logger.info(`Backup size: ${fileSizeMB} MB`);
         console.log(`Size: ${fileSizeMB} MB`);
 
-        // Clean up old backups (keep last 7 days)
+        
         cleanupOldBackups();
     });
 };
 
-/**
- * Remove backups older than 7 days
- */
+
 const cleanupOldBackups = () => {
     const files = fs.readdirSync(backupDir);
     const now = Date.now();
-    const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    const maxAge = 7 * 24 * 60 * 60 * 1000; 
 
     files.forEach(file => {
         const filePath = path.join(backupDir, file);
@@ -86,7 +81,7 @@ const cleanupOldBackups = () => {
     });
 };
 
-// Run backup
+
 performBackup();
 
 module.exports = { performBackup, cleanupOldBackups };

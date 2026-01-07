@@ -48,7 +48,7 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Animated Gears - Interconnected Triangle Formation */}
+            
             <div className="flex justify-center py-8">
               <div className="relative w-80 h-36">
                 <style>{`
@@ -95,7 +95,7 @@ const Footer = () => {
                   }
                 `}</style>
 
-                {/* Left Gear - Middle Left, Steel Gray */}
+                
                 <div className="absolute left-8 top-12 w-20 h-20">
                   <svg
                     className="gear-left w-20 h-20 text-slate-600 drop-shadow-xl"
@@ -106,7 +106,7 @@ const Footer = () => {
                   </svg>
                 </div>
 
-                {/* Center Gear - Top Center, Orange (Largest - Brand Color) */}
+                
                 <div className="absolute left-1/2 -translate-x-1/2 top-0 w-28 h-28">
                   <svg
                     className="gear-center w-28 h-28 text-orange-600 drop-shadow-2xl"
@@ -117,7 +117,7 @@ const Footer = () => {
                   </svg>
                 </div>
 
-                {/* Right Gear - Middle Right, Steel Gray */}
+                
                 <div className="absolute right-8 top-12 w-20 h-20">
                   <svg
                     className="gear-right w-20 h-20 text-slate-600 drop-shadow-xl"

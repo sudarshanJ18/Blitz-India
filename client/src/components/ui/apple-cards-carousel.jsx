@@ -27,7 +27,7 @@ export const CarouselContext = createContext({
   currentIndex: 0,
 });
 
-// Hook for scroll overflow mask effect
+
 const useScrollOverflowMask = (scrollXProgress) => {
   const left = `0%`;
   const right = `100%`;
@@ -69,11 +69,11 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Scroll tracking for mask effect
+  
   const { scrollXProgress } = useScroll({ container: carouselRef });
   const maskImage = useScrollOverflowMask(scrollXProgress);
 
-  // Check mobile on mount and resize
+  
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -132,10 +132,10 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
     >
       <div className="relative w-full px-4 md:px-0">
         <div className="relative">
-          {/* Left Arrow */}
-          {/* Left Arrow removed */}
+          
+          
 
-          {/* Carousel Content */}
+          
           <motion.div
             className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-4 md:py-6 lg:py-5 [scrollbar-width:none]"
             ref={carouselRef}
@@ -172,8 +172,8 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
             </div>
           </motion.div>
 
-          {/* Right Arrow */}
-          {/* Right Arrow removed */}
+          
+          
         </div>
       </div>
     </CarouselContext.Provider>
@@ -252,7 +252,7 @@ export const Card = ({ card, index, layout = false, className }) => {
                 {card.title}
               </motion.p>
               <div className="py-2 sm:py-3 md:py-6 lg:py-10" onClick={(e) => {
-                // If a link is clicked inside the modal content, close the modal immediately
+                
                 if (e.target.tagName === 'A' || e.target.closest('a')) {
                   handleClose();
                 }

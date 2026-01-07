@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Animated Counter Component
+
 const CounterAnimation = ({ end, duration = 2000, suffix = '' }) => {
   const [count, setCount] = useState(0);
   const countRef = useRef(null);
@@ -37,7 +37,7 @@ const CounterAnimation = ({ end, duration = 2000, suffix = '' }) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
 
-      // Easing function for smooth animation
+      
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       const currentCount = Math.floor(easeOutQuart * end);
 
@@ -67,12 +67,12 @@ const CounterAnimation = ({ end, duration = 2000, suffix = '' }) => {
 const Hero = () => {
   return (
     <section className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 text-gray-900 overflow-hidden min-h-screen flex items-center">
-      {/* Animated background elements */}
+      
       <div className="absolute inset-0">
-        {/* Subtle grid pattern */}
-        {/* <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div> */}
+        
+        
 
-        {/* Gradient orbs */}
+        
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
@@ -80,9 +80,9 @@ const Hero = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12 lg:py-14 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
-          {/* Content */}
+          
           <div className="space-y-3 sm:space-y-4 z-10">
-            {/* Badge */}
+            
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full backdrop-blur-sm animate-fade-in shadow-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
@@ -98,9 +98,7 @@ const Hero = () => {
                   Product Development
                 </span>
               </h1>
-              {/* <p className="text-base sm:text-lg text-gray-600 max-w-xl animate-fade-in-up delay-100">
-                Design • QA • Analysis for reliable launches.
-              </p> */}
+              
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in-up delay-200">
@@ -124,7 +122,7 @@ const Hero = () => {
               </a>
             </div>
 
-            {/* Stats */}
+            
             <div className="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8 lg:pt-12 animate-fade-in-up delay-300">
               <div className="group text-center p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-200 shadow-sm hover:bg-white hover:border-orange-500/50 hover:shadow-lg transition-all duration-300 cursor-pointer">
                 <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
@@ -147,11 +145,11 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Content - Visual */}
+          
           <div className="relative animate-fade-in-up delay-400 mt-8 lg:mt-0">
-            {/* Main card */}
+            
             <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl border border-gray-200 h-64 sm:h-80 md:h-96 lg:h-[32rem] flex items-center justify-center group hover:border-orange-500/50 hover:shadow-2xl transition-all duration-500">
-              {/* Inner glow effect */}
+              
               <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               <div className="relative text-center space-y-3 sm:space-y-4 p-6 sm:p-8 z-10">
@@ -173,7 +171,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* Decorative elements */}
+              
               <div className="absolute top-0 left-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl"></div>
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
             </div>
@@ -183,7 +181,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      
       <div
         className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block z-20"
         onClick={() => {

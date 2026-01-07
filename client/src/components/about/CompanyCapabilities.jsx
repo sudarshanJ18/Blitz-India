@@ -61,7 +61,7 @@ const CompanyCapabilities = () => {
   return (
     <section className="min-h-screen flex items-center py-16 md:py-20 lg:py-24 bg-white">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Bold Title */}
+        
         <div className="mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 uppercase leading-tight">
             TECHNICAL
@@ -72,14 +72,8 @@ const CompanyCapabilities = () => {
           </h2>
         </div>
 
-        <div className="mb-10 md:mb-12">
-          {/* <p className="text-base md:text-lg text-gray-500 max-w-4xl leading-relaxed">
-            We invest in the latest technology and infrastructure to provide our clients with state-of-the-art 
-            engineering solutions and ensure the highest levels of quality and security.
-          </p> */}
-        </div>
 
-        {/* Capabilities Grid */}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {capabilities.map((capability, index) => (
             <div

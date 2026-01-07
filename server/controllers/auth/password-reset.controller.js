@@ -2,17 +2,13 @@ const Admin = require('../../models/Admin');
 const crypto = require('crypto');
 const emailService = require('../../services/email.service');
 
-/**
- * @desc    Request password reset - sends to configured admin email
- * @route   POST /api/auth/forgot-password
- * @access  Public
- */
+
 exports.forgotPassword = async (req, res) => {
     try {
-        // Use the configured admin email directly (no email input required)
+        
         const adminEmail = process.env.ADMIN_EMAIL || 'info@blitzindiaengineering.com';
 
-        // Find admin by the configured email
+        
         const admin = await Admin.findOne({ email: adminEmail.toLowerCase() });
 
         if (!admin) {
@@ -22,16 +18,16 @@ exports.forgotPassword = async (req, res) => {
             });
         }
 
-        // Generate reset token
+        
         const resetToken = crypto.randomBytes(32).toString('hex');
 
-        // Hash token and set expiry (1 hour)
+        
         admin.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-        admin.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+        admin.resetPasswordExpires = Date.now() + 60 * 60 * 1000; 
 
         await admin.save();
 
-        // Send email
+        
         try {
             await emailService.sendPasswordResetEmail(
                 admin.email,
@@ -44,7 +40,7 @@ exports.forgotPassword = async (req, res) => {
                 message: `Password reset link sent to ${adminEmail}. Please check your inbox.`
             });
         } catch (emailError) {
-            // Reset the token fields if email fails
+            
             admin.resetPasswordToken = undefined;
             admin.resetPasswordExpires = undefined;
             await admin.save();
@@ -65,17 +61,13 @@ exports.forgotPassword = async (req, res) => {
     }
 };
 
-/**
- * @desc    Reset password with token
- * @route   POST /api/auth/reset-password/:token
- * @access  Public
- */
+
 exports.resetPassword = async (req, res) => {
     try {
         const { token } = req.params;
         const { password, confirmPassword } = req.body;
 
-        // Validate inputs
+        
         if (!password || !confirmPassword) {
             return res.status(400).json({
                 success: false,
@@ -97,10 +89,10 @@ exports.resetPassword = async (req, res) => {
             });
         }
 
-        // Hash the token from URL
+        
         const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
-        // Find admin with valid reset token
+        
         const admin = await Admin.findOne({
             resetPasswordToken: hashedToken,
             resetPasswordExpires: { $gt: Date.now() }
@@ -113,7 +105,7 @@ exports.resetPassword = async (req, res) => {
             });
         }
 
-        // Set new password
+        
         admin.password = password;
         admin.resetPasswordToken = undefined;
         admin.resetPasswordExpires = undefined;
@@ -134,19 +126,15 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
-/**
- * @desc    Verify reset token validity
- * @route   GET /api/auth/verify-reset-token/:token
- * @access  Public
- */
+
 exports.verifyResetToken = async (req, res) => {
     try {
         const { token } = req.params;
 
-        // Hash the token
+        
         const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
-        // Find admin with valid reset token
+        
         const admin = await Admin.findOne({
             resetPasswordToken: hashedToken,
             resetPasswordExpires: { $gt: Date.now() }

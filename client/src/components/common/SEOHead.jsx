@@ -16,16 +16,16 @@ const SEOHead = ({
 
     return (
         <Helmet>
-            {/* Basic Meta Tags */}
+            
             <title>{fullTitle}</title>
             <meta name="description" content={description} />
             <meta name="keywords" content={keywords} />
             <meta name="author" content={author} />
 
-            {/* Canonical URL */}
+            
             {url && <link rel="canonical" href={url} />}
 
-            {/* Open Graph Tags */}
+            
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={description} />
             <meta property="og:type" content={type} />
@@ -33,7 +33,7 @@ const SEOHead = ({
             {image && <meta property="og:image" content={image} />}
             <meta property="og:site_name" content={siteName} />
 
-            {/* Twitter Card Tags */}
+            
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description} />
@@ -41,13 +41,13 @@ const SEOHead = ({
             {twitterHandle && <meta name="twitter:site" content={twitterHandle} />}
             {twitterHandle && <meta name="twitter:creator" content={twitterHandle} />}
 
-            {/* Additional SEO */}
+            
             <meta name="robots" content="index, follow" />
             <meta name="googlebot" content="index, follow" />
             <meta name="format-detection" content="telephone=no" />
             <meta httpEquiv="x-ua-compatible" content="IE=edge" />
 
-            {/* Mobile */}
+            
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta name="theme-color" content="#ea580c" />
         </Helmet>

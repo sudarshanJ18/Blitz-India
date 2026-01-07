@@ -2,10 +2,7 @@ const Project = require('../../models/Project');
 const logger = require('../../utils/logger');
 const { AppError } = require('../../middleware/errorHandler');
 
-/**
- * Get all projects (Admin - includes unpublished)
- * GET /api/admin/projects
- */
+
 const getAllProjects = async (req, res, next) => {
     try {
         const projects = await Project.find().sort({ featured: -1, date: -1, order: 1 });
@@ -20,10 +17,7 @@ const getAllProjects = async (req, res, next) => {
     }
 };
 
-/**
- * Get single project by ID
- * GET /api/admin/projects/:id
- */
+
 const getProjectById = async (req, res, next) => {
     try {
         const project = await Project.findById(req.params.id);
@@ -38,10 +32,7 @@ const getProjectById = async (req, res, next) => {
     }
 };
 
-/**
- * Create new project
- * POST /api/admin/projects
- */
+
 const createProject = async (req, res, next) => {
     try {
         const project = await Project.create(req.body);
@@ -58,10 +49,7 @@ const createProject = async (req, res, next) => {
     }
 };
 
-/**
- * Update project
- * PUT /api/admin/projects/:id
- */
+
 const updateProject = async (req, res, next) => {
     try {
         const project = await Project.findByIdAndUpdate(
@@ -86,10 +74,7 @@ const updateProject = async (req, res, next) => {
     }
 };
 
-/**
- * Delete project
- * DELETE /api/admin/projects/:id
- */
+
 const deleteProject = async (req, res, next) => {
     try {
         const project = await Project.findByIdAndDelete(req.params.id);

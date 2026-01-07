@@ -65,7 +65,7 @@ const ServiceDetail = () => {
     );
   }
 
-  // Add category info to service for breadcrumb navigation
+  
   const serviceWithCategory = {
     ...service,
     category: category.title,
@@ -74,9 +74,9 @@ const ServiceDetail = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Banner with Image Background */}
+      
       <section className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 min-h-[60vh] sm:min-h-[70vh] lg:min-h-[80vh] flex items-center">
-        {/* Background Image */}
+        
         <div className="absolute inset-0 z-0">
           {service.image && (
             <>
@@ -87,17 +87,17 @@ const ServiceDetail = () => {
                 loading="lazy"
                 decoding="async"
               />
-              {/* Left Side Fade Overlay - White gradient from left to transparent on right */}
+              
               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
-              {/* Additional bottom gradient for better text visibility */}
+              
               <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
             </>
           )}
         </div>
 
-        {/* Content */}
+        
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          {/* Breadcrumb */}
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ const ServiceDetail = () => {
             </Link>
           </motion.div>
 
-          {/* Main Title */}
+          
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: [20, -5, 0] }}
@@ -125,7 +125,7 @@ const ServiceDetail = () => {
             {service.title}
           </motion.h1>
 
-          {/* Timeline if available */}
+          
           {service.timeline && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      {/* Other Sections */}
+      
       <div className="bg-white">
         <ServiceOverview service={serviceWithCategory} />
         <ServiceFeatures service={serviceWithCategory} />

@@ -24,10 +24,7 @@ const BlogHeader = () => {
           animate="visible"
           className={`${heroBadgeClass} mb-8`}
         >
-          {/* <Circle className="h-2 w-2 fill-orange-500/80" />
-          <span className="text-sm text-gray-600 tracking-wide font-medium">
-            Engineering Insights
-          </span> */}
+          
         </motion.div>
 
         <motion.div
@@ -49,7 +46,7 @@ Blogs
 
         
 
-        {/* Additional info badges */}
+        
         <motion.div
           custom={3}
           variants={fadeUpVariants}
@@ -72,7 +69,7 @@ Blogs
           ))}
         </motion.div>
 
-        {/* CTA Buttons */}
+        
         <motion.div
           custom={4}
           variants={fadeUpVariants}

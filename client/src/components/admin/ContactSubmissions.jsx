@@ -19,8 +19,8 @@ const ContactSubmissions = () => {
         try {
             setLoading(true);
             const response = await contactService.getAllSubmissions(page, 10, filterStatus);
-            console.log('API Response:', response); // Debug log
-            // response.data contains the actual data object with 'data' field
+            console.log('API Response:', response); 
+            
             setSubmissions(response.data || []);
             setTotalPages(response.pages || 1);
         } catch (error) {
@@ -61,7 +61,7 @@ const ContactSubmissions = () => {
     const openViewModal = (submission) => {
         setSelectedSubmission(submission);
         setIsViewModalOpen(true);
-        // Mark as read if it's new
+        
         if (submission.status === 'new') {
             handleStatusUpdate(submission._id, 'read');
         }
@@ -88,14 +88,14 @@ const ContactSubmissions = () => {
 
     return (
         <div className="space-y-6">
-            {/* Header */}
+            
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900">Contact Messages</h1>
                     <p className="text-gray-500 mt-1">Manage inquiries from the contact form</p>
                 </div>
 
-                {/* Filters */}
+                
                 <div className="flex items-center gap-3 bg-white p-2 rounded-lg shadow-sm border border-gray-200">
                     <Filter className="w-5 h-5 text-gray-400 ml-2" />
                     <select
@@ -111,7 +111,7 @@ const ContactSubmissions = () => {
                 </div>
             </div>
 
-            {/* Content */}
+            
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 {loading ? (
                     <div className="flex justify-center items-center h-64">
@@ -194,7 +194,7 @@ const ContactSubmissions = () => {
                     </div>
                 )}
 
-                {/* Pagination */}
+                
                 {totalPages > 1 && (
                     <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
                         <button
@@ -218,7 +218,7 @@ const ContactSubmissions = () => {
                 )}
             </div>
 
-            {/* View Modal */}
+            
             {isViewModalOpen && selectedSubmission && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
                     <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -236,7 +236,7 @@ const ContactSubmissions = () => {
                         </div>
 
                         <div className="p-6 space-y-6">
-                            {/* Sender Info */}
+                            
                             <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
                                 <div className="h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-lg shrink-0">
                                     {selectedSubmission.name.charAt(0).toUpperCase()}
@@ -264,7 +264,7 @@ const ContactSubmissions = () => {
                                 </div>
                             </div>
 
-                            {/* Service Information */}
+                            
                             <div>
                                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
                                     Service Category
@@ -292,7 +292,7 @@ const ContactSubmissions = () => {
                                 </div>
                             </div>
 
-                            {/* Attachment */}
+                            
                             {selectedSubmission.attachment && (
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">

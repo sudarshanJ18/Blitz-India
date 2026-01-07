@@ -38,7 +38,7 @@ const BlogDetail = () => {
       const fromTop = window.scrollY;
       setScrollY(fromTop);
 
-      // Calculate new zoom size (starts at 250%, zooms out as you scroll)
+      
       const newSize = 250 - (fromTop / 3);
       if (newSize > 100) {
         setImageSize(newSize);
@@ -46,11 +46,11 @@ const BlogDetail = () => {
         setImageSize(100);
       }
 
-      // Calculate blur (increases with scroll)
+      
       const newBlur = fromTop / 100;
       setBlur(newBlur);
 
-      // Calculate opacity (fades out with scroll)
+      
       const newOpacity = 1 - (fromTop / 800);
       setOpacity(newOpacity > 0 ? newOpacity : 0);
     };
@@ -82,12 +82,12 @@ const BlogDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-900">
-      {/* Fixed Parallax Background Image */}
+      
       <div
         className="fixed top-0 left-0 right-0 z-0 overflow-hidden"
         style={{
           paddingTop: '50vh',
-          backgroundImage: `url(${post.image?.startsWith('/uploads') ? `http://localhost:5000${post.image}` : (post.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d')})`,
+          backgroundImage: `url(${post.image?.startsWith('/uploads') ? `http:
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: `${imageSize}%`,
@@ -98,14 +98,14 @@ const BlogDetail = () => {
         }}
       />
 
-      {/* Scrollable Content */}
+      
       <div className="relative z-10 pt-[45vh] md:pt-[35vh] bg-transparent">
-        {/* Blog Content Container */}
+        
         <div className="bg-white rounded-t-3xl shadow-2xl">
-          {/* Blog Header */}
+          
           <div className="pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              {/* Breadcrumb */}
+              
               <div className="mb-6">
                 <Link
                   to="/blogs"
@@ -118,19 +118,19 @@ const BlogDetail = () => {
                 </Link>
               </div>
 
-              {/* Category Badge */}
+              
               <div className="mb-4">
                 <span className="inline-block px-4 py-2 bg-orange-500/10 text-orange-600 text-sm font-bold rounded-full border border-orange-500/20">
                   {post.category || 'Engineering'}
                 </span>
               </div>
 
-              {/* Title */}
+              
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight sm:leading-relaxed lg:leading-snug mb-6">
                 {post.title}
               </h1>
 
-              {/* Meta Information */}
+              
               <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
                 <div className="flex items-center">
                   <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold mr-3">
@@ -149,10 +149,10 @@ const BlogDetail = () => {
             </div>
           </div>
 
-          {/* Blog Content */}
+          
           <div className="pb-16 sm:pb-20 lg:pb-24">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              {/* Article Content */}
+              
               <article className="max-w-none">
                 <p className="text-lg text-gray-600 leading-relaxed mb-6">
                   {post.summary}
@@ -174,7 +174,7 @@ const BlogDetail = () => {
                 />
               </article>
 
-              {/* Tags */}
+              
               <div className="mt-12 pt-8 border-t border-gray-200">
                 <div className="flex flex-wrap gap-2">
                   <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">

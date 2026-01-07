@@ -9,16 +9,16 @@ const seedAdmin = async () => {
         console.log('MongoDB connected');
 
         const email = 'info@blitzindiaengineering.com';
-        const password = 'OmSumAdmin7$%'; // Meets complexity requirements
+        const password = 'OmSumAdmin7$%'; 
         const name = 'Admin User';
 
-        // CLEANUP: Delete all other admins to ensure only this one exists
+        
         const deleteResult = await Admin.deleteMany({ email: { $ne: email } });
         if (deleteResult.deletedCount > 0) {
             console.log(`Deleted ${deleteResult.deletedCount} old/other admin accounts.`);
         }
 
-        // Check if admin exists
+        
         let admin = await Admin.findOne({ email });
         if (admin) {
             console.log('Admin user already exists. Updating password...');

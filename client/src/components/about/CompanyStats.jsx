@@ -37,7 +37,7 @@ const CompanyStats = () => {
   return (
     <section className="min-h-screen flex items-center py-16 md:py-20 lg:py-24 bg-gray-800 text-white">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Bold Title */}
+        
         <div className="mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold uppercase leading-tight">
             ACHIEVEMENTS
@@ -53,7 +53,6 @@ const CompanyStats = () => {
           </p>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {stats.map((stat, index) => (
             <div

@@ -13,7 +13,7 @@ const BlogCTA = () => {
           Subscribe to receive the latest insights in engineering and technology, curated by our experts.
         </p>
 
-        {/* Substack Newsletter Embed */}
+        
         <div className="mt-8 flex justify-center">
           <iframe
             src="https://sudarshanreddy1.substack.com/embed"

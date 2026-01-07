@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const PortfolioCTA = () => {
   return (
     <section className="py-16 md:py-20 bg-white text-gray-900 relative overflow-hidden">
-      {/* Background decorative elements */}
+      
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
@@ -81,19 +81,17 @@ const PortfolioCTA = () => {
             </div>
           </div>
 
-          {/* Contact Information */}
+          
           <div className="w-full max-w-6xl mx-auto">
             <div className="text-center mb-10 md:mb-12">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
                 Get In Touch
               </h2>
-              {/* <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-                Ready to start your next project? We're here to help you achieve engineering excellence.
-              </p> */}
+              
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {/* Call Us Card - Narrower (1/3 width) */}
+              
               <div className="md:col-span-1 group relative bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl border border-gray-200 hover:border-orange-300 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                 <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="w-4 h-4 bg-orange-500 rounded-full animate-ping"></div>
@@ -138,7 +136,7 @@ const PortfolioCTA = () => {
                 </div>
               </div>
 
-              {/* Email Us Card - Wider (2/3 width) */}
+              
               <div className="md:col-span-2 group relative bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl border border-gray-200 hover:border-orange-300 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                 <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="w-4 h-4 bg-orange-500 rounded-full animate-ping"></div>

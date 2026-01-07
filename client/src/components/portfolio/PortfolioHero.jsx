@@ -13,13 +13,13 @@ import {
   heroSecondaryButtonClass,
 } from "../common/HeroSection";
 
-// Animated Counter Component with performance optimizations
+
 const CountUp = memo(({ end, duration = 2000, suffix = "" }) => {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
 
-  // Check if user prefers reduced motion
+  
   const prefersReducedMotion = useRef(
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
@@ -33,7 +33,7 @@ const CountUp = memo(({ end, duration = 2000, suffix = "" }) => {
       },
       {
         threshold: 0.1,
-        rootMargin: '50px' // Trigger slightly before element is visible
+        rootMargin: '50px' 
       }
     );
 
@@ -51,7 +51,7 @@ const CountUp = memo(({ end, duration = 2000, suffix = "" }) => {
   useEffect(() => {
     if (!isVisible) return;
 
-    // If user prefers reduced motion, show final number immediately
+    
     if (prefersReducedMotion.current) {
       setCount(end);
       return;
@@ -64,7 +64,7 @@ const CountUp = memo(({ end, duration = 2000, suffix = "" }) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
 
-      // Easing function for smooth animation
+      
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       setCount(Math.floor(easeOutQuart * end));
 
@@ -137,7 +137,7 @@ const PortfolioHero = () => {
 
         </motion.div>
 
-        {/* Additional info badges with animated counters */}
+        
         <motion.div
           custom={3}
           variants={fadeUpVariants}
@@ -163,7 +163,7 @@ const PortfolioHero = () => {
           ))}
         </motion.div>
 
-        {/* CTA Buttons */}
+        
         <motion.div
           custom={4}
           variants={fadeUpVariants}

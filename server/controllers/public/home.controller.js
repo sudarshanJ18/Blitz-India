@@ -1,9 +1,6 @@
 const HomeContent = require('../../models/HomeContent');
 
-/**
- * Get home page content (Public)
- * GET /api/home
- */
+
 const getHomeContent = async (req, res, next) => {
     try {
         const content = await HomeContent.getSingleton();

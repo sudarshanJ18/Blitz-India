@@ -5,7 +5,7 @@ import LoadingSpinner from '../common/LoadingSpinner';
 
 const LegalManager = () => {
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('privacy'); // 'privacy' or 'terms'
+    const [activeTab, setActiveTab] = useState('privacy'); 
     const [content, setContent] = useState({
         privacyPolicy: '',
         termsOfService: ''
@@ -75,7 +75,7 @@ const LegalManager = () => {
             </div>
 
             <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
-                {/* Tabs */}
+                
                 <div className="flex border-b border-gray-100">
                     <button
                         onClick={() => setActiveTab('privacy')}
@@ -97,7 +97,7 @@ const LegalManager = () => {
                     </button>
                 </div>
 
-                {/* Editor */}
+                
                 <div className="p-6">
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 mb-2">

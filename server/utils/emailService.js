@@ -1,11 +1,9 @@
 const nodemailer = require('nodemailer');
 const logger = require('./logger');
 
-/**
- * Create email transporter
- */
+
 const createTransporter = () => {
-    // Check if email credentials are configured
+    
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
         logger.warn('Email credentials not configured. Emails will not be sent.');
         return null;
@@ -20,11 +18,7 @@ const createTransporter = () => {
     });
 };
 
-/**
- * Send contact form submission email
- * @param {Object} formData - Contact form data
- * @param {File} attachment - Optional file attachment
- */
+
 const sendContactFormEmail = async (formData, attachment = null) => {
     try {
         const transporter = createTransporter();
@@ -36,7 +30,7 @@ const sendContactFormEmail = async (formData, attachment = null) => {
 
         const { name, email, phone, company, service, message, consent } = formData;
 
-        // Build email HTML content
+        
         const htmlContent = `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <h2 style="color: #333; border-bottom: 2px solid #4a5568; padding-bottom: 10px;">
@@ -97,7 +91,7 @@ const sendContactFormEmail = async (formData, attachment = null) => {
             </div>
         `;
 
-        // Email options
+        
         const mailOptions = {
             from: `"${name} (via Blitz Contact Form)" <${process.env.EMAIL_USER}>`,
             to: process.env.CONTACT_EMAIL || 'info@blitzindiaengineering.com',
@@ -123,7 +117,7 @@ Submitted at: ${new Date().toLocaleString()}
             `.trim()
         };
 
-        // Add attachment if present
+        
         if (attachment) {
             mailOptions.attachments = [{
                 filename: attachment.originalname,
@@ -132,7 +126,7 @@ Submitted at: ${new Date().toLocaleString()}
             }];
         }
 
-        // Send email
+        
         const info = await transporter.sendMail(mailOptions);
         logger.info(`Contact form email sent: ${info.messageId}`);
 
@@ -143,11 +137,7 @@ Submitted at: ${new Date().toLocaleString()}
     }
 };
 
-/**
- * Send auto-reply email to the user
- * @param {string} userEmail - User's email address
- * @param {string} userName - User's name
- */
+
 const sendAutoReplyEmail = async (userEmail, userName) => {
     try {
         const transporter = createTransporter();
@@ -202,7 +192,7 @@ const sendAutoReplyEmail = async (userEmail, userName) => {
         return { success: true, messageId: info.messageId };
     } catch (error) {
         logger.error('Error sending auto-reply email:', error);
-        // Don't fail the request if auto-reply fails
+        
         return { success: false, error: error.message };
     }
 };

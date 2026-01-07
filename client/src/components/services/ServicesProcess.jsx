@@ -60,9 +60,9 @@ const ServicesProcess = () => {
           </h2>
         </div>
 
-        {/* Alternating Left-Right Layout */}
+        
         <div className="relative mt-8 px-4 sm:px-6 lg:px-8">
-          {/* Central Timeline Line */}
+          
           <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500 via-gray-400 to-orange-600 hidden lg:block"></div>
 
           <div className="space-y-3 lg:space-y-5">
@@ -80,7 +80,7 @@ const ServicesProcess = () => {
                   className={`relative flex flex-col lg:flex-row items-center ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'
                     } gap-4 lg:gap-8`}
                 >
-                  {/* Left Content - Even steps show on left, odd steps show on right */}
+                  
                   <div className={`lg:w-1/2 ${isEven ? 'lg:pr-4' : 'lg:pl-4'}`}>
                     <div className="bg-white p-5 rounded-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:border-orange-200 group">
                       <div className="flex items-center gap-3 mb-3">
@@ -98,10 +98,10 @@ const ServicesProcess = () => {
                     </div>
                   </div>
 
-                  {/* Center Timeline Dot */}
+                  
                   <div className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full border-4 border-white bg-orange-500 shadow-lg z-10"></div>
 
-                  {/* Right Spacer - For alternating layout */}
+                  
                   <div className="lg:w-1/2"></div>
                 </motion.div>
               );
@@ -109,7 +109,7 @@ const ServicesProcess = () => {
           </div>
         </div>
 
-        {/* Mobile Simple List - Reduced spacing */}
+        
         <div className="lg:hidden mt-6 space-y-3 px-4">
           {processSteps.map((step, index) => {
             const IconComponent = step.icon;
@@ -140,7 +140,7 @@ const ServicesProcess = () => {
           })}
         </div>
 
-        {/* Bottom features section */}
+        
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 px-4 sm:px-6 lg:px-8">
           <div className="text-center p-4 rounded-lg bg-white border border-gray-200 hover:shadow-xl hover:border-orange-200 hover:scale-105 transition-all duration-300 cursor-pointer group">
             <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-orange-500 transition-colors duration-300">

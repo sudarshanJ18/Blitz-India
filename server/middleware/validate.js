@@ -1,9 +1,7 @@
 const { validationResult } = require('express-validator');
 const { body, param, query } = require('express-validator');
 
-/**
- * Middleware to check validation results
- */
+
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -19,11 +17,9 @@ const validate = (req, res, next) => {
     next();
 };
 
-/**
- * Validation chains for common operations
- */
 
-// Login validation
+
+
 const validateLogin = [
     body('email')
         .isEmail()
@@ -41,7 +37,7 @@ const validateLogin = [
     validate
 ];
 
-// Contact form validation
+
 const validateContactForm = [
     body('name')
         .trim()
@@ -83,7 +79,7 @@ const validateContactForm = [
     validate
 ];
 
-// Create admin validation
+
 const validateCreateAdmin = [
     body('name')
         .trim()
@@ -103,12 +99,12 @@ const validateCreateAdmin = [
     validate
 ];
 
-// TOTP code validation (more flexible - validation happens in controller)
+
 const validateTOTPCode = [
     validate
 ];
 
-// MongoDB ObjectId validation
+
 const validateObjectId = [
     param('id')
         .isMongoId()

@@ -32,7 +32,7 @@ const ServicesHero = () => {
         setTotalServices(services.length);
       } catch (error) {
         console.error('Failed to fetch service stats:', error);
-        // Keep default values on error
+        
       }
     };
 
@@ -100,7 +100,7 @@ const ServicesHero = () => {
         >
         </motion.div>
 
-        {/* Stats Badges */}
+        
         <motion.div
           custom={3}
           variants={fadeUpVariants}
@@ -121,7 +121,7 @@ const ServicesHero = () => {
           ))}
         </motion.div>
 
-        {/* Action Buttons */}
+        
         <motion.div
           custom={4}
           variants={fadeUpVariants}

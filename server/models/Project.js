@@ -20,8 +20,8 @@ const projectSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    image: String, // Deprecated: kept for backward compatibility
-    images: [String], // Array of image URLs for multiple images
+    image: String, 
+    images: [String], 
     category: {
         type: String
     },
@@ -58,14 +58,14 @@ const projectSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Indexes
-// Note: slug field already has unique: true which creates an index automatically
+
+
 projectSchema.index({ category: 1 });
 projectSchema.index({ featured: 1 });
 projectSchema.index({ published: 1 });
 projectSchema.index({ date: -1 });
 
-// Generate slug from title before saving
+
 projectSchema.pre('save', function (next) {
     if (this.isModified('title') && !this.slug) {
         this.slug = this.title

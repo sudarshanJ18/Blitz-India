@@ -12,7 +12,7 @@ const FeaturedPost = ({ limit = 3 }) => {
       try {
         setLoading(true);
         const allBlogs = await blogsService.getAllBlogs();
-        // Filter for featured blogs and limit the results
+        
         const featured = allBlogs.filter(blog => blog.featured).slice(0, limit);
         setPosts(featured);
       } catch (error) {

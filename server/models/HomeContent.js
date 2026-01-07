@@ -36,7 +36,7 @@ const homeContentSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Singleton pattern - only one home content document should exist
+
 homeContentSchema.statics.getSingleton = async function () {
     let content = await this.findOne();
     if (!content) {

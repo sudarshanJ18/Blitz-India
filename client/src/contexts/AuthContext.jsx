@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [isAuth, setIsAuth] = useState(false);
 
-    // Initialize auth state from localStorage
+    
     useEffect(() => {
         const initAuth = async () => {
             try {
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
                         setUser(storedUser);
                         setIsAuth(true);
 
-                        // Optionally verify token with backend
+                        
                         try {
                             const currentUser = await getCurrentUser();
                             setUser(currentUser.admin);

@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 flex items-center justify-center p-4">
             <div className="max-w-md w-full">
-                {/* Logo */}
+                
                 <div className="text-center mb-8">
                     <Link to="/" className="inline-block">
                         <img
@@ -121,7 +121,7 @@ const ForgotPassword = () => {
                     </div>
                 </div>
 
-                {/* Footer */}
+                
                 <div className="mt-8 text-center text-sm text-gray-600">
                     <p>&copy; {new Date().getFullYear()} Blitz India Engineering. All rights reserved.</p>
                 </div>

@@ -9,7 +9,7 @@ const {
     deleteSubmission
 } = require('../../controllers/admin/contact.controller');
 
-// All routes require authentication
+
 router.use(verifyToken, requireAdmin);
 
 router.get('/submissions', getAllSubmissions);

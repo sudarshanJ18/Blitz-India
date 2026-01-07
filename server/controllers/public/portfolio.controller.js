@@ -1,9 +1,6 @@
 const Project = require('../../models/Project');
 
-/**
- * Get all published projects (Public)
- * GET /api/portfolio
- */
+
 const getAllProjects = async (req, res, next) => {
     try {
         const { category } = req.query;
@@ -25,10 +22,7 @@ const getAllProjects = async (req, res, next) => {
     }
 };
 
-/**
- * Get single project by slug (Public)
- * GET /api/portfolio/:slug
- */
+
 const getProjectBySlug = async (req, res, next) => {
     try {
         const { slug } = req.params;

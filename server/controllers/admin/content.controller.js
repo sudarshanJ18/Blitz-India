@@ -3,10 +3,7 @@ const AboutContent = require('../../models/AboutContent');
 const LegalContent = require('../../models/LegalContent');
 const logger = require('../../utils/logger');
 
-/**
- * Get home content for admin editing
- * GET /api/admin/content/home
- */
+
 const getHomeContent = async (req, res, next) => {
     try {
         const content = await HomeContent.getSingleton();
@@ -16,15 +13,12 @@ const getHomeContent = async (req, res, next) => {
     }
 };
 
-/**
- * Update home content
- * PUT /api/admin/content/home
- */
+
 const updateHomeContent = async (req, res, next) => {
     try {
         let content = await HomeContent.getSingleton();
 
-        // Update fields
+        
         if (req.body.hero) content.hero = { ...content.hero.toObject(), ...req.body.hero };
         if (req.body.stats) content.stats = req.body.stats;
         if (req.body.highlights) content.highlights = req.body.highlights;
@@ -43,10 +37,7 @@ const updateHomeContent = async (req, res, next) => {
     }
 };
 
-/**
- * Get about content for admin editing
- * GET /api/admin/content/about
- */
+
 const getAboutContent = async (req, res, next) => {
     try {
         const content = await AboutContent.getSingleton();
@@ -56,15 +47,12 @@ const getAboutContent = async (req, res, next) => {
     }
 };
 
-/**
- * Update about content
- * PUT /api/admin/content/about
- */
+
 const updateAboutContent = async (req, res, next) => {
     try {
         let content = await AboutContent.getSingleton();
 
-        // Update fields
+        
         if (req.body.hero) content.hero = { ...content.hero.toObject(), ...req.body.hero };
         if (req.body.story) content.story = { ...content.story.toObject(), ...req.body.story };
         if (req.body.values) content.values = req.body.values;
@@ -86,10 +74,7 @@ const updateAboutContent = async (req, res, next) => {
     }
 };
 
-/**
- * Get legal content (privacy or terms)
- * GET /api/admin/content/legal/:type
- */
+
 const getLegalContent = async (req, res, next) => {
     try {
         const { type } = req.params;
@@ -114,10 +99,7 @@ const getLegalContent = async (req, res, next) => {
     }
 };
 
-/**
- * Update legal content
- * PUT /api/admin/content/legal/:type
- */
+
 const updateLegalContent = async (req, res, next) => {
     try {
         const { type } = req.params;

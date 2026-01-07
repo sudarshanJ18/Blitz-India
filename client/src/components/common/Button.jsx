@@ -9,14 +9,14 @@ export function Button({
   size = "md",
   ...props 
 }) {
-  // Size classes
+  
   const sizeClasses = {
     sm: "px-4 py-2 text-sm",
     md: "px-6 py-3 text-base",
     lg: "px-8 py-4 text-lg"
   };
 
-  // Variant classes
+  
   const variantClasses = {
     default: `
       relative rounded-full
@@ -59,10 +59,10 @@ export function Button({
     `
   };
 
-  // Get base classes based on variant
+  
   const baseClasses = variantClasses[variant] || variantClasses.default;
   
-  // Check if variant is default to apply gradient effect
+  
   const hasGradientEffect = variant === "default";
 
   return (

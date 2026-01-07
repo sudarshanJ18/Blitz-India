@@ -6,7 +6,7 @@ const {
     updateSettings
 } = require('../../controllers/admin/settings.controller');
 
-// All routes require authentication
+
 router.use(verifyToken, requireAdmin);
 
 router.get('/', getSettings);

@@ -53,7 +53,7 @@ const aboutContentSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Singleton pattern
+
 aboutContentSchema.statics.getSingleton = async function () {
     let content = await this.findOne();
     if (!content) {

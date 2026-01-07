@@ -2,10 +2,7 @@ const Testimonial = require('../../models/Testimonial');
 const logger = require('../../utils/logger');
 const { AppError } = require('../../middleware/errorHandler');
 
-/**
- * Get all testimonials (Admin - includes unpublished)
- * GET /api/admin/testimonials
- */
+
 const getAllTestimonials = async (req, res, next) => {
     try {
         const testimonials = await Testimonial.find()
@@ -21,10 +18,7 @@ const getAllTestimonials = async (req, res, next) => {
     }
 };
 
-/**
- * Get single testimonial by ID
- * GET /api/admin/testimonials/:id
- */
+
 const getTestimonialById = async (req, res, next) => {
     try {
         const testimonial = await Testimonial.findById(req.params.id);
@@ -39,10 +33,7 @@ const getTestimonialById = async (req, res, next) => {
     }
 };
 
-/**
- * Create new testimonial
- * POST /api/admin/testimonials
- */
+
 const createTestimonial = async (req, res, next) => {
     try {
         const testimonial = await Testimonial.create(req.body);
@@ -59,10 +50,7 @@ const createTestimonial = async (req, res, next) => {
     }
 };
 
-/**
- * Update testimonial
- * PUT /api/admin/testimonials/:id
- */
+
 const updateTestimonial = async (req, res, next) => {
     try {
         const testimonial = await Testimonial.findByIdAndUpdate(
@@ -87,10 +75,7 @@ const updateTestimonial = async (req, res, next) => {
     }
 };
 
-/**
- * Delete testimonial
- * DELETE /api/admin/testimonials/:id
- */
+
 const deleteTestimonial = async (req, res, next) => {
     try {
         const testimonial = await Testimonial.findByIdAndDelete(req.params.id);

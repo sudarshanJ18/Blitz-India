@@ -35,7 +35,7 @@ const AdminSettings = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Handle nested fields (e.g., address.city)
+    
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setSettings((s) => ({
@@ -98,7 +98,7 @@ const AdminSettings = () => {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      
       <div>
         <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 bg-clip-text text-transparent mb-2">
           Site Settings
@@ -107,7 +107,7 @@ const AdminSettings = () => {
       </div>
 
       <form onSubmit={handleSave} className="space-y-8">
-        {/* Company Information */}
+        
         <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Company Information</h2>
@@ -148,7 +148,7 @@ const AdminSettings = () => {
           </div>
         </section>
 
-        {/* Branding */}
+        
         <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Branding</h2>
@@ -171,7 +171,7 @@ const AdminSettings = () => {
           </div>
         </section>
 
-        {/* Contact Information */}
+        
         <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Contact Information</h2>
@@ -203,7 +203,7 @@ const AdminSettings = () => {
           </div>
         </section>
 
-        {/* Address */}
+        
         <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Address</h2>
@@ -263,7 +263,7 @@ const AdminSettings = () => {
           </div>
         </section>
 
-        {/* Social Links */}
+        
         <section className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Social Media Links</h2>
@@ -286,12 +286,12 @@ const AdminSettings = () => {
           </div>
         </section>
 
-        {/* Security */}
+        
         <section>
           <MFASetup />
         </section>
 
-        {/* Save Button */}
+        
         <div className="flex justify-end gap-4">
           <button
             type="button"

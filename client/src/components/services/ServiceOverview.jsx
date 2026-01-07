@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { motion } from 'framer-motion';
 
-// Animated Counter Component with performance optimizations
+
 const CountUp = memo(({ end, duration = 2000, suffix = "", isPercentage = false }) => {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
 
-  // Check if user prefers reduced motion
+  
   const prefersReducedMotion = useRef(
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
@@ -39,7 +39,7 @@ const CountUp = memo(({ end, duration = 2000, suffix = "", isPercentage = false 
   useEffect(() => {
     if (!isVisible) return;
 
-    // If user prefers reduced motion, show final number immediately
+    
     if (prefersReducedMotion.current) {
       setCount(end);
       return;
@@ -52,7 +52,7 @@ const CountUp = memo(({ end, duration = 2000, suffix = "", isPercentage = false 
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
 
-      // Easing function for smooth animation
+      
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       setCount(Math.floor(easeOutQuart * end));
 
@@ -80,7 +80,7 @@ const CountUp = memo(({ end, duration = 2000, suffix = "", isPercentage = false 
 CountUp.displayName = 'CountUp';
 
 const ServiceOverview = memo(({ service }) => {
-  // Extract numeric values from service stats
+  
   const extractNumber = (value) => {
     if (!value) return 0;
     const match = value.toString().match(/\d+/);
@@ -110,7 +110,7 @@ const ServiceOverview = memo(({ service }) => {
               </p>
             </div>
 
-            {/* Key Benefits */}
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -186,7 +186,7 @@ const ServiceOverview = memo(({ service }) => {
             </motion.div>
           </motion.div>
 
-          {/* Service Stats */}
+          
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -236,7 +236,7 @@ const ServiceOverview = memo(({ service }) => {
               </div>
             </motion.div>
 
-            {/* Industry Applications */}
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

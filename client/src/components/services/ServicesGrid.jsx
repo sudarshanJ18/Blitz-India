@@ -9,7 +9,7 @@ const ServicesGrid = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch categories from API
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -28,7 +28,7 @@ const ServicesGrid = () => {
     fetchCategories();
   }, []);
 
-  // Map category IDs to their corresponding videos and images
+  
   const categoryMedia = {
     1: {
       video: videos.design,
@@ -92,7 +92,7 @@ const ServicesGrid = () => {
           </h2>
         </div>
 
-        {/* Service Categories Grid - 2x2 Layout */}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
           {categories.filter(cat => cat.published).map((category) => {
             const media = categoryMedia[category.categoryId];
@@ -119,7 +119,7 @@ const ServiceCard = ({ category, media }) => {
     setIsHovered(true);
     if (videoRef.current) {
       videoRef.current.play().catch(err => {
-        // Handle autoplay restrictions silently
+        
       });
     }
   };
@@ -132,18 +132,18 @@ const ServiceCard = ({ category, media }) => {
     }
   };
 
-  // Touch handlers for mobile devices
+  
   const handleTouchStart = () => {
     setIsHovered(true);
     if (videoRef.current) {
       videoRef.current.play().catch(err => {
-        // Handle autoplay restrictions silently
+        
       });
     }
   };
 
   const handleTouchEnd = () => {
-    // Delay to allow navigation on mobile
+    
     setTimeout(() => {
       setIsHovered(false);
       if (videoRef.current) {
@@ -167,9 +167,9 @@ const ServiceCard = ({ category, media }) => {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Media Container - Full Height */}
+      
       <div className="relative h-full min-h-[250px] sm:min-h-[300px] md:min-h-[330px] lg:min-h-[450px] overflow-hidden bg-gray-100">
-        {/* Background Image - shown by default */}
+        
         {media && (
           <>
             <div
@@ -182,7 +182,7 @@ const ServiceCard = ({ category, media }) => {
               }}
             />
 
-            {/* Video - shown on hover */}
+            
             <video
               ref={videoRef}
               className={cn(
@@ -197,26 +197,26 @@ const ServiceCard = ({ category, media }) => {
           </>
         )}
 
-        {/* Glass Effect Content Overlay */}
+        
         <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4 md:p-5 lg:p-6">
-          {/* Glass Background */}
+          
           <div className="relative backdrop-blur-md bg-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 border border-white/30 shadow-2xl">
-            {/* Glass effect inner glow */}
+            
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-xl sm:rounded-2xl"></div>
 
-            {/* Content */}
+            
             <div className="relative z-10">
-              {/* Main Title */}
+              
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-orange-400 active:text-orange-400 transition-colors duration-300 drop-shadow-lg leading-tight">
                 {category.title}
               </h3>
 
-              {/* Description */}
+              
               <p className="text-white/90 text-sm mb-3 sm:mb-4 line-clamp-2 drop-shadow-md leading-relaxed">
                 {category.description}
               </p>
 
-              {/* CTA Button with Glass Effect */}
+              
               <div className="mt-3 sm:mt-4 pt-2 sm:pt-3 border-t border-white/20">
                 <div className="flex items-center justify-between group-hover:justify-start group-active:justify-start transition-all duration-300">
                   <span className="text-orange-400 font-bold text-sm group-hover:mr-2 group-active:mr-2 transition-all duration-300 drop-shadow-lg">

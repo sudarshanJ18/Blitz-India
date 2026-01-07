@@ -27,7 +27,7 @@ const Login = () => {
 
         try {
             if (!requiresTotp) {
-                // Step 1: Login with password
+                
                 const loginResponse = await login(email, password);
                 console.log('Login response:', loginResponse);
 
@@ -38,7 +38,7 @@ const Login = () => {
                 } else {
                     authLogin(loginResponse.token, loginResponse.admin);
 
-                    // Check if MFA setup is required
+                    
                     console.log('Checking totpEnabled:', loginResponse.admin.totpEnabled);
                     if (!loginResponse.admin.totpEnabled) {
                         console.log('Redirecting to setup-mfa');
@@ -51,7 +51,7 @@ const Login = () => {
                     }
                 }
             } else {
-                // Step 2: Verify MFA
+                
                 const response = await verifyLoginMfa(
                     mfaToken,
                     useBackupCode ? null : totpCode,
@@ -184,7 +184,7 @@ const Login = () => {
                                             required
                                             value={backupCode}
                                             onChange={(e) => {
-                                                // Only allow alphanumeric input and convert to uppercase
+                                                
                                                 const value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
                                                 if (value.length <= 8) {
                                                     setBackupCode(value);
@@ -203,7 +203,7 @@ const Login = () => {
                                             required
                                             value={totpCode}
                                             onChange={(e) => {
-                                                // Only allow numeric input
+                                                
                                                 const value = e.target.value.replace(/[^0-9]/g, '');
                                                 if (value.length <= 6) {
                                                     setTotpCode(value);

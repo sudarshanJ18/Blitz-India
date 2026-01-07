@@ -1,10 +1,7 @@
 const Service = require('../../models/Service');
 const ServiceCategory = require('../../models/ServiceCategory');
 
-/**
- * Get all published services (Public)
- * GET /api/services
- */
+
 const getAllServices = async (req, res, next) => {
     try {
         const { category } = req.query;
@@ -26,10 +23,7 @@ const getAllServices = async (req, res, next) => {
     }
 };
 
-/**
- * Get all published service categories (Public)
- * GET /api/services/categories
- */
+
 const getAllCategories = async (req, res, next) => {
     try {
         const categories = await ServiceCategory.find({ published: true }).sort({ order: 1, categoryId: 1 });
@@ -44,10 +38,7 @@ const getAllCategories = async (req, res, next) => {
     }
 };
 
-/**
- * Get single service by slug (Public)
- * GET /api/services/:slug
- */
+
 const getServiceBySlug = async (req, res, next) => {
     try {
         const { slug } = req.params;

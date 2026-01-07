@@ -6,9 +6,9 @@ const AboutCTA = () => {
   return (
     <section className="min-h-screen flex items-center py-16 md:py-20 lg:py-24 bg-gray-800 ">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main CTA Box */}
+
         <div className="bg-gray-800 text-white p-8 md:p-12 lg:p-20 relative overflow-hidden">
-          {/* Lottie Animation - Positioned absolutely on the right */}
+
           <div className="hidden lg:block absolute top-1/3 right-8 -translate-y-1/2 w-80 xl:w-96 z-0">
             <DotLottieReact
               src="https://lottie.host/ae419ec6-9c9a-42c5-abf1-75a094c64a46/wSrD3t4cer.lottie"
@@ -47,7 +47,7 @@ const AboutCTA = () => {
               </Link>
             </div>
 
-            {/* Additional Links */}
+
             <div className="border-t border-gray-700 pt-6 md:pt-8">
               <p className="text-gray-400 mb-4 md:mb-6 text-xs md:text-sm uppercase tracking-wider">
                 Or, learn more about our work

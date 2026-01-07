@@ -21,7 +21,7 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide a password'],
         minlength: [8, 'Password must be at least 8 characters'],
-        select: false // Don't include password in queries by default
+        select: false 
     },
     role: {
         type: String,
@@ -30,7 +30,7 @@ const adminSchema = new mongoose.Schema({
     },
     totpSecret: {
         type: String,
-        select: false // Don't include TOTP secret in queries by default
+        select: false 
     },
     totpEnabled: {
         type: Boolean,
@@ -58,10 +58,10 @@ const adminSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Index for faster email lookups
-// Note: email field already has unique: true which creates an index automatically
 
-// Hash password before saving
+
+
+
 adminSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
@@ -72,16 +72,16 @@ adminSchema.pre('save', async function (next) {
     next();
 });
 
-// Method to compare password
+
 adminSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Method to generate TOTP secret
+
 adminSchema.methods.generateTOTPSecret = function () {
     const secret = generateSecret();
     this.totpSecret = secret.base32;
-    return secret; // Return the full secret object so we can generate QR code
+    return secret; 
 };
 
 const Admin = mongoose.model('Admin', adminSchema);

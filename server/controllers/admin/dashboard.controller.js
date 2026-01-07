@@ -5,13 +5,10 @@ const Blog = require('../../models/Blog');
 const ContactSubmission = require('../../models/ContactSubmission');
 const Testimonial = require('../../models/Testimonial');
 
-/**
- * Get dashboard statistics
- * GET /api/admin/dashboard/stats
- */
+
 const getDashboardStats = async (req, res, next) => {
     try {
-        // Get counts
+        
         const [
             totalServices,
             publishedServices,
@@ -38,7 +35,7 @@ const getDashboardStats = async (req, res, next) => {
             Testimonial.countDocuments({ published: true })
         ]);
 
-        // Get recent activity
+        
         const recentSubmissions = await ContactSubmission.find()
             .sort({ submittedAt: -1 })
             .limit(5)
