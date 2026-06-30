@@ -87,7 +87,7 @@ const BlogDetail = () => {
         className="fixed top-0 left-0 right-0 z-0 overflow-hidden"
         style={{
           paddingTop: '50vh',
-          backgroundImage: `url(${post.image?.startsWith('/uploads') ? `http:
+          backgroundImage: `url(${post.image?.startsWith('/uploads') ? `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${post.image}` : (post.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1200&q=80')})`,
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: `${imageSize}%`,

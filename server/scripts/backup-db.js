@@ -9,7 +9,6 @@ const logger = require('../utils/logger');
 
 
 const backupDir = path.join(__dirname, '../backups');
-const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
 const timeStamp = new Date().toISOString().replace(/[:.]/g, '-');
 const backupFile = path.join(backupDir, `backup-${timeStamp}.gz`);
 

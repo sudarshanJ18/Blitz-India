@@ -76,7 +76,7 @@ export const logout = async () => {
     try {
         await api.get('/api/auth/logout');
     } catch (error) {
-        
+        console.error('Logout failed:', error);
     } finally {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('adminUser');

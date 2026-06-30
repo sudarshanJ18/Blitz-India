@@ -41,13 +41,6 @@ const QuillEditor = ({ value, onChange, modules, formats }) => {
         };
     }, []);
 
-    
-    useEffect(() => {
-        if (editorRef.current && value !== undefined) {
-            
-        }
-    }, [value]);
-
     return <div ref={quillRef} className="quill-wrapper" />;
 };
 

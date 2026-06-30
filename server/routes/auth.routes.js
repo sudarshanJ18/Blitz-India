@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authLimiter } = require('../middleware/rateLimiter');
-const { validateLogin, validateCreateAdmin, validateTOTPCode } = require('../middleware/validate');
+const { validateLogin, validateCreateAdmin } = require('../middleware/validate');
 const { verifyToken, requireAdmin } = require('../middleware/auth');
 const {
     login,
